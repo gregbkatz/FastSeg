@@ -25,7 +25,7 @@ class CocoDataset(Dataset):
         """
         Args:
         """
-        dataDir= '/Volumes/My Passport for Mac/COCO'
+        dataDir= 'home/fast_seg/coco'
         annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
 
         self.image_path = dataDir + '/images/' + dataType + '/'
