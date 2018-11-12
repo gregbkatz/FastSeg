@@ -7,9 +7,7 @@ from torch.utils.data import Dataset
 import numpy as np
 import os
 import torch
-#from skimage import io, transform
-import imageio as io
-import scipy.misc
+from skimage import io, transform
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
@@ -101,10 +99,8 @@ class Rescale(object):
     def __call__(self, sample):
         image, isPerson, classMask = sample['image'], sample['isPerson'], sample['classMask']
 
-        #image = transform.resize(image, self.output_size, mode='constant')
-        #classMask = transform.resize(classMask, self.output_size, mode='constant')
-        image = scipy.misc.imresize(image, self.output_size)
-        classMask = scipy.misc.imresize(classMask, self.output_size)
+        image = transform.resize(image, self.output_size, mode='constant', anti_aliasing=True)
+        classMask = transform.resize(classMask, self.output_size, mode='constant', anti_aliasing=True)
 
         return {'image': image, 'isPerson': isPerson, 'classMask': classMask}
 
