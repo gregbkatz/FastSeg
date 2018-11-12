@@ -68,7 +68,7 @@ transform = transforms.Compose([CocoDataset.Rescale(resolution),
 
 # trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
 #                                         download=True, transform=transform)
-trainset = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
+trainset = CocoDataset.CocoDataset('train2017', transform=transform, length=128)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
                                           shuffle=True, num_workers=1)
 

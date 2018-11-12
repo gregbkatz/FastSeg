@@ -1,16 +1,15 @@
 from __future__ import print_function, division
 import sys
-sys.path
 sys.path.append('./cocoapi/PythonAPI')
 
 from pycocotools.coco import COCO
 from torch.utils.data import Dataset
-import skimage.io as io
 import numpy as np
 import os
 import torch
-import pandas as pd
-from skimage import io, transform
+#from skimage import io, transform
+import imageio as io
+import scipy.misc
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
@@ -25,7 +24,7 @@ class CocoDataset(Dataset):
         """
         Args:
         """
-        dataDir= 'home/fast_seg/coco'
+        dataDir= '/home/fast_seg/coco'
         annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
 
         self.image_path = dataDir + '/images/' + dataType + '/'
@@ -102,8 +101,10 @@ class Rescale(object):
     def __call__(self, sample):
         image, isPerson, classMask = sample['image'], sample['isPerson'], sample['classMask']
 
-        image = transform.resize(image, self.output_size, mode='constant')
-        classMask = transform.resize(classMask, self.output_size, mode='constant')
+        #image = transform.resize(image, self.output_size, mode='constant')
+        #classMask = transform.resize(classMask, self.output_size, mode='constant')
+        image = scipy.misc.imresize(image, self.output_size)
+        classMask = scipy.misc.imresize(classMask, self.output_size)
 
         return {'image': image, 'isPerson': isPerson, 'classMask': classMask}
 
