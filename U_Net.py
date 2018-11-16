@@ -8,7 +8,6 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -236,7 +235,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             optimizer.step()
 
             if iteration % 1 == 0:
-                print('Iteration: ', str(iteration), loss)
+                print('Iteration: ', str(iteration), float(loss))
 
         print("Epoch loss train:", float(epoch_loss_train))
         print()
@@ -251,7 +250,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
 
 
 def main():
-    minibatch_size = 1
+    minibatch_size = 16
     num_classes = 91
     resolution = (256,256)
 
@@ -276,8 +275,8 @@ def main():
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    dset_train = CocoDataset.CocoDataset('val2017', transform=transform, length=4)
-    dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=1)
+    dset_train = CocoDataset.CocoDataset('train2017', transform=transform, length=None)
+    dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
     val_loader = DataLoader(dset_val, batch_size=1, shuffle=True, num_workers=1)
@@ -288,7 +287,7 @@ def main():
     model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
-    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=20)
+    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=200)
 
 if __name__ == '__main__':
     main()

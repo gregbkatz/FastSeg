@@ -22,7 +22,8 @@ class CocoDataset(Dataset):
         """
         Args:
         """
-        dataDir= '/Volumes/My Passport for Mac 1/COCO/'
+        #dataDir= '/Volumes/My Passport for Mac 1/COCO/'
+        dataDir= '/home/fast_seg/coco/'
         annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
 
         self.image_path = dataDir + '/images/' + dataType + '/'
@@ -98,10 +99,10 @@ class Rescale(object):
     def __call__(self, sample):
         image, isPerson, classMask = sample['image'], sample['isPerson'], sample['classMask']
 
-        # image = transform.resize(image, self.output_size, mode='constant', anti_aliasing=True)
-        # classMask = transform.resize(classMask, self.output_size, mode='constant', anti_aliasing=True)
-        image = transform.resize(image, self.output_size, mode='constant')
-        classMask = transform.resize(classMask, self.output_size, mode='constant')
+        image = transform.resize(image, self.output_size, mode='constant', anti_aliasing=True)
+        classMask = transform.resize(classMask, self.output_size, mode='constant', anti_aliasing=True)
+        #image = transform.resize(image, self.output_size, mode='constant')
+        #classMask = transform.resize(classMask, self.output_size, mode='constant')
 
         return {'image': image, 'isPerson': isPerson, 'classMask': classMask}
 
