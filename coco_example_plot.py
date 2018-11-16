@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import pylab
 import pdb
 
-dataDir= '/Volumes/My Passport for Mac/COCO'
+dataDir= '/Volumes/My Passport for Mac 1/COCO'
 dataType='val2017'
 # dataType='train2017'
 annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
@@ -19,6 +19,7 @@ annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
 coco=COCO(annFile)
 
 cats = coco.loadCats(coco.getCatIds())
+pdb.set_trace()
 nms=[cat['name'] for cat in cats]
 print('COCO categories: \n{}\n'.format(' '.join(nms)))
 

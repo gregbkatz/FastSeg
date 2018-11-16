@@ -17,6 +17,9 @@ from torchvision import transforms
 from matplotlib import colors as mcolors
 from PIL import Image
 
+import CocoDataset
+import pdb
+
 np.set_printoptions(threshold=np.nan)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device", device)
@@ -206,7 +209,7 @@ class U_net(nn.Module):
 def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs):
 
 
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
+    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
     print("num epochs to be trained", epochs)
 
     for e in range(epochs):
@@ -232,49 +235,49 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             loss.backward()
             optimizer.step()
 
-            if iteration % 100 == 0:
-                print('Iteration: ', str(iteration))
+            if iteration % 1 == 0:
+                print('Iteration: ', str(iteration), loss)
 
         print("Epoch loss train:", float(epoch_loss_train))
         print()
 
-        scheduler.step(val_loss)
+        # val_loss = validate(val_loader, )
+        # scheduler.step(val_loss)
+        # scheduler.step()
 
         print('Saving model')
-        save_path = "@Greg Add path here" '.pt'
-        torch.save(model, save_path)
+        save_path = "./model-" + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+        # torch.save(model, save_path)
 
 
 def main():
-    minibatch_size = 16
-    num_classes = 3
+    minibatch_size = 1
+    num_classes = 91
+    resolution = (256,256)
 
     #input_folder_path_train =
     #label_folder_path_train = 
     #input_folder_path_val = 
     #label_folder_path_val = 
 
-    transform_x = transforms.Compose([
-        ## @Greg: Need to add operations here
-        transforms.ToTensor(),
-    ])
-
-    transform_y = transforms.Compose([
-        transforms.ToTensor(),
-    ])
+    transform = transforms.Compose([CocoDataset.Rescale(resolution),
+                               CocoDataset.ToTensor(), 
+                               CocoDataset.Normalize()])
 
     seed = 1
-    loss_weights = [1.0] * num_classes
-    loss_weights = torch.tensor(class_weights, dtype=torch.float, requires_grad=False, device=device)
+    class_weights = [1.0] * num_classes
+    class_weights = torch.tensor(class_weights, dtype=torch.float, requires_grad=False, device=device)
     learning_rate = 1e-5
     bn = 0
     dp = 0.1
+    f = 16
+    wd = 0
 
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    dset_train = _Dataset(input_folder_path_train, label_folder_path_train, transform_x, transform_y)
-    dset_val = _Dataset(input_folder_path_val, label_folder_path_val, transform_x, transform_y)
+    dset_train = CocoDataset.CocoDataset('val2017', transform=transform, length=4)
+    dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=1)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
     val_loader = DataLoader(dset_val, batch_size=1, shuffle=True, num_workers=1)

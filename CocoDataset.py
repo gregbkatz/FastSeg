@@ -22,7 +22,7 @@ class CocoDataset(Dataset):
         """
         Args:
         """
-        dataDir= '/Volumes/My Passport for Mac/COCO/'
+        dataDir= '/Volumes/My Passport for Mac 1/COCO/'
         annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
 
         self.image_path = dataDir + '/images/' + dataType + '/'
@@ -45,7 +45,6 @@ class CocoDataset(Dataset):
 
 
     def __len__(self):
-        # return 512
         return self.length
 
     def __getitem__(self, idx):
@@ -59,20 +58,20 @@ class CocoDataset(Dataset):
         anns = self.coco.loadAnns(annIds)
 
         class_mask = np.zeros(I.shape[0:2])
-        instance_mask = np.zeros(I.shape[0:2])
+        # instance_mask = np.zeros(I.shape[0:2])
         for ann in anns:
             binary_mask = self.coco.annToMask(ann)
             class_mask[binary_mask==1] = ann['category_id']
-            instance_mask[binary_mask==1] = ann['id']
+            # instance_mask[binary_mask==1] = ann['id']
 
         curr = set([self.cats[ann['category_id']]['name'] for ann in anns])
         isPerson = "person" in curr
-        sample = {'image': I, "isPerson": isPerson, 'classMask': class_mask, 'instanceMask': instance_mask}
+        sample = {'image': I, "isPerson": isPerson, 'classMask': class_mask}
 
         if self.transform:
             sample = self.transform(sample)
 
-        return sample
+        return sample['image'], sample['classMask']
 
 class Normalize(object):
 
@@ -99,8 +98,10 @@ class Rescale(object):
     def __call__(self, sample):
         image, isPerson, classMask = sample['image'], sample['isPerson'], sample['classMask']
 
-        image = transform.resize(image, self.output_size, mode='constant', anti_aliasing=True)
-        classMask = transform.resize(classMask, self.output_size, mode='constant', anti_aliasing=True)
+        # image = transform.resize(image, self.output_size, mode='constant', anti_aliasing=True)
+        # classMask = transform.resize(classMask, self.output_size, mode='constant', anti_aliasing=True)
+        image = transform.resize(image, self.output_size, mode='constant')
+        classMask = transform.resize(classMask, self.output_size, mode='constant')
 
         return {'image': image, 'isPerson': isPerson, 'classMask': classMask}
 

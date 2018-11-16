@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import pylab
 import pdb
 
-dataDir= '/Volumes/My Passport for Mac/COCO'
+dataDir= '/Volumes/My Passport for Mac 1/COCO'
 dataType='val2017'
 # dataType='train2017'
 annFile='{}/annotations/instances_{}.json'.format(dataDir,dataType)
