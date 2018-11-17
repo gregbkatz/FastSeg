@@ -214,6 +214,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
     for e in range(epochs):
 
         epoch_loss_train = 0.0
+        t1 = time.time()
 
         print("")
         print("Training epoch", e)
@@ -235,9 +236,9 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             optimizer.step()
 
             if iteration % 1 == 0:
-                print('Iteration: ', str(iteration), float(loss))
+                print('Iteration, loss, time: ', str(iteration), float(loss), time.time() - t1)
 
-        print("Epoch loss train:", float(epoch_loss_train))
+        print("Epoch,  loss train:", e, float(epoch_loss_train))
         print()
 
         # val_loss = validate(val_loader, )
@@ -246,7 +247,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
 
         print('Saving model')
         save_path = "./model-" + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
-        # torch.save(model, save_path)
+        torch.save(model, save_path)
 
 
 def main():
