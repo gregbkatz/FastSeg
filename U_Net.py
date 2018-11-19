@@ -205,10 +205,34 @@ class U_net(nn.Module):
 
         return scores
 
+def get_val_loss(model, loss_weights, val_loader):
+
+    epoch_loss_val = 0.0
+
+    with torch.no_grad():
+        model.eval()
+
+        for iteration, batch_sampled in enumerate(val_loader):
+
+            x = batch_sampled[0]
+            y = batch_sampled[1]
+
+            x = torch.tensor(x, dtype=torch.float32, requires_grad=True, device=device)
+            y = torch.tensor(y, dtype=torch.long, requires_grad=False, device=device)
+
+            scores = model(x)
+            loss = torch.nn.functional.cross_entropy(scores, y, weight=loss_weights)
+            epoch_loss_val += float(loss)
+
+    model.train()
+
+    return epoch_loss_val
+
+
 def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs):
 
 
-    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
     print("num epochs to be trained", epochs)
 
     for e in range(epochs):
@@ -235,25 +259,31 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             loss.backward()
             optimizer.step()
 
-            if iteration % 1 == 0:
+            if iteration % 50 == 0:
                 print('Iteration, loss, time: ', str(iteration), float(loss), time.time() - t1)
 
         print("Epoch,  loss train:", e, float(epoch_loss_train))
         print()
 
-        # val_loss = validate(val_loader, )
-        # scheduler.step(val_loss)
-        # scheduler.step()
+
+        if e % 5 == 0:
+            print("Calculating validation loss:")
+            val_loss = get_val_loss(model, loss_weights, val_loader)
+            print(float(val_loss))
+            scheduler.step(val_loss)
+            scheduler.step()
 
         print('Saving model')
-        save_path = "./model-" + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+        current_path = /home/fast_seg/FastSeg/model_checkpoints
+
+        save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
         torch.save(model, save_path)
 
 
 def main():
     minibatch_size = 16
     num_classes = 91
-    resolution = (256,256)
+    resolution = (64,64)
 
     #input_folder_path_train =
     #label_folder_path_train = 
@@ -280,7 +310,7 @@ def main():
     dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
-    val_loader = DataLoader(dset_val, batch_size=1, shuffle=True, num_workers=1)
+    val_loader = DataLoader(dset_val, batch_size=1, shuffle=False, num_workers=1)
 
     model_id = time.time()
 
