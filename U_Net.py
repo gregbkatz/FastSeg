@@ -205,11 +205,38 @@ class U_net(nn.Module):
 
         return scores
 
+def get_val_loss(model, loss_weights, val_loader):
+
+    epoch_loss_val = 0.0
+
+    with torch.no_grad():
+        model.eval()
+
+        for iteration, batch_sampled in enumerate(val_loader):
+
+            x = batch_sampled[0]
+            y = batch_sampled[1]
+
+            x = torch.tensor(x, dtype=torch.float32, requires_grad=True, device=device)
+            y = torch.tensor(y, dtype=torch.long, requires_grad=False, device=device)
+
+            scores = model(x)
+            loss = torch.nn.functional.cross_entropy(scores, y, weight=loss_weights)
+            epoch_loss_val += float(loss)
+
+    model.train()
+
+    return epoch_loss_val
+
 def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs):
 
 
-    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
     print("num epochs to be trained", epochs)
+    
+    current_path = '/home/fast_seg/FastSeg/model_checkpoints/'
+    save_path = current_path + 'dummy' + '.pt'  #@Greg Add path here" '.pt'
+    torch.save(model, save_path)
 
     for e in range(epochs):
 
@@ -235,25 +262,35 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             loss.backward()
             optimizer.step()
 
-            if iteration % 1 == 0:
+            if iteration % 100 == 0:
                 print('Iteration, loss, time: ', str(iteration), float(loss), time.time() - t1)
 
         print("Epoch,  loss train:", e, float(epoch_loss_train))
         print()
 
+        print('Saving model')
+
+        save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+        torch.save(model, save_path)
+        if e % 2 == 0:
+            print("Calculating validation loss:")
+            val_loss = get_val_loss(model, loss_weights, val_loader)
+            print(float(val_loss))
+            scheduler.step(val_loss)
+
         # val_loss = validate(val_loader, )
         # scheduler.step(val_loss)
         # scheduler.step()
 
-        print('Saving model')
-        save_path = "./model-" + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
-        torch.save(model, save_path)
+        #print('Saving model')
+        #save_path = "./model-" + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+        #torch.save(model, save_path)
 
 
 def main():
     minibatch_size = 16
     num_classes = 91
-    resolution = (256,256)
+    resolution = (64,64)
 
     #input_folder_path_train =
     #label_folder_path_train = 
@@ -288,7 +325,7 @@ def main():
     model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
-    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=200)
+    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=20)
 
 if __name__ == '__main__':
     main()
