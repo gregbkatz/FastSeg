@@ -46,6 +46,7 @@ class CocoDataset(Dataset):
 
 
     def __len__(self):
+        #return 128
         return self.length
 
     def __getitem__(self, idx):

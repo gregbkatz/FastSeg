@@ -262,7 +262,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             loss.backward()
             optimizer.step()
 
-            if iteration % 100 == 0:
+            if iteration % 1 == 0:
                 print('Iteration, loss, time: ', str(iteration), float(loss), time.time() - t1)
 
         print("Epoch,  loss train:", e, float(epoch_loss_train))
@@ -278,15 +278,6 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             val_loss = get_val_loss(model, loss_weights, val_loader)
             print(float(val_loss))
             scheduler.step(val_loss)
-
-        # val_loss = validate(val_loader, )
-        # scheduler.step(val_loss)
-        # scheduler.step()
-
-        #print('Saving model')
-        #save_path = "./model-" + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
-        #torch.save(model, save_path)
-        scheduler.step()
 
 def main():
     minibatch_size = 16
