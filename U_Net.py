@@ -272,7 +272,8 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
 
         save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
         torch.save(model, save_path)
-        if e % 2 == 0:
+
+        if e % 5 == 0:
             print("Calculating validation loss:")
             val_loss = get_val_loss(model, loss_weights, val_loader)
             print(float(val_loss))
@@ -285,6 +286,14 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         #print('Saving model')
         #save_path = "./model-" + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
         #torch.save(model, save_path)
+        scheduler.step()
+
+        print('Saving model')
+        current_path = /home/fast_seg/FastSeg/model_checkpoints
+
+        save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+        torch.save(model, save_path)
+>>>>>>> f86f6f01bb459f2b6343243c69a77ec1d5ee66f7
 
 
 def main():
@@ -317,7 +326,7 @@ def main():
     dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
-    val_loader = DataLoader(dset_val, batch_size=1, shuffle=True, num_workers=1)
+    val_loader = DataLoader(dset_val, batch_size=1, shuffle=False, num_workers=1)
 
     model_id = time.time()
 
