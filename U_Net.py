@@ -288,14 +288,6 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         #torch.save(model, save_path)
         scheduler.step()
 
-        print('Saving model')
-        current_path = /home/fast_seg/FastSeg/model_checkpoints
-
-        save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
-        torch.save(model, save_path)
->>>>>>> f86f6f01bb459f2b6343243c69a77ec1d5ee66f7
-
-
 def main():
     minibatch_size = 16
     num_classes = 91
