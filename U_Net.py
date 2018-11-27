@@ -25,29 +25,50 @@ np.set_printoptions(threshold=np.nan)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device", device)
 
-class _Dataset(Dataset):
+
+def get_x_filenames(folder_path):
+    """This is a helper function to collect all image file names
+
+    Args:
+        folder_path: path to the directory where image files are stored.
+
+    Returns:
+        A list of strings containing all image file names .
+
+    """
+    return sorted(glob.glob(os.path.join(folder_path, '_x.pt')))
+
+def get_y_filenames(folder_path):
+    """This is a helper function to collect all image file names
+
+    Args:
+        folder_path: path to the directory where image files are stored.
+
+    Returns:
+        A list of strings containing all image file names .
+
+    """
+    return sorted(glob.glob(os.path.join(folder_path, '_y.pt')))
+
+
+class coco_custom_Dataset(Dataset):
     _xs = []
     _ys = []
 
-    def __init__(self, x_image_paths, label_image_paths, transform_x, transform_y):
+    def __init__(self, x_file_paths, y_file_paths):
 
-        self.transform_x = transform_x
-        self.transform_y = transform_y
-        self.binary_classification = binary_classification
-        self._xs = color_image_paths
-        self._ys = label_image_paths
-        self.normalize = transforms.Normalize((0), (1.0))
+        self._xs = x_file_paths
+        self._ys = y_file_paths
 
     def __getitem__(self, index):
 
-        x = np.load(self._xs[index])
-        img_x = x
-        img_y = Image.open(self._ys[index])
-        img_y = np.asarray(img_y)
+        x = torch.load(self._xs[index])
+        y = torch.load(self._ys[index])
+        x.to(device)
+        y.to(device)
+        x.requires_grad
 
-        ## @Greg Need to add operations here
-
-        return img_x, img_y
+        return x, y
 
     def __len__(self):
         return len(self._xs)
@@ -345,8 +366,17 @@ def main():
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    dset_train = CocoDataset.CocoDataset('train2017', transform=transform, length=None)
+    folder_path = '/home/fast_seg/coco_pt'
+
+    x_file_names = get_x_filenames(folder_path)
+    y_file_names = get_y_filenames(folder_path)
+    assert(len(x_file_names) == len(y_file_names))
+
+    dset_train = coco_custom_Dataset(x_file_names, y_file_names)
+    #dset_train = CocoDataset.CocoDataset('train2017', transform=transform, length=None)
     dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
+
+    print("Train and Val sets loaded successfully")
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=1)
