@@ -260,7 +260,7 @@ def get_val_loss(model, loss_weights, val_loader):
     model.train()
 
     iteration += 1
-    return epoch_loss_val / iteration, mIoU / iteration, acc / iteration
+    return epoch_loss_val / iteration, mIoU / iteration, acc / iteration , batch_class_accs / iteration
 
 def get_accuracy(preds, y, num_classes = 91):
     assert(preds.shape == y.shape)
@@ -351,8 +351,9 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
 
         if e % 1 == 0:
             print("Calculating validation loss:")
-            val_loss, mIoU, acc = get_val_loss(model, loss_weights, val_loader)
+            val_loss, mIoU, acc, class_accs = get_val_loss(model, loss_weights, val_loader)
             print("val loss: ", float(val_loss), "mIoU: ", mIoU, "acc: " , acc)
+            print("Accuracies for the classes are: ", class_accs)
             scheduler.step(val_loss)
 
 def main():
