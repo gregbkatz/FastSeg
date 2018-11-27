@@ -254,20 +254,35 @@ def get_val_loss(model, loss_weights, val_loader):
 
             preds = scores2preds(scores)
             mIoU += get_mIoU(preds, y)
-            acc += get_accuracy(preds, y)
+            batch_overall_acc, batch_class_accs = get_accuracy(preds, y)
+            acc += batch_overall_acc
 
     model.train()
 
     iteration += 1
     return epoch_loss_val / iteration, mIoU / iteration, acc / iteration
 
-def get_accuracy(preds, y):
+def get_accuracy(preds, y, num_classes = 91):
     assert(preds.shape == y.shape)
     matches = preds == y
     n_matches = torch.sum(matches*1)
     total = preds.shape[0] * preds.shape[1] * preds.shape[2]
-    accuracy = float(n_matches) / float(total)
-    return accuracy
+    overall_accuracy = float(n_matches) / float(total)
+
+    per_classes_accuracy = [0.0]*num_classes
+
+    for i, class_id in enumerate(range(num_classes)):
+
+        class_preds = preds == class_id
+        class_ground_truth = y == class_id
+        correct_predictions = class_preds == class_ground_truth
+        n_matches_class = torch.sum(correct_predictions*1)
+        total_ground_truth_class = torch.sum(class_ground_truth*1)
+        per_classes_accuracy[i] = float(n_matches_class) / float(total_ground_truth_class)
+        assert(per_classes_accuracy[i] >= 0.0)
+        assert(per_classes_accuracy[i] <= 1.0)
+
+    return overall_accuracy, per_classes_accuracy
 
 def get_mIoU(preds, y):
     mIoU = 0
