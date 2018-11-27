@@ -19,6 +19,8 @@ from PIL import Image
 import CocoDataset
 import pdb
 
+NUM_CLASSES = 91
+
 np.set_printoptions(threshold=np.nan)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device", device)
@@ -205,10 +207,15 @@ class U_net(nn.Module):
 
         return scores
 
+def scores2preds(scores):
+    _, preds = scores.max(1) # NxCxHxW -> NxHxW
+    return preds
+
 def get_val_loss(model, loss_weights, val_loader):
 
     epoch_loss_val = 0.0
-
+    mIoU = 0.0
+    acc = 0.0
     with torch.no_grad():
         model.eval()
 
@@ -224,9 +231,41 @@ def get_val_loss(model, loss_weights, val_loader):
             loss = torch.nn.functional.cross_entropy(scores, y, weight=loss_weights)
             epoch_loss_val += float(loss)
 
+            preds = scores2preds(scores)
+            mIoU += get_mIoU(preds, y)
+            acc += get_accuracy(preds, y)
+
     model.train()
 
-    return epoch_loss_val
+    iteration += 1
+    return epoch_loss_val / iteration, mIoU / iteration, acc / iteration
+
+def get_accuracy(preds, y):
+    assert(preds.shape == y.shape)
+    matches = preds == y
+    n_matches = torch.sum(matches*1)
+    total = preds.shape[0] * preds.shape[1] * preds.shape[2]
+    accuracy = float(n_matches) / float(total)
+    return accuracy
+
+def get_mIoU(preds, y):
+    mIoU = 0
+    for i in range(NUM_CLASSES):
+        batch_IoU = get_IoU(preds, y, i)
+        mIoU += float(batch_IoU.float().mean(0)) / NUM_CLASSES
+    return mIoU
+    
+
+def get_IoU(preds, y, i): 
+    preds = preds == i
+    y = y==i
+    intersect = preds & y
+    union = preds | y
+    intersect = torch.sum(torch.sum(intersect,1),1).float()
+    union = torch.sum(torch.sum(union,1),1).float()
+    intersect += .00001
+    union += .00001
+    return intersect / union
 
 def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs):
 
@@ -262,10 +301,11 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             loss.backward()
             optimizer.step()
 
-            if iteration % 1 == 0:
-                print('Iteration, loss, time: ', str(iteration), float(loss), time.time() - t1)
+            if iteration % 50 == 0:
+                print('Iteration, loss, time: ', str(iteration), float(epoch_loss_train)/(iteration+1), time.time() - t1)
 
-        print("Epoch,  loss train:", e, float(epoch_loss_train))
+        iteration += 1
+        print("Epoch,  loss train:", e, float(epoch_loss_train)/iteration)
         print()
 
         print('Saving model')
@@ -273,16 +313,16 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
         torch.save(model, save_path)
 
-        if e % 5 == 0:
+        if e % 1 == 0:
             print("Calculating validation loss:")
-            val_loss = get_val_loss(model, loss_weights, val_loader)
-            print(float(val_loss))
+            val_loss, mIoU, acc = get_val_loss(model, loss_weights, val_loader)
+            print("val loss: ", float(val_loss), "mIoU: ", mIoU, "acc: " , acc)
             scheduler.step(val_loss)
 
 def main():
     minibatch_size = 16
-    num_classes = 91
     resolution = (64,64)
+    num_classes = NUM_CLASSES
 
     #input_folder_path_train =
     #label_folder_path_train = 
@@ -309,7 +349,7 @@ def main():
     dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
-    val_loader = DataLoader(dset_val, batch_size=1, shuffle=False, num_workers=1)
+    val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=1)
 
     model_id = time.time()
 
