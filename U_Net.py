@@ -36,7 +36,7 @@ def get_x_filenames(folder_path):
         A list of strings containing all image file names .
 
     """
-    return sorted(glob.glob(os.path.join(folder_path, '_x.pt')))
+    return sorted(glob.glob(os.path.join(folder_path, '*_x.pt')))
 
 def get_y_filenames(folder_path):
     """This is a helper function to collect all image file names
@@ -48,7 +48,7 @@ def get_y_filenames(folder_path):
         A list of strings containing all image file names .
 
     """
-    return sorted(glob.glob(os.path.join(folder_path, '_y.pt')))
+    return sorted(glob.glob(os.path.join(folder_path, '*_y.pt')))
 
 
 class coco_custom_Dataset(Dataset):
@@ -59,9 +59,10 @@ class coco_custom_Dataset(Dataset):
 
         self._xs = x_file_paths
         self._ys = y_file_paths
-
+        self.test_load = torch.load(self._xs[100])
+        #pdb.set_trace()
     def __getitem__(self, index):
-
+        print('index is: ', index)
         x = torch.load(self._xs[index])
         y = torch.load(self._ys[index])
         x.to(device)
@@ -236,7 +237,9 @@ def get_val_loss(model, loss_weights, val_loader):
 
     epoch_loss_val = 0.0
     mIoU = 0.0
-    acc = 0.0
+    class_iou = np.zeros((NUM_CLASSES))
+    acc = 0.0  
+    class_accs = np.zeros((NUM_CLASSES))
     with torch.no_grad():
         model.eval()
 
@@ -253,32 +256,35 @@ def get_val_loss(model, loss_weights, val_loader):
             epoch_loss_val += float(loss)
 
             preds = scores2preds(scores)
-            mIoU += get_mIoU(preds, y)
+            batch_mIoU, iou_per_class = get_mIoU(preds, y)
+            mIoU += batch_mIoU 
+            class_iou += iou_per_class
             batch_overall_acc, batch_class_accs = get_accuracy(preds, y)
             acc += batch_overall_acc
+            class_accs += batch_class_accs
 
     model.train()
 
     iteration += 1
-    return epoch_loss_val / iteration, mIoU / iteration, acc / iteration , batch_class_accs / iteration
+    return epoch_loss_val / iteration, mIoU / iteration, class_iou / iteration, acc / iteration , class_accs / iteration
 
-def get_accuracy(preds, y, num_classes = 91):
+def get_accuracy(preds, y):
     assert(preds.shape == y.shape)
     matches = preds == y
     n_matches = torch.sum(matches*1)
-    total = preds.shape[0] * preds.shape[1] * preds.shape[2]
-    overall_accuracy = float(n_matches) / float(total)
+    total = float(preds.shape[0] * preds.shape[1] * preds.shape[2])
+    overall_accuracy = float(n_matches) / total
 
-    per_classes_accuracy = [0.0]*num_classes
+    per_classes_accuracy = np.array([0.0]*NUM_CLASSES)
 
-    for i, class_id in enumerate(range(num_classes)):
+    for i, class_id in enumerate(range(NUM_CLASSES)):
 
         class_preds = preds == class_id
         class_ground_truth = y == class_id
         correct_predictions = class_preds == class_ground_truth
-        n_matches_class = torch.sum(correct_predictions*1)
-        total_ground_truth_class = torch.sum(class_ground_truth*1)
-        per_classes_accuracy[i] = float(n_matches_class) / float(total_ground_truth_class)
+        n_matches_class = float(torch.sum(correct_predictions*1))
+    #    total_ground_truth_class = torch.sum(class_ground_truth*1)
+        per_classes_accuracy[i] = (n_matches_class + 0.00001) / (total + .00001)
         assert(per_classes_accuracy[i] >= 0.0)
         assert(per_classes_accuracy[i] <= 1.0)
 
@@ -286,10 +292,11 @@ def get_accuracy(preds, y, num_classes = 91):
 
 def get_mIoU(preds, y):
     mIoU = 0
+    per_class_mIoU = np.array([0.0] * NUM_CLASSES)
     for i in range(NUM_CLASSES):
-        batch_IoU = get_IoU(preds, y, i)
-        mIoU += float(batch_IoU.float().mean(0)) / NUM_CLASSES
-    return mIoU
+        per_class_mIoU[i] = get_IoU(preds, y, i)
+        mIoU += per_class_mIoU[i] / NUM_CLASSES
+    return mIoU, per_class_mIoU
     
 
 def get_IoU(preds, y, i): 
@@ -297,8 +304,10 @@ def get_IoU(preds, y, i):
     y = y==i
     intersect = preds & y
     union = preds | y
-    intersect = torch.sum(torch.sum(intersect,1),1).float()
-    union = torch.sum(torch.sum(union,1),1).float()
+    #intersect = torch.sum(torch.sum(intersect,1),1).float()
+    intersect = torch.sum(intersect).float()
+    #union = torch.sum(torch.sum(union,1),1).float()
+    union = torch.sum(union).float()
     intersect += .00001
     union += .00001
     return intersect / union
@@ -349,10 +358,11 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
         torch.save(model, save_path)
 
-        if e % 1 == 0:
+        if e % 10 == 0:
             print("Calculating validation loss:")
-            val_loss, mIoU, acc, class_accs = get_val_loss(model, loss_weights, val_loader)
+            val_loss, mIoU, class_iou, acc, class_accs = get_val_loss(model, loss_weights, val_loader)
             print("val loss: ", float(val_loss), "mIoU: ", mIoU, "acc: " , acc)
+            print("IoU for the classes are: ", class_iou)
             print("Accuracies for the classes are: ", class_accs)
             scheduler.step(val_loss)
 
@@ -382,19 +392,24 @@ def main():
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    folder_path = '/home/fast_seg/coco_pt'
+    folder_path = '/home/fast_seg/coco_pt/'
 
     x_file_names = get_x_filenames(folder_path)
     y_file_names = get_y_filenames(folder_path)
     assert(len(x_file_names) == len(y_file_names))
+    #pdb.set_trace()
 
-    dset_train = coco_custom_Dataset(x_file_names, y_file_names)
-    #dset_train = CocoDataset.CocoDataset('train2017', transform=transform, length=None)
+    #dset_train = coco_custom_Dataset(x_file_names, y_file_names)
+    dset_train = CocoDataset.CocoDataset('train2017', transform=transform, length=None)
     dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
+    #test_load = torch.load(x_file_names[0])
+    #test_load.cuda()
+    #test_load.requires_grad
 
+    #pdb.set_trace()
     print("Train and Val sets loaded successfully")
 
-    train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
+    train_loader = DataLoader(dset_train, batch_size=1, shuffle=True, num_workers=1)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=1)
 
     model_id = time.time()
