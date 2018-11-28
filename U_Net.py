@@ -20,8 +20,9 @@ import CocoDataset
 import pdb
 
 NUM_CLASSES = 91
+EPS = 0 #1e-8
 
-np.set_printoptions(threshold=np.nan)
+np.set_printoptions(threshold=np.nan, suppress=True, precision=4)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device", device)
 
@@ -235,11 +236,11 @@ def scores2preds(scores):
 
 def get_val_loss(model, loss_weights, val_loader):
 
-    epoch_loss_val = 0.0
-    mIoU = 0.0
-    class_iou = np.zeros((NUM_CLASSES))
-    acc = 0.0  
-    class_accs = np.zeros((NUM_CLASSES))
+    loss = 0.0
+    tp = np.zeros((NUM_CLASSES), dtype=int)
+    fp = np.zeros((NUM_CLASSES), dtype=int)
+    fn = np.zeros((NUM_CLASSES), dtype=int) 
+    total = 0
     with torch.no_grad():
         model.eval()
 
@@ -252,65 +253,49 @@ def get_val_loss(model, loss_weights, val_loader):
             y = torch.tensor(y, dtype=torch.long, requires_grad=False, device=device)
 
             scores = model(x)
-            loss = torch.nn.functional.cross_entropy(scores, y, weight=loss_weights)
-            epoch_loss_val += float(loss)
+            batch_loss = torch.nn.functional.cross_entropy(scores, y, weight=loss_weights)
+            loss += float(batch_loss)
 
-            preds = scores2preds(scores)
-            batch_mIoU, iou_per_class = get_mIoU(preds, y)
-            mIoU += batch_mIoU 
-            class_iou += iou_per_class
-            batch_overall_acc, batch_class_accs = get_accuracy(preds, y)
-            acc += batch_overall_acc
-            class_accs += batch_class_accs
+            total += y.shape[0] * y.shape[1] * y.shape[2]
+            b_tp, b_fp, b_fn = get_metrics(scores, y)
+            tp += b_tp
+            fp += b_fp
+            fn += b_fn
 
     model.train()
 
-    iteration += 1
-    return epoch_loss_val / iteration, mIoU / iteration, class_iou / iteration, acc / iteration , class_accs / iteration
+    # EPS not needed for iou because fp + fn + tp shoudl be > 0 
+    iou = tp / (fp + fn + tp + EPS)
+    precision = tp / (tp + fp + EPS) 
+    recall = tp / (tp + fn + EPS)
+    tn = total - tp - fp - fn
+    accuracy = (tp + tn) / total
+    total_accuracy = tp.sum() / total 
+    assert(total_accuracy >= 0)
+    assert(total_accuracy <= 1)
 
-def get_accuracy(preds, y):
+    # Average loss over iterations
+    loss = loss / (iteration + 1)
+    return loss, iou, precision, recall, accuracy, total_accuracy
+
+def get_metrics(scores, y):
+    preds = scores2preds(scores)
     assert(preds.shape == y.shape)
-    matches = preds == y
-    n_matches = torch.sum(matches*1)
-    total = float(preds.shape[0] * preds.shape[1] * preds.shape[2])
-    overall_accuracy = float(n_matches) / total
-
-    per_classes_accuracy = np.array([0.0]*NUM_CLASSES)
-
-    for i, class_id in enumerate(range(NUM_CLASSES)):
-
-        class_preds = preds == class_id
-        class_ground_truth = y == class_id
-        correct_predictions = class_preds == class_ground_truth
-        n_matches_class = float(torch.sum(correct_predictions*1))
-    #    total_ground_truth_class = torch.sum(class_ground_truth*1)
-        per_classes_accuracy[i] = (n_matches_class + 0.00001) / (total + .00001)
-        assert(per_classes_accuracy[i] >= 0.0)
-        assert(per_classes_accuracy[i] <= 1.0)
-
-    return overall_accuracy, per_classes_accuracy
-
-def get_mIoU(preds, y):
-    mIoU = 0
-    per_class_mIoU = np.array([0.0] * NUM_CLASSES)
+    tp = np.zeros((NUM_CLASSES), dtype=int)
+    fp = np.zeros((NUM_CLASSES), dtype=int)
+    fn = np.zeros((NUM_CLASSES), dtype=int)
     for i in range(NUM_CLASSES):
-        per_class_mIoU[i] = get_IoU(preds, y, i)
-        mIoU += per_class_mIoU[i] / NUM_CLASSES
-    return mIoU, per_class_mIoU
-    
+        tp[i], fp[i], fn[i] = get_class_metrics(preds, y, i)
 
-def get_IoU(preds, y, i): 
-    preds = preds == i
-    y = y==i
-    intersect = preds & y
-    union = preds | y
-    #intersect = torch.sum(torch.sum(intersect,1),1).float()
-    intersect = torch.sum(intersect).float()
-    #union = torch.sum(torch.sum(union,1),1).float()
-    union = torch.sum(union).float()
-    intersect += .00001
-    union += .00001
-    return intersect / union
+    return tp, fp, fn
+
+def get_class_metrics(preds, y, class_id):
+    preds = preds == class_id
+    y = y == class_id
+    tp = int(torch.sum(preds & y))
+    fp = int(torch.sum(preds)) - tp
+    fn = int(torch.sum(y)) - tp
+    return tp, fp, fn
 
 def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs):
 
@@ -330,7 +315,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         print("")
         print("Training epoch", e)
 
-        for iteration, batch_sampled in enumerate(train_loader):
+        for i, batch_sampled in enumerate(train_loader):
 
             x = batch_sampled[0]
             y = batch_sampled[1]
@@ -346,25 +331,30 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             loss.backward()
             optimizer.step()
 
-            if iteration % 50 == 0:
-                print('Iteration, loss, time: ', str(iteration), float(epoch_loss_train)/(iteration+1), time.time() - t1)
+            if i % 50 == 0:
+                print('Iteration: {:6} loss train: {:6.4f} time elapsed: {:6.1f}'.format(
+                      i, epoch_loss_train/(i+1), time.time() - t1))
 
-        iteration += 1
-        print("Epoch,  loss train:", e, float(epoch_loss_train)/iteration)
         print()
-
-        print('Saving model')
+        print("Epoch: {} loss train: {:6.4f} time elapsed: {:6.1f}".format(
+               e, epoch_loss_train/(i+1), time.time() - t1))
 
         save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+        print('Saving model', save_path)
         torch.save(model, save_path)
 
-        if e % 10 == 0:
+        if e % 1 == 0:
             print("Calculating validation loss:")
-            val_loss, mIoU, class_iou, acc, class_accs = get_val_loss(model, loss_weights, val_loader)
-            print("val loss: ", float(val_loss), "mIoU: ", mIoU, "acc: " , acc)
-            print("IoU for the classes are: ", class_iou)
-            print("Accuracies for the classes are: ", class_accs)
+            val_loss, iou, precision, recall, acc, total_acc = get_val_loss(model, loss_weights, val_loader)
+            print("val loss: {:6.4f} mIoU: {:6.4f} mPrecision: {:6.4f} mRecall: {:6.4f} mAcc: {:6.4f} acc: {:6.4f}".format(
+                   val_loss, iou.mean(), precision.mean(), recall.mean(), acc.mean(), total_acc))
+            print("IoU for the classes are: \n", iou)
+            print("Precision for the classes are: \n", precision)
+            print("Recall for the classes are: \n", recall)
+            print("Accuracies for the classes are: \n", acc)
             scheduler.step(val_loss)
+
+        print()
 
 def main():
     minibatch_size = 16
@@ -409,7 +399,7 @@ def main():
     #pdb.set_trace()
     print("Train and Val sets loaded successfully")
 
-    train_loader = DataLoader(dset_train, batch_size=1, shuffle=True, num_workers=1)
+    train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=1)
 
     model_id = time.time()
