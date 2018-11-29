@@ -46,7 +46,6 @@ class CocoDataset(Dataset):
 
 
     def __len__(self):
-        #return 128
         return self.length
 
     def __getitem__(self, idx):
@@ -101,7 +100,8 @@ class Rescale(object):
         image, isPerson, classMask = sample['image'], sample['isPerson'], sample['classMask']
 
         image = transform.resize(image, self.output_size, mode='constant', anti_aliasing=True)
-        classMask = transform.resize(classMask, self.output_size, mode='constant', anti_aliasing=True)
+        classMask = transform.resize(classMask, self.output_size, mode='constant', anti_aliasing=False, order= 0)
+       
         #image = transform.resize(image, self.output_size, mode='constant')
         #classMask = transform.resize(classMask, self.output_size, mode='constant')
 
@@ -121,4 +121,4 @@ class ToTensor(object):
 
         return {'image': torch.from_numpy(image).float(),
                 'isPerson': torch.from_numpy(np.array(float(isPerson))).unsqueeze(0).float(),
-                'classMask': torch.from_numpy(classMask)}
+                'classMask': torch.from_numpy(classMask).int()}
