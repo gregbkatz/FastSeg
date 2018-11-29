@@ -21,59 +21,37 @@ import pdb
 
 NUM_CLASSES = 91
 EPS = 0 #1e-8
+train_dir = '/home/fast_seg/coco_pt/val/'
+val_dir = '/home/fast_seg/coco_pt/val/'
 
 np.set_printoptions(threshold=np.nan, suppress=True, precision=4)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device", device)
 
 
-def get_x_filenames(folder_path):
-    """This is a helper function to collect all image file names
-
-    Args:
-        folder_path: path to the directory where image files are stored.
-
-    Returns:
-        A list of strings containing all image file names .
-
-    """
-    return sorted(glob.glob(os.path.join(folder_path, '*_x.pt')))
-
-def get_y_filenames(folder_path):
-    """This is a helper function to collect all image file names
-
-    Args:
-        folder_path: path to the directory where image files are stored.
-
-    Returns:
-        A list of strings containing all image file names .
-
-    """
-    return sorted(glob.glob(os.path.join(folder_path, '*_y.pt')))
-
+def get_filenames(folder_path, pattern):
+    return sorted(glob.glob(os.path.join(folder_path, pattern)))
 
 class coco_custom_Dataset(Dataset):
-    _xs = []
-    _ys = []
 
-    def __init__(self, x_file_paths, y_file_paths):
+    def __init__(self, path, length=None):
+        self._xs = get_filenames(path, "*_x.pt")
+        self._ys = get_filenames(path, "*_y.pt")
+        self.length = len(self._xs)
+        assert(self.length == len(self._ys))
+        print("Found {} files in {}".format(self.length, path))
+        if length is not None:
+            print("Subsampling to {}".format(length))
+            self.length = length
 
-        self._xs = x_file_paths
-        self._ys = y_file_paths
-        self.test_load = torch.load(self._xs[100])
-        #pdb.set_trace()
     def __getitem__(self, index):
-        print('index is: ', index)
         x = torch.load(self._xs[index])
         y = torch.load(self._ys[index])
-        x.to(device)
-        y.to(device)
-        x.requires_grad
-
+        print(self._xs[index])
         return x, y
 
     def __len__(self):
-        return len(self._xs)
+        return self.length
 
 
 class U_net(nn.Module):
@@ -357,18 +335,10 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         print()
 
 def main():
-    minibatch_size = 16
+    minibatch_size = 64
     resolution = (64,64)
     num_classes = NUM_CLASSES
 
-    #input_folder_path_train =
-    #label_folder_path_train = 
-    #input_folder_path_val = 
-    #label_folder_path_val = 
-
-    transform = transforms.Compose([CocoDataset.Rescale(resolution),
-                               CocoDataset.ToTensor(), 
-                               CocoDataset.Normalize()])
 
     seed = 1
     class_weights = [1.0] * num_classes
@@ -382,25 +352,11 @@ def main():
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    folder_path = '/home/fast_seg/coco_pt/'
+    dset_train = coco_custom_Dataset(train_dir, length=4)
+    dset_val = coco_custom_Dataset(val_dir, length=4)
 
-    x_file_names = get_x_filenames(folder_path)
-    y_file_names = get_y_filenames(folder_path)
-    assert(len(x_file_names) == len(y_file_names))
-    #pdb.set_trace()
-
-    #dset_train = coco_custom_Dataset(x_file_names, y_file_names)
-    dset_train = CocoDataset.CocoDataset('train2017', transform=transform, length=None)
-    dset_val = CocoDataset.CocoDataset('val2017', transform=transform, length=None)
-    #test_load = torch.load(x_file_names[0])
-    #test_load.cuda()
-    #test_load.requires_grad
-
-    #pdb.set_trace()
-    print("Train and Val sets loaded successfully")
-
-    train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=1)
-    val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=1)
+    train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=0)
+    val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=0)
 
     model_id = time.time()
 
