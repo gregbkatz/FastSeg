@@ -20,10 +20,20 @@ import CocoDataset
 import pdb
 
 
+save_path_train = '/home/fast_seg/coco_pt/train/'
+save_path_val = '/home/fast_seg/coco_pt/val/'
 np.set_printoptions(threshold=np.nan)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device", device)
 
+def saveToFile(loader, save_path):
+    for iteration, sample in enumerate(loader):
+        base_name = save_path + str(iteration).zfill(7)
+        print("Saving " + base_name)
+        x = sample[0].squeeze()
+        y = sample[1].squeeze()
+        torch.save(x, base_name + "_x.pt")
+        torch.save(y, base_name + "_y.pt")
 
 def main():
     resolution = (64,64)
@@ -42,24 +52,9 @@ def main():
     train_loader = DataLoader(dset_train, batch_size=1, shuffle=True, num_workers=1)
     val_loader = DataLoader(dset_val, batch_size=1, shuffle=False, num_workers=1)
 
-    drop_index = 3
-
-    save_path_base = '/home/fast_seg/coco_pt2/'
+    saveToFile(train_loader, save_path_train)
+    saveToFile(val_loader, save_path_val)
     
-    for iteration, batch_sampled in enumerate(train_loader):
-        x = batch_sampled[0].cuda()
-        y = batch_sampled[1].cuda()
-
-        x = x.squeeze()
-        y = y.squeeze()
-
-        if(iteration % drop_index == 0):
-            print("Saving iteration", iteration)
-            x_name = str(iteration/3).zfill(7) + '_x.pt'
-            y_name = str(iteration/3).zfill(7) + '_y.pt'
-            torch.save(x, save_path_base + x_name)
-            torch.save(y, save_path_base + y_name)
-
     print("Finished")
 
 if __name__ == '__main__':
