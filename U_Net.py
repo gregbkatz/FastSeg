@@ -21,7 +21,7 @@ import pdb
 
 NUM_CLASSES = 91
 EPS = 0 #1e-8
-train_dir = '/home/fast_seg/coco_pt/val/'
+train_dir = '/home/fast_seg/coco_pt/train/'
 val_dir = '/home/fast_seg/coco_pt/val/'
 
 np.set_printoptions(threshold=np.nan, suppress=True, precision=4)
@@ -47,7 +47,6 @@ class coco_custom_Dataset(Dataset):
     def __getitem__(self, index):
         x = torch.load(self._xs[index])
         y = torch.load(self._ys[index])
-        print(self._xs[index])
         return x, y
 
     def __len__(self):
@@ -352,8 +351,8 @@ def main():
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    dset_train = coco_custom_Dataset(train_dir, length=4)
-    dset_val = coco_custom_Dataset(val_dir, length=4)
+    dset_train = coco_custom_Dataset(train_dir, length=30000)
+    dset_val = coco_custom_Dataset(val_dir, length=None)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=0)
