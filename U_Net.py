@@ -17,9 +17,12 @@ from matplotlib import colors as mcolors
 from PIL import Image
 
 import CocoDataset
+import utils
 import pdb
 
-NUM_CLASSES = 91
+classes = utils.Classes('/home/fast_seg/coco/classes.txt')
+NUM_CLASSES = len(classes.classes)
+print("Num classes: ", NUM_CLASSES)
 EPS = 0 #1e-8
 train_dir = '/home/fast_seg/coco_pt/train/'
 val_dir = '/home/fast_seg/coco_pt/val/'
@@ -248,6 +251,10 @@ def get_val_loss(model, loss_weights, val_loader):
     tn = total - tp - fp - fn
     accuracy = (tp + tn) / total
     total_accuracy = tp.sum() / total 
+    print("Ground truth # examples")
+    print(tp + fn)
+    print("Prediction # examples")
+    print(tp + fp)
     assert(total_accuracy >= 0)
     assert(total_accuracy <= 1)
 
@@ -338,9 +345,8 @@ def main():
     resolution = (64,64)
     num_classes = NUM_CLASSES
 
-
     seed = 1
-    class_weights = [1.0] * num_classes
+    class_weights = classes.getWeights()
     class_weights = torch.tensor(class_weights, dtype=torch.float, requires_grad=False, device=device)
     learning_rate = 1e-5
     bn = 0
@@ -351,7 +357,7 @@ def main():
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    dset_train = coco_custom_Dataset(train_dir, length=30000)
+    dset_train = coco_custom_Dataset(train_dir, length=None)
     dset_val = coco_custom_Dataset(val_dir, length=None)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=0)
