@@ -19,10 +19,11 @@ from PIL import Image
 import CocoDataset
 import utils
 import UNet
+import argparse
 import pdb
 
-classes = utils.Classes('/home/fast_seg/coco/classes.txt')
-NUM_CLASSES = len(classes.classes)
+#classes = utils.Classes('/home/fast_seg/coco/classes.txt')
+#NUM_CLASSES = len(classes.classes)
 NUM_CLASSES = 3
 print("Num classes: ", NUM_CLASSES)
 EPS = 0 #1e-8
@@ -190,19 +191,18 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
 
         print()
 
-def main():
+def main(args):
     minibatch_size = 64
-    resolution = (64,64)
     num_classes = NUM_CLASSES
 
     seed = 1
-    class_weights = classes.getWeights()
-    class_weights = [1., 8., 3.]
+    #class_weights = classes.getWeights()
+    class_weights = args.w
     class_weights = torch.tensor(class_weights, dtype=torch.float, requires_grad=False, device=device)
-    learning_rate = 1e-4
+    learning_rate = args.lr
     bn = 0
     dp = 0.1
-    f = 16
+    f = args.f
     wd = 0
 
     torch.manual_seed(seed)
@@ -223,4 +223,14 @@ def main():
     train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=2000)
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--lr', type=float, default = 1e-4,
+                    help='learning rate')
+    parser.add_argument('-f', type=int, default=16,
+                    help='number of filters in first convolution')
+    parser.add_argument('-w', type=float, nargs='+', default=[1,8,3],
+                    help='class weights for loss function')
+
+    args = parser.parse_args()
+    assert(len(args.w) == NUM_CLASSES)
+    main(args)
