@@ -208,8 +208,8 @@ def main(args):
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
 
-    dset_train = coco_custom_Dataset(train_dir, length=None)
-    dset_val = coco_custom_Dataset(val_dir, length=None)
+    dset_train = coco_custom_Dataset(train_dir, length=args.n)
+    dset_val = coco_custom_Dataset(val_dir, length=args.nval)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=0)
@@ -230,6 +230,10 @@ if __name__ == '__main__':
                     help='number of filters in first convolution')
     parser.add_argument('-w', type=float, nargs='+', default=[1,8,3],
                     help='class weights for loss function')
+    parser.add_argument('-n', type=int, default=None,
+                    help='# of training examples to use')
+    parser.add_argument('--nval', type=int, default=None,
+                    help='# of validation examples to use')
 
     args = parser.parse_args()
     assert(len(args.w) == NUM_CLASSES)
