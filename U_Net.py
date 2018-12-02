@@ -22,6 +22,7 @@ import pdb
 
 classes = utils.Classes('/home/fast_seg/coco/classes.txt')
 NUM_CLASSES = len(classes.classes)
+NUM_CLASSES = 3
 print("Num classes: ", NUM_CLASSES)
 EPS = 0 #1e-8
 train_dir = '/home/fast_seg/coco_pt/train/'
@@ -50,6 +51,9 @@ class coco_custom_Dataset(Dataset):
     def __getitem__(self, index):
         x = torch.load(self._xs[index])
         y = torch.load(self._ys[index])
+        y[y>1] = 2
+        assert(torch.max(y) <= 2)
+        # y = y > 0
         return x, y
 
     def __len__(self):
@@ -157,30 +161,34 @@ class U_net(nn.Module):
     def forward(self, x):
 
         # First layer
-        x = self.dropout(x)
+        #x = self.dropout(x)
 
         # First layer
         a1a = self.relu(self.conv1a(x))
         a1b = self.relu(self.conv1b(a1a))
 
         p1 = self.pool(a1b)
+        p1 = self.bns(p1)
 
         # Second layer
         a2a = self.relu(self.conv2a(p1))
         a2b = self.relu(self.conv2b(a2a))
         p2 = self.pool(a2b)
+        p2 = self.bn2s(p2)
 
         # Third layer
         a3a = self.relu(self.conv3a(p2))
         a3a = self.dropout(a3a)
         a3b = self.relu(self.conv3b(a3a))
         p3 = self.pool(a3b)
+        p3 = self.bn4s(p3)
 
         # Fourth layer
         a4a = self.relu(self.conv4a(p3))
         a4a = self.dropout2(a4a)
         a4b = self.relu(self.conv4b(a4a))
         p4 = self.pool(a4b)
+        p4 = self.bn8s(p4)
 
         # Fifth layer
         a5a = self.relu(self.conv5a(p4))
@@ -347,11 +355,12 @@ def main():
 
     seed = 1
     class_weights = classes.getWeights()
+    class_weights = [1., 8., 3.]
     class_weights = torch.tensor(class_weights, dtype=torch.float, requires_grad=False, device=device)
-    learning_rate = 1e-5
+    learning_rate = 1e-4
     bn = 0
     dp = 0.1
-    f = 16
+    f = 32
     wd = 0
 
     torch.manual_seed(seed)
@@ -369,7 +378,7 @@ def main():
     model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
-    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=20)
+    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=2000)
 
 if __name__ == '__main__':
     main()
