@@ -21,6 +21,9 @@ import utils
 import UNet
 import argparse
 import pdb
+import U_Net_separable
+import UNetSep2
+
 
 #classes = utils.Classes('/home/fast_seg/coco/classes.txt')
 #NUM_CLASSES = len(classes.classes)
@@ -132,15 +135,16 @@ def get_class_metrics(preds, y, class_id):
     fn = int(torch.sum(y)) - tp
     return tp, fp, fn
 
-def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs):
+def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs, do_save=True):
 
 
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
     print("num epochs to be trained", epochs)
     
     current_path = '/home/fast_seg/FastSeg/model_checkpoints/'
-    save_path = current_path + 'dummy' + '.pt'  #@Greg Add path here" '.pt'
-    torch.save(model, save_path)
+    if do_save:
+        save_path = current_path + 'dummy22' + '.pt'  #@Greg Add path here" '.pt'
+        torch.save(model, save_path)
 
     for e in range(epochs):
 
@@ -174,9 +178,10 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         print("Epoch: {} loss train: {:6.4f} time elapsed: {:6.1f}".format(
                e, epoch_loss_train/(i+1), time.time() - t1))
 
-        save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
-        print('Saving model', save_path)
-        torch.save(model, save_path)
+        if do_save:
+            save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+            print('Saving model', save_path)
+            torch.save(model, save_path)
 
         if e % 1 == 0:
             print("Calculating validation loss:")
@@ -209,31 +214,43 @@ def main(args):
     torch.cuda.manual_seed_all(seed)
 
     dset_train = coco_custom_Dataset(train_dir, length=args.n)
-    dset_val = coco_custom_Dataset(val_dir, length=args.nval)
+    #dset_val = coco_custom_Dataset(val_dir, length=args.nval)
+    dset_val = coco_custom_Dataset(train_dir, length=args.nval)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=0)
 
     model_id = time.time()
 
-    model = UNet.UNet(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+    if args.m == 0:
+         model = UNet.UNet(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+    elif args.m == 1:
+        model = U_Net_separable.U_net_separable(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+    elif args.m == 2:
+        model = UNetSep2.UNetSep2(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
     model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
-    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=2000)
+    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=args.e, do_save=args.s)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--lr', type=float, default = 1e-4,
                     help='learning rate')
-    parser.add_argument('-f', type=int, default=16,
+    parser.add_argument('-f', type=int, default=32,
                     help='number of filters in first convolution')
-    parser.add_argument('-w', type=float, nargs='+', default=[1,8,3],
+    parser.add_argument('-w', type=float, nargs='+', default=[1.7,5.8,4.0],
                     help='class weights for loss function')
     parser.add_argument('-n', type=int, default=None,
                     help='# of training examples to use')
     parser.add_argument('--nval', type=int, default=None,
                     help='# of validation examples to use')
+    parser.add_argument('-e', type=int, default=20,
+                    help='# of epochs')
+    parser.add_argument('-m', type=int, default=1,
+                    help='which model to use. 0 = regular, 1 = separable, 2 = sep2')
+    parser.add_argument('-s', type=int, default=1,
+                    help='0 = do not save, 1 = do save model checkpoints')
 
     args = parser.parse_args()
     assert(len(args.w) == NUM_CLASSES)
