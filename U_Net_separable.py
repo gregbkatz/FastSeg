@@ -27,69 +27,69 @@ class U_net_separable(nn.Module):
         self.bias = True
 
         self.conv1a_1 = nn.Conv2d(in_channel, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv1a = nn.Conv2d(1, start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv1a = nn.Conv2d(1, start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv1b_1 = nn.Conv2d(start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv1b = nn.Conv2d(1, start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv1b = nn.Conv2d(1, start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv1c_1 = nn.Conv2d(2 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv1c = nn.Conv2d(1, start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv1c = nn.Conv2d(1, start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv1d_1 = nn.Conv2d(start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv1d = nn.Conv2d(1, start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv1d = nn.Conv2d(1, start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         ####
 
         self.conv2a_1 = nn.Conv2d(start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv2a = nn.Conv2d(1, 2 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv2a = nn.Conv2d(1, 2 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv2b_1 = nn.Conv2d(2 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv2b = nn.Conv2d(1, 2 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv2b = nn.Conv2d(1, 2 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv2c_1 = nn.Conv2d(4 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv2c = nn.Conv2d(1, 2 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv2c = nn.Conv2d(1, 2 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv2d_1 = nn.Conv2d(2 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv2d = nn.Conv2d(1, 2 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv2d = nn.Conv2d(1, 2 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         ###
 
         self.conv3a_1 = nn.Conv2d(2 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv3a = nn.Conv2d(1, 4 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv3a = nn.Conv2d(1, 4 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv3b_1 = nn.Conv2d(4 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv3b = nn.Conv2d(1, 4 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv3b = nn.Conv2d(1, 4 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv3c_1 = nn.Conv2d(8 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv3c = nn.Conv2d(1, 4 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv3c = nn.Conv2d(1, 4 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv3d_1 = nn.Conv2d(4 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv3d = nn.Conv2d(1, 4 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv3d = nn.Conv2d(1, 4 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         ###
 
 
         self.conv4a_1 = nn.Conv2d(4 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv4a = nn.Conv2d(1, 8 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv4a = nn.Conv2d(1, 8 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv4b_1 = nn.Conv2d(8 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv4b = nn.Conv2d(1, 8 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv4b = nn.Conv2d(1, 8 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
 
         self.conv4c_1 = nn.Conv2d(16 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv4c = nn.Conv2d(16 * start_filters, 8 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv4c = nn.Conv2d(1, 8 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
 
         self.conv4d_1 = nn.Conv2d(8 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv4d = nn.Conv2d(1, 8 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv4d = nn.Conv2d(1, 8 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         ###
 
         self.conv5a_1 = nn.Conv2d(8 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv5a = nn.Conv2d(1, 16 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv5a = nn.Conv2d(1, 16 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv5b_1 = nn.Conv2d(16 * start_filters, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        self.conv5b = nn.Conv2d(1, 16 * start_filters, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        self.conv5b = nn.Conv2d(1, 16 * start_filters, kernel_size=1, stride=1, padding=0, bias=self.bias)
 
         self.conv6 = nn.Conv2d(start_filters, num_classes, kernel_size=1, stride=1, padding=0)
 
@@ -178,7 +178,7 @@ class U_net_separable(nn.Module):
         a1a = self.relu(self.conv1a(a1a_1))
 
         a1b_1 = self.relu(self.conv1b_1(a1a))
-        a1b = self.relu(self.conv1b(a1a_1))
+        a1b = self.relu(self.conv1b(a1b_1))
 
         p1 = self.pool(a1b)
         p1 = self.bns(p1)
@@ -227,12 +227,13 @@ class U_net_separable(nn.Module):
         # deconv layers
         conc_4 = torch.cat((a4b, self.deconv5(a5b)), 1)
         a4c_1 = self.relu(self.conv4c_1(conc_4))
+        #pdb.set_trace()
         a4c = self.relu(self.conv4c(a4c_1))
         a4c = self.dropout(a4c)
         a4d_1 = self.relu(self.conv4d_1(a4c))
         a4d = self.relu(self.conv4d(a4d_1))
 
-        conc_3 = torch.cat((a3b, self.deconv4(a4b)), 1)
+        conc_3 = torch.cat((a3b, self.deconv4(a4d)), 1)
 
         a3c_1 = self.relu(self.conv3c_1(conc_3))
         a3c = self.relu(self.conv3c(a3c_1))
@@ -257,6 +258,6 @@ class U_net_separable(nn.Module):
         a1d = self.relu(self.conv1d(a1d_1))
 
         # Convolves to (N,num_classes,H,W)
-        scores = self.relu(self.conv6(a1d))
+        scores = self.conv6(a1d)
 
         return scores

@@ -214,8 +214,8 @@ def main(args):
     torch.cuda.manual_seed_all(seed)
 
     dset_train = coco_custom_Dataset(train_dir, length=args.n)
-    #dset_val = coco_custom_Dataset(val_dir, length=args.nval)
-    dset_val = coco_custom_Dataset(train_dir, length=args.nval)
+    dset_val = coco_custom_Dataset(val_dir, length=args.nval)
+    #dset_val = coco_custom_Dataset(train_dir, length=args.nval)
 
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=0)

@@ -187,7 +187,7 @@ class UNetSep2(nn.Module):
         a4c = self.dropout2(a4c)
         a4d = self.relu(self.conv4d(a4c))
 
-        conc_3 = torch.cat((a3b, self.deconv4(a4b)), 1)
+        conc_3 = torch.cat((a3b, self.deconv4(a4d)), 1)
         a3c = self.relu(self.conv3c(conc_3))
         a3d = self.relu(self.conv3d(a3c))
 
