@@ -141,67 +141,62 @@ class UNetSep2(nn.Module):
 
         # First layer
         a1a_1 = self.relu(self.conv1a_1(x))
-        a1a = self.relu(self.conv1a_2(a1a_1))
+        a1a = self.relu(self.bns(self.conv1a_2(a1a_1)))
         a1b_1 = self.relu(self.conv1b_1(a1a))
-        a1b = self.relu(self.conv1b_2(a1b_1))
-
+        a1b = self.relu(self.bns(self.conv1b_2(a1b_1)))
         p1 = self.pool(a1b)
-        p1 = self.bns(p1)
 
         # Second layer
         a2a_1 = self.relu(self.conv2a_1(p1))
-        a2a = self.relu(self.conv2a_2(a2a_1))
+        a2a = self.relu(self.bn2s(self.conv2a_2(a2a_1)))
         a2b_1 = self.relu(self.conv2b_1(a2a))
-        a2b = self.relu(self.conv2b_2(a2b_1))
+        a2b = self.relu(self.bn2s(self.conv2b_2(a2b_1)))
         p2 = self.pool(a2b)
-        p2 = self.bn2s(p2)
 
         # Third layer
         a3a_1 = self.relu(self.conv3a_1(p2))
-        a3a = self.relu(self.conv3a_2(a3a_1))
+        a3a = self.relu(self.bn4s(self.conv3a_2(a3a_1)))
         a3a = self.dropout(a3a)
         a3b_1 = self.relu(self.conv3b_1(a3a))
-        a3b = self.relu(self.conv3b_2(a3b_1))
+        a3b = self.relu(self.bn4s(self.conv3b_2(a3b_1)))
         p3 = self.pool(a3b)
-        p3 = self.bn4s(p3)
 
         # Fourth layer
         a4a_1 = self.relu(self.conv4a_1(p3))
-        a4a = self.relu(self.conv4a_2(a4a_1))
+        a4a = self.relu(self.bn8s(self.conv4a_2(a4a_1)))
         a4a = self.dropout2(a4a)
         a4b_1 = self.relu(self.conv4b_1(a4a))
-        a4b = self.relu(self.conv4b_2(a4b_1))
+        a4b = self.relu(self.bn8s(self.conv4b_2(a4b_1)))
         p4 = self.pool(a4b)
-        p4 = self.bn8s(p4)
 
         # Fifth layer
         a5a_1 = self.relu(self.conv5a_1(p4))
-        a5a = self.relu(self.conv5a_2(a5a_1))
+        a5a = self.relu(self.bn16s(self.conv5a_2(a5a_1)))
         a5a = self.dropout2(a5a)
         a5b_1 = self.relu(self.conv5b_1(a5a))
-        a5b = self.relu(self.conv5b_2(a5b_1))
+        a5b = self.relu(self.bn16s(self.conv5b_2(a5b_1)))
 
         # deconv layers
         conc_4 = torch.cat((a4b, self.deconv5(a5b)), 1)
-        a4c = self.relu(self.conv4c(conc_4))
+        a4c = self.relu(self.bn8s(self.conv4c(conc_4)))
         a4c = self.dropout2(a4c)
-        a4d = self.relu(self.conv4d(a4c))
+        a4d = self.relu(self.bn8s(self.conv4d(a4c)))
 
         conc_3 = torch.cat((a3b, self.deconv4(a4d)), 1)
-        a3c = self.relu(self.conv3c(conc_3))
-        a3d = self.relu(self.conv3d(a3c))
+        a3c = self.relu(self.bn4s(self.conv3c(conc_3)))
+        a3d = self.relu(self.bn4s(self.conv3d(a3c)))
 
         conc_2 = torch.cat((a2b, self.deconv3(a3d)), 1)
-        a2c = self.relu(self.conv2c(conc_2))
-        a2d = self.relu(self.conv2d(a2c))
+        a2c = self.relu(self.bn2s(self.conv2c(conc_2)))
+        a2d = self.relu(self.bn2s(self.conv2d(a2c)))
 
         conc_1 = torch.cat((a1b, self.deconv2(a2d)), 1)
         #a1c_1 = self.relu(self.conv1c_1(conc_1))
         #a1c = self.relu(self.conv1c_2(a1c_1))
-        a1c = self.relu(self.conv1c(conc_1))
+        a1c = self.relu(self.bns(self.conv1c(conc_1)))
         #a1d_1 = self.relu(self.conv1d_1(a1c))
         #a1d = self.relu(self.conv1d_2(a1d_1))
-        a1d = self.relu(self.conv1d(a1c))
+        a1d = self.relu(self.bns(self.conv1d(a1c)))
 
         # Convolves to (N,num_classes,H,W)
         scores = self.relu(self.conv6(a1d))
