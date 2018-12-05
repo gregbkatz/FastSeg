@@ -66,7 +66,10 @@ def main(args):
     dset = train_model.coco_custom_Dataset(val_dir, length=args.n)
 
     print("Loading model")
-    model = torch.load(args.model_checkpoint)
+    if args.d == "cpu":
+        model = torch.load(args.model_checkpoint, map_location=lambda storage, loc: storage)
+    else: 
+        model = torch.load(args.model_checkpoint)
 
     print("Evaluating inference time")
     avg_time = evaluate(model, dset, device)
@@ -80,6 +83,6 @@ if __name__ == '__main__':
     parser.add_argument('-n', type=int, default = 100,
                         help='# of images to evaluate')
     parser.add_argument('-d', type=str, default = "cuda:0",
-                        help='device, shoudl be cuda:0 or cpu')
+                        help='device, should be cuda:0 or cpu')
     args = parser.parse_args()
     main(args)
