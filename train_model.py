@@ -155,6 +155,10 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
         print("")
         print("Training epoch", e)
 
+        tp = np.zeros((NUM_CLASSES), dtype=int)
+        fp = np.zeros((NUM_CLASSES), dtype=int)
+        fn = np.zeros((NUM_CLASSES), dtype=int) 
+        total = 0
         for i, batch_sampled in enumerate(train_loader):
 
             x = batch_sampled[0]
@@ -167,6 +171,12 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             loss = torch.nn.functional.cross_entropy(scores, y, weight=loss_weights)
             epoch_loss_train += float(loss)
 
+            total += y.shape[0] * y.shape[1] * y.shape[2]
+            b_tp, b_fp, b_fn = get_metrics(scores, y)
+            tp += b_tp
+            fp += b_fp
+            fn += b_fn
+
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
@@ -174,6 +184,13 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             if i % 50 == 0:
                 print('Iteration: {:6} loss train: {:6.4f} time elapsed: {:6.1f}'.format(
                       i, epoch_loss_train/(i+1), time.time() - t1))
+
+        train_iou = tp / (fp + fn + tp + EPS)
+        train_precision = tp / (tp + fp + EPS) 
+        train_recall = tp / (tp + fn + EPS)
+        tn = total - tp - fp - fn
+        train_acc = (tp + tn) / total
+        train_total_acc = tp.sum() / total 
 
         print()
         print("Epoch: {} loss train: {:6.4f} time elapsed: {:6.1f}".format(
@@ -185,6 +202,12 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             torch.save(model, save_path)
 
         if e % 1 == 0:
+            print("Training ground truth # examples")
+            print(tp + fn)
+            print("Training prediction # examples")
+            print(tp + fp)
+            print("train accuracy results: mIoU: {:6.4f} mPrecision: {:6.4f} mRecall: {:6.4f} mAcc: {:6.4f} acc: {:6.4f}".format(
+                   train_iou.mean(), train_precision.mean(), train_recall.mean(), train_acc.mean(), train_total_acc))
             print("Calculating validation loss:")
             val_loss, iou, precision, recall, acc, total_acc = get_val_loss(model, loss_weights, val_loader)
             print("val loss: {:6.4f} mIoU: {:6.4f} mPrecision: {:6.4f} mRecall: {:6.4f} mAcc: {:6.4f} acc: {:6.4f}".format(
