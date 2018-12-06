@@ -32,6 +32,10 @@ class UNetSep3(nn.Module):
         width = nn.Conv2d(in_f, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
         depth = nn.Conv2d(1, out_f, kernel_size=1, stride=1, padding=0, bias=self.bias)
        
+        nn.init.kaiming_normal_(reg.weight, nonlinearity='relu')
+        nn.init.kaiming_normal_(width.weight, nonlinearity='relu')
+        nn.init.kaiming_normal_(depth.weight, nonlinearity='relu')
+ 
         reg = nn.Sequential(reg, self.module_list.relu) 
         sep = nn.Sequential(width, self.module_list.relu, depth, self.module_list.relu)
         self.module_list.add_module('conv' + layer, reg)
@@ -42,7 +46,9 @@ class UNetSep3(nn.Module):
     def deconv(self, in_f, out_f, layer):
         deconv = nn.ConvTranspose2d(in_f, out_f, 2, stride=2, padding=0,
                                     bias=self.bias)
-        #self.module_list.add_module('deconv' + layer, deconv)
+
+        nn.init.kaiming_normal_(deconv.weight, nonlinearity='relu')
+
         self.deconv_layers.append(deconv)
         return deconv
 
@@ -61,13 +67,11 @@ class UNetSep3(nn.Module):
         else: 
             encode = nn.Sequential(self.module_list.pool, sep_a, sep_b) 
 
-        decode = nn.Sequential(sep_c, sep_d)
+        decode = nn.Sequential(reg_c, reg_d)
  
         if i > 0:
             deconv = self.deconv(2**(i)*start_filters, 2**(i-1)*start_filters, str(i+1))
 
-        #self.module_list.add_module('encode' + str(i+1), encode)  
-        #self.module_list.add_module('decode' + str(i+1), decode)  
         self.encode_layers.append(encode)
         self.decode_layers.append(decode)
 
@@ -89,7 +93,9 @@ class UNetSep3(nn.Module):
         for i in range(nlayers):
             self.conv_layer(i, in_channel, start_filters)
         
-        self.module_list.add_module('conv_out', nn.Conv2d(start_filters, num_classes, kernel_size=1, stride=1, padding=0))
+        conv_out = nn.Conv2d(start_filters, num_classes, kernel_size=1, stride=1, padding=0)
+        nn.init.kaiming_normal_(conv_out.weight, nonlinearity='relu')
+        self.module_list.add_module('conv_out', conv_out)
 
         #self.apply(init_weights)
 
