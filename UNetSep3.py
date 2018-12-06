@@ -55,7 +55,7 @@ class UNetSep3(nn.Module):
         return deconv
 
     # Creates encode, deconv, and decode modules for a layer
-    def add_layer(self, i, in_channel, start_filters):
+    def add_layer(self, i, in_channel, start_filters, do_dropout):
         # a and b are for encoding
         if i == 0:
             reg_a, sep_a = self.sep_conv(in_channel, start_filters)
@@ -64,12 +64,16 @@ class UNetSep3(nn.Module):
 
         reg_b, sep_b = self.sep_conv(2**i*start_filters, 2**i*start_filters) 
 
+        # Add dropout between a and b if requested 
+        if do_dropout:
+            encode = nn.Sequential(sep_a, self.module_list.dropout, sep_b)
+        else:
+            encode = nn.Sequential(sep_a, sep_b)
+    
         # Including max pooling at beginning of encoding layers with exception
         # of the first layer
-        if i == 0:
-            encode = nn.Sequential(sep_a, sep_b)
-        else: 
-            encode = nn.Sequential(self.module_list.pool, sep_a, sep_b) 
+        if i > 0:
+            encode = nn.Sequential(self.module_list.pool, encode)
 
         # c and de are for decoding
         reg_c, sep_c = self.sep_conv(2**(i+1)*start_filters, 2**i*start_filters) 
@@ -83,9 +87,7 @@ class UNetSep3(nn.Module):
 
         return encode, deconv, decode
 
-
-
-    def __init__(self, in_channel, num_classes=3, start_filters=64, num_batchnorm_layers=0, dropout=0.1):
+    def __init__(self, in_channel, num_classes=3, start_filters=64, dropout=0.1, nlayers=5):
 
         super().__init__()
         self.bias = True
@@ -93,14 +95,15 @@ class UNetSep3(nn.Module):
         self.module_list = nn.ModuleList()
         self.module_list.add_module('relu', nn.ReLU(inplace=True))
         self.module_list.add_module('pool', nn.MaxPool2d(2, stride=2))
+        self.module_list.add_module('dropout', nn.Dropout(p=dropout))
 
         self.encode_layers = nn.ModuleList()
         self.decode_layers = nn.ModuleList()
         self.deconv_layers = nn.ModuleList()
 
-        nlayers = 5
         for i in range(nlayers):
-            encode, deconv, decode, = self.add_layer(i, in_channel, start_filters)
+            do_dropout = i > nlayers-3
+            encode, deconv, decode, = self.add_layer(i, in_channel, start_filters, do_dropout)
             self.encode_layers.append(encode)
             self.decode_layers.append(decode)
             if deconv: 

@@ -230,7 +230,7 @@ def main(args):
     elif args.m == 2:
         model = UNetSep2.UNetSep2(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
     elif args.m == 3:
-        model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+        model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=f, dropout=dp, nlayers=args.nl)
     model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
@@ -254,6 +254,8 @@ if __name__ == '__main__':
                     help='which model to use. 0 = regular, 1 = separable, 2 = sep2, 3 = sep3')
     parser.add_argument('-s', type=int, default=1,
                     help='0 = do not save, 1 = do save model checkpoints')
+    parser.add_argument('--nl', type=int, default=5,
+                    help='# of layers of UNet for sep3 model')
 
     args = parser.parse_args()
     assert(len(args.w) == NUM_CLASSES)
