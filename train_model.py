@@ -23,6 +23,7 @@ import argparse
 import pdb
 import U_Net_separable
 import UNetSep2
+import UNetSep3
 
 
 #classes = utils.Classes('/home/fast_seg/coco/classes.txt')
@@ -228,6 +229,8 @@ def main(args):
         model = U_Net_separable.U_net_separable(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
     elif args.m == 2:
         model = UNetSep2.UNetSep2(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+    elif args.m == 3:
+        model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
     model.to(device)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
@@ -248,7 +251,7 @@ if __name__ == '__main__':
     parser.add_argument('-e', type=int, default=20,
                     help='# of epochs')
     parser.add_argument('-m', type=int, default=1,
-                    help='which model to use. 0 = regular, 1 = separable, 2 = sep2')
+                    help='which model to use. 0 = regular, 1 = separable, 2 = sep2, 3 = sep3')
     parser.add_argument('-s', type=int, default=1,
                     help='0 = do not save, 1 = do save model checkpoints')
 
