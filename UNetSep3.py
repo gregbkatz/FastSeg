@@ -34,8 +34,8 @@ class UNetSep3(nn.Module):
     # sep = relu(Conv2d(relue(Conv2d(x))))
     def sep_conv(self, in_f, out_f):
         reg = nn.Conv2d(in_f, out_f, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        width = nn.Conv2d(in_f, 1, kernel_size=3, stride=1, padding=1, bias=self.bias)
-        depth = nn.Conv2d(1, out_f, kernel_size=1, stride=1, padding=0, bias=self.bias)
+        width = nn.Conv2d(in_f, in_f, kernel_size=3, stride=1, padding=1, bias=self.bias, groups=in_f)
+        depth = nn.Conv2d(in_f, out_f, kernel_size=1, stride=1, padding=0, bias=self.bias)
        
         nn.init.kaiming_normal_(reg.weight, nonlinearity='relu')
         nn.init.kaiming_normal_(width.weight, nonlinearity='relu')
@@ -64,21 +64,27 @@ class UNetSep3(nn.Module):
 
         reg_b, sep_b = self.sep_conv(2**i*start_filters, 2**i*start_filters) 
 
+        # c and de are for decoding
+        reg_c, sep_c = self.sep_conv(2**(i+1)*start_filters, 2**i*start_filters) 
+        reg_d, sep_d = self.sep_conv(2**i*start_filters, 2**i*start_filters) 
+   
+        if self.do_sep:
+            conva, convb, convc, convd = sep_a, sep_b, sep_c, sep_d
+        else:
+            conva, convb, convc, convd = reg_a, reg_b, reg_c, reg_d
+
         # Add dropout between a and b if requested 
         if do_dropout:
-            encode = nn.Sequential(sep_a, self.module_list.dropout, sep_b)
+            encode = nn.Sequential(conva, self.module_list.dropout, convb)
         else:
-            encode = nn.Sequential(sep_a, sep_b)
+            encode = nn.Sequential(conva, convb)
     
         # Including max pooling at beginning of encoding layers with exception
         # of the first layer
         if i > 0:
             encode = nn.Sequential(self.module_list.pool, encode)
 
-        # c and de are for decoding
-        reg_c, sep_c = self.sep_conv(2**(i+1)*start_filters, 2**i*start_filters) 
-        reg_d, sep_d = self.sep_conv(2**i*start_filters, 2**i*start_filters) 
-        decode = nn.Sequential(reg_c, reg_d)
+        decode = nn.Sequential(convc, convd)
  
         # There are one fewer deconv layers so skip it on the first layer
         deconv = None
@@ -87,10 +93,11 @@ class UNetSep3(nn.Module):
 
         return encode, deconv, decode
 
-    def __init__(self, in_channel, num_classes=3, start_filters=64, dropout=0.1, nlayers=5):
+    def __init__(self, in_channel, num_classes=3, start_filters=64, dropout=0.1, nlayers=5, do_sep=1):
 
         super().__init__()
         self.bias = True
+        self.do_sep = do_sep
 
         self.module_list = nn.ModuleList()
         self.module_list.add_module('relu', nn.ReLU(inplace=True))
