@@ -140,14 +140,14 @@ def get_class_metrics(preds, y, class_id):
     fn = int(torch.sum(y)) - tp
     return tp, fp, fn
 
-def train_model(model, optimizer, train_loader, loss_weights, val_loader, save_path, epochs, do_save=True):
+def train_model(model, optimizer, train_loader, loss_weights, val_loader, base_save_path, epochs, do_save=True):
 
 
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
     print("num epochs to be trained", epochs)
     
     if do_save:
-        torch.save(model, save_path + '/dummy.pt')
+        torch.save(model, base_save_path + '/dummy.pt')
 
     for e in range(epochs):
 
@@ -199,7 +199,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, save_p
                e, epoch_loss_train/(i+1), time.time() - t1))
 
         if do_save:
-            save_path = save_path + "/checkpoint-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+            save_path = base_save_path + "/checkpoint-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
             print('Saving model', save_path)
             torch.save(model, save_path)
 

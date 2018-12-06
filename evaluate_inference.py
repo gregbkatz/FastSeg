@@ -54,6 +54,7 @@ def evaluate(model, dset, device):
     return evaluation_time / (len(dset) - 1)
 
 def main(args):
+
     seed = 1
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
@@ -70,6 +71,8 @@ def main(args):
         model = torch.load(args.model_checkpoint, map_location=lambda storage, loc: storage)
     else: 
         model = torch.load(args.model_checkpoint)
+
+    print("Model parameter count: ", train_model.count_parameters(model))
 
     print("Evaluating inference time")
     avg_time = evaluate(model, dset, device)
