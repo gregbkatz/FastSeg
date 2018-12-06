@@ -25,6 +25,8 @@ import U_Net_separable
 import UNetSep2
 import UNetSep3
 
+import sys
+
 
 #classes = utils.Classes('/home/fast_seg/coco/classes.txt')
 #NUM_CLASSES = len(classes.classes)
@@ -38,6 +40,8 @@ np.set_printoptions(threshold=np.nan, suppress=True, precision=4)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Using device", device)
 
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 def get_filenames(folder_path, pattern):
     return sorted(glob.glob(os.path.join(folder_path, pattern)))
@@ -136,16 +140,14 @@ def get_class_metrics(preds, y, class_id):
     fn = int(torch.sum(y)) - tp
     return tp, fp, fn
 
-def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_id, epochs, do_save=True):
+def train_model(model, optimizer, train_loader, loss_weights, val_loader, save_path, epochs, do_save=True):
 
 
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer)
     print("num epochs to be trained", epochs)
     
-    current_path = '/home/fast_seg/FastSeg/model_checkpoints/'
     if do_save:
-        save_path = current_path + 'dummy22' + '.pt'  #@Greg Add path here" '.pt'
-        torch.save(model, save_path)
+        torch.save(model, save_path + '/dummy.pt')
 
     for e in range(epochs):
 
@@ -197,7 +199,7 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
                e, epoch_loss_train/(i+1), time.time() - t1))
 
         if do_save:
-            save_path = current_path + str(model_id) + "-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
+            save_path = save_path + "/checkpoint-" + str(e) + '.pt'  #@Greg Add path here" '.pt'
             print('Saving model', save_path)
             torch.save(model, save_path)
 
@@ -216,11 +218,20 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, model_
             print("Precision for the classes are: \n", precision)
             print("Recall for the classes are: \n", recall)
             print("Accuracies for the classes are: \n", acc)
-            scheduler.step(val_loss)
+            #scheduler.step(val_loss)
 
         print()
 
 def main(args):
+    model_id = str(time.time())
+    save_path = '/home/fast_seg/FastSeg/model_checkpoints/' + model_id
+    os.mkdir(save_path)
+    print("Saving all output including console print outs to ", save_path)
+
+    if args.stdout:
+        sys.stdout = open(save_path + "/console.txt", "w")
+    print(args)
+
     minibatch_size = 64
     num_classes = NUM_CLASSES
 
@@ -231,7 +242,6 @@ def main(args):
     learning_rate = args.lr
     bn = 0
     dp = 0.1
-    f = args.f
     wd = 0
 
     torch.manual_seed(seed)
@@ -244,20 +254,22 @@ def main(args):
     train_loader = DataLoader(dset_train, batch_size=minibatch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(dset_val, batch_size=minibatch_size, shuffle=False, num_workers=0)
 
-    model_id = time.time()
+    
 
     if args.m == 0:
-         model = UNet.UNet(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+         model = UNet.UNet(in_channel=3, num_classes=num_classes, start_filters=args.f, num_batchnorm_layers=bn, dropout=dp)
     elif args.m == 1:
-        model = U_Net_separable.U_net_separable(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+        model = U_Net_separable.U_net_separable(in_channel=3, num_classes=num_classes, start_filters=args.f, num_batchnorm_layers=bn, dropout=dp)
     elif args.m == 2:
-        model = UNetSep2.UNetSep2(in_channel=3, num_classes=num_classes, start_filters=f, num_batchnorm_layers=bn, dropout=dp)
+        model = UNetSep2.UNetSep2(in_channel=3, num_classes=num_classes, start_filters=args.f, num_batchnorm_layers=bn, dropout=dp)
     elif args.m == 3:
-        model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=f, dropout=dp, nlayers=args.nl)
+        model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=args.f, dropout=dp, nlayers=args.nl, do_sep=args.sep)
     model.to(device)
 
+    print("Model parameters: ", count_parameters(model))
+
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
-    train_model(model, optimizer, train_loader, class_weights, val_loader, model_id, epochs=args.e, do_save=args.s)
+    train_model(model, optimizer, train_loader, class_weights, val_loader, save_path, epochs=args.e, do_save=args.s)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -273,12 +285,16 @@ if __name__ == '__main__':
                     help='# of validation examples to use')
     parser.add_argument('-e', type=int, default=20,
                     help='# of epochs')
-    parser.add_argument('-m', type=int, default=1,
+    parser.add_argument('-m', type=int, default=3,
                     help='which model to use. 0 = regular, 1 = separable, 2 = sep2, 3 = sep3')
     parser.add_argument('-s', type=int, default=1,
                     help='0 = do not save, 1 = do save model checkpoints')
     parser.add_argument('--nl', type=int, default=5,
                     help='# of layers of UNet for sep3 model')
+    parser.add_argument('--sep', type=int, default=1,
+                    help='boolean to use separable convolutions')
+    parser.add_argument('--stdout', type=int, default=0,
+                    help='boolean to rerout stdout to file')
 
     args = parser.parse_args()
     assert(len(args.w) == NUM_CLASSES)
