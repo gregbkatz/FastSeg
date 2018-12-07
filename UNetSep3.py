@@ -176,13 +176,13 @@ class UNetSep3(nn.Module):
                 ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*inp[2]*inp[3]
             else:
                 ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*x.out_channels*inp[2]*inp[3]
-            print("Conv2d {}x{}x{} -> {}x{} -> {}x{}x{}   params (thousands): {} computations (millions): {}".format(
+            print("Conv2d {}x{}x{} -> {}x{} -> {}x{}x{}   params (thousands): {:6.1f} computations (millions): {:6.1f}".format(
                    inp[2], inp[3], x.in_channels, x.kernel_size[0], x.kernel_size[1], 
                    inp[2], inp[3], x.out_channels,
                    nparams/1000, ncomputations/1e6))
         elif x._get_name() == "ConvTranspose2d":
             ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*x.out_channels*inp[2]*inp[3]
-            print("ConvTranpose2d {}x{}x{} -> {}x{} -> {}x{}x{},  params (thousands): {} computations (millions): {}".format(
+            print("ConvTranpose2d {}x{}x{} -> {}x{} -> {}x{}x{},  params (thousands): {:6.1f} computations (millions): {:6.1f}".format(
                   inp[2], inp[3], x.in_channels, x.kernel_size[0], x.kernel_size[1],
                   inp[2]*2, inp[3]*2, x.out_channels,
                   nparams/1000, ncomputations/1e6))
