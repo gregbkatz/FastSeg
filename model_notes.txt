@@ -1,0 +1,3 @@
+1544069694.0315592 Namespace(e=50, f=32, lr=0.0001, m=3, n=None, nl=5, nval=None, s=1, sep=1, stdout=1, w=[1.7, 5.8, 4.0])
+train accuracy results: mIoU: 0.5356 mPrecision: 0.6565 mRecall: 0.7434 mAcc: 0.8421 acc: 0.7631
+val loss: 0.7044 mIoU: 0.4833 mPrecision: 0.6139 mRecall: 0.6689 mAcc: 0.8259 acc: 0.7388

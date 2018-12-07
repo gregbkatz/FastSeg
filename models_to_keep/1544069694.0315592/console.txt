@@ -1,0 +1,1959 @@
+Namespace(e=50, f=32, lr=0.0001, m=3, n=None, nl=5, nval=None, s=1, sep=1, stdout=1, w=[1.7, 5.8, 4.0])
+Found 118287 files in /home/fast_seg/coco_pt/train/
+Found 5000 files in /home/fast_seg/coco_pt/val/
+Model parameters:  2316289
+num epochs to be trained 50
+
+Training epoch 0
+Iteration:      0 loss train: 1.0954 time elapsed:    0.1
+Iteration:     50 loss train: 1.0837 time elapsed:    8.2
+Iteration:    100 loss train: 1.0576 time elapsed:   16.3
+Iteration:    150 loss train: 1.0411 time elapsed:   24.4
+Iteration:    200 loss train: 1.0285 time elapsed:   32.5
+Iteration:    250 loss train: 1.0186 time elapsed:   40.7
+Iteration:    300 loss train: 1.0083 time elapsed:   48.8
+Iteration:    350 loss train: 0.9990 time elapsed:   56.9
+Iteration:    400 loss train: 0.9904 time elapsed:   65.0
+Iteration:    450 loss train: 0.9831 time elapsed:   73.1
+Iteration:    500 loss train: 0.9766 time elapsed:   81.2
+Iteration:    550 loss train: 0.9704 time elapsed:   89.3
+Iteration:    600 loss train: 0.9640 time elapsed:   97.4
+Iteration:    650 loss train: 0.9592 time elapsed:  105.6
+Iteration:    700 loss train: 0.9547 time elapsed:  113.7
+Iteration:    750 loss train: 0.9510 time elapsed:  121.8
+Iteration:    800 loss train: 0.9477 time elapsed:  129.9
+Iteration:    850 loss train: 0.9446 time elapsed:  138.0
+Iteration:    900 loss train: 0.9420 time elapsed:  146.1
+Iteration:    950 loss train: 0.9396 time elapsed:  154.3
+Iteration:   1000 loss train: 0.9375 time elapsed:  162.4
+Iteration:   1050 loss train: 0.9348 time elapsed:  170.5
+Iteration:   1100 loss train: 0.9321 time elapsed:  178.6
+Iteration:   1150 loss train: 0.9297 time elapsed:  186.7
+Iteration:   1200 loss train: 0.9277 time elapsed:  194.9
+Iteration:   1250 loss train: 0.9258 time elapsed:  203.0
+Iteration:   1300 loss train: 0.9240 time elapsed:  211.1
+Iteration:   1350 loss train: 0.9224 time elapsed:  219.2
+Iteration:   1400 loss train: 0.9204 time elapsed:  227.3
+Iteration:   1450 loss train: 0.9190 time elapsed:  235.5
+Iteration:   1500 loss train: 0.9178 time elapsed:  243.6
+Iteration:   1550 loss train: 0.9164 time elapsed:  251.7
+Iteration:   1600 loss train: 0.9146 time elapsed:  259.8
+Iteration:   1650 loss train: 0.9134 time elapsed:  268.0
+Iteration:   1700 loss train: 0.9119 time elapsed:  276.1
+Iteration:   1750 loss train: 0.9110 time elapsed:  284.2
+Iteration:   1800 loss train: 0.9096 time elapsed:  292.3
+
+Epoch: 0 loss train: 0.9087 time elapsed:  300.1
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-0.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[304433703  20407079 159662770]
+train accuracy results: mIoU: 0.3381 mPrecision: 0.4856 mRecall: 0.4756 mAcc: 0.7658 acc: 0.6487
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[13290756  2620177  4569067]
+val loss: 0.8740 mIoU: 0.3739 mPrecision: 0.5021 mRecall: 0.5293 mAcc: 0.7776 acc: 0.6664
+IoU for the classes are: 
+ [0.6734 0.1913 0.2569]
+Precision for the classes are: 
+ [0.8366 0.2719 0.3978]
+Recall for the classes are: 
+ [0.7754 0.3921 0.4204]
+Accuracies for the classes are: 
+ [0.7367 0.8529 0.7433]
+
+
+Training epoch 1
+Iteration:      0 loss train: 0.8449 time elapsed:    0.1
+Iteration:     50 loss train: 0.8685 time elapsed:    8.2
+Iteration:    100 loss train: 0.8697 time elapsed:   16.3
+Iteration:    150 loss train: 0.8681 time elapsed:   24.5
+Iteration:    200 loss train: 0.8644 time elapsed:   32.6
+Iteration:    250 loss train: 0.8630 time elapsed:   40.7
+Iteration:    300 loss train: 0.8624 time elapsed:   48.8
+Iteration:    350 loss train: 0.8611 time elapsed:   57.0
+Iteration:    400 loss train: 0.8585 time elapsed:   65.1
+Iteration:    450 loss train: 0.8580 time elapsed:   73.2
+Iteration:    500 loss train: 0.8573 time elapsed:   81.3
+Iteration:    550 loss train: 0.8560 time elapsed:   89.4
+Iteration:    600 loss train: 0.8554 time elapsed:   97.6
+Iteration:    650 loss train: 0.8550 time elapsed:  105.7
+Iteration:    700 loss train: 0.8543 time elapsed:  113.8
+Iteration:    750 loss train: 0.8536 time elapsed:  121.9
+Iteration:    800 loss train: 0.8532 time elapsed:  130.0
+Iteration:    850 loss train: 0.8524 time elapsed:  138.2
+Iteration:    900 loss train: 0.8520 time elapsed:  146.3
+Iteration:    950 loss train: 0.8517 time elapsed:  154.4
+Iteration:   1000 loss train: 0.8512 time elapsed:  162.5
+Iteration:   1050 loss train: 0.8501 time elapsed:  170.7
+Iteration:   1100 loss train: 0.8495 time elapsed:  178.8
+Iteration:   1150 loss train: 0.8500 time elapsed:  186.9
+Iteration:   1200 loss train: 0.8499 time elapsed:  195.1
+Iteration:   1250 loss train: 0.8494 time elapsed:  203.2
+Iteration:   1300 loss train: 0.8489 time elapsed:  211.3
+Iteration:   1350 loss train: 0.8486 time elapsed:  219.4
+Iteration:   1400 loss train: 0.8478 time elapsed:  227.6
+Iteration:   1450 loss train: 0.8476 time elapsed:  235.7
+Iteration:   1500 loss train: 0.8470 time elapsed:  243.8
+Iteration:   1550 loss train: 0.8463 time elapsed:  251.9
+Iteration:   1600 loss train: 0.8463 time elapsed:  260.0
+Iteration:   1650 loss train: 0.8460 time elapsed:  268.2
+Iteration:   1700 loss train: 0.8458 time elapsed:  276.3
+Iteration:   1750 loss train: 0.8453 time elapsed:  284.4
+Iteration:   1800 loss train: 0.8448 time elapsed:  292.5
+
+Epoch: 1 loss train: 0.8442 time elapsed:  300.3
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-1.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[301190741  50640257 132672554]
+train accuracy results: mIoU: 0.3865 mPrecision: 0.5188 mRecall: 0.5472 mAcc: 0.7820 acc: 0.6730
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[14485337  2423087  3571576]
+val loss: 0.8465 mIoU: 0.3993 mPrecision: 0.5372 mRecall: 0.5480 mAcc: 0.8014 acc: 0.7020
+IoU for the classes are: 
+ [0.7057 0.2213 0.271 ]
+Precision for the classes are: 
+ [0.8233 0.317  0.4714]
+Recall for the classes are: 
+ [0.8317 0.4228 0.3893]
+Accuracies for the classes are: 
+ [0.7572 0.868  0.7789]
+
+
+Training epoch 2
+Iteration:      0 loss train: 0.8464 time elapsed:    0.1
+Iteration:     50 loss train: 0.8356 time elapsed:    8.2
+Iteration:    100 loss train: 0.8319 time elapsed:   16.3
+Iteration:    150 loss train: 0.8317 time elapsed:   24.5
+Iteration:    200 loss train: 0.8297 time elapsed:   32.6
+Iteration:    250 loss train: 0.8291 time elapsed:   40.7
+Iteration:    300 loss train: 0.8254 time elapsed:   48.9
+Iteration:    350 loss train: 0.8244 time elapsed:   57.0
+Iteration:    400 loss train: 0.8234 time elapsed:   65.1
+Iteration:    450 loss train: 0.8241 time elapsed:   73.2
+Iteration:    500 loss train: 0.8227 time elapsed:   81.4
+Iteration:    550 loss train: 0.8221 time elapsed:   89.5
+Iteration:    600 loss train: 0.8221 time elapsed:   97.6
+Iteration:    650 loss train: 0.8224 time elapsed:  105.7
+Iteration:    700 loss train: 0.8221 time elapsed:  113.8
+Iteration:    750 loss train: 0.8211 time elapsed:  122.0
+Iteration:    800 loss train: 0.8211 time elapsed:  130.1
+Iteration:    850 loss train: 0.8198 time elapsed:  138.2
+Iteration:    900 loss train: 0.8194 time elapsed:  146.4
+Iteration:    950 loss train: 0.8194 time elapsed:  154.5
+Iteration:   1000 loss train: 0.8189 time elapsed:  162.6
+Iteration:   1050 loss train: 0.8187 time elapsed:  170.7
+Iteration:   1100 loss train: 0.8187 time elapsed:  178.8
+Iteration:   1150 loss train: 0.8184 time elapsed:  187.0
+Iteration:   1200 loss train: 0.8180 time elapsed:  195.1
+Iteration:   1250 loss train: 0.8182 time elapsed:  203.2
+Iteration:   1300 loss train: 0.8182 time elapsed:  211.3
+Iteration:   1350 loss train: 0.8181 time elapsed:  219.4
+Iteration:   1400 loss train: 0.8178 time elapsed:  227.6
+Iteration:   1450 loss train: 0.8177 time elapsed:  235.7
+Iteration:   1500 loss train: 0.8176 time elapsed:  243.8
+Iteration:   1550 loss train: 0.8173 time elapsed:  252.0
+Iteration:   1600 loss train: 0.8171 time elapsed:  260.1
+Iteration:   1650 loss train: 0.8168 time elapsed:  268.2
+Iteration:   1700 loss train: 0.8165 time elapsed:  276.3
+Iteration:   1750 loss train: 0.8163 time elapsed:  284.4
+Iteration:   1800 loss train: 0.8159 time elapsed:  292.6
+
+Epoch: 2 loss train: 0.8157 time elapsed:  300.3
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-2.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[299565580  55601860 129336112]
+train accuracy results: mIoU: 0.4033 mPrecision: 0.5354 mRecall: 0.5736 mAcc: 0.7889 acc: 0.6833
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[11909053  4019125  4551822]
+val loss: 0.8218 mIoU: 0.3953 mPrecision: 0.5309 mRecall: 0.6011 mAcc: 0.7739 acc: 0.6609
+IoU for the classes are: 
+ [0.6575 0.2353 0.2931]
+Precision for the classes are: 
+ [0.8743 0.2766 0.442 ]
+Recall for the classes are: 
+ [0.7261 0.6118 0.4653]
+Accuracies for the classes are: 
+ [0.7351 0.8236 0.7631]
+
+
+Training epoch 3
+Iteration:      0 loss train: 0.8053 time elapsed:    0.1
+Iteration:     50 loss train: 0.8103 time elapsed:    8.2
+Iteration:    100 loss train: 0.8172 time elapsed:   16.3
+Iteration:    150 loss train: 0.8122 time elapsed:   24.5
+Iteration:    200 loss train: 0.8107 time elapsed:   32.6
+Iteration:    250 loss train: 0.8100 time elapsed:   40.7
+Iteration:    300 loss train: 0.8081 time elapsed:   48.8
+Iteration:    350 loss train: 0.8071 time elapsed:   57.0
+Iteration:    400 loss train: 0.8069 time elapsed:   65.1
+Iteration:    450 loss train: 0.8065 time elapsed:   73.2
+Iteration:    500 loss train: 0.8060 time elapsed:   81.3
+Iteration:    550 loss train: 0.8045 time elapsed:   89.5
+Iteration:    600 loss train: 0.8047 time elapsed:   97.6
+Iteration:    650 loss train: 0.8042 time elapsed:  105.7
+Iteration:    700 loss train: 0.8037 time elapsed:  113.8
+Iteration:    750 loss train: 0.8028 time elapsed:  121.9
+Iteration:    800 loss train: 0.8027 time elapsed:  130.1
+Iteration:    850 loss train: 0.8018 time elapsed:  138.2
+Iteration:    900 loss train: 0.8011 time elapsed:  146.3
+Iteration:    950 loss train: 0.8006 time elapsed:  154.4
+Iteration:   1000 loss train: 0.8004 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7998 time elapsed:  170.7
+Iteration:   1100 loss train: 0.7992 time elapsed:  178.8
+Iteration:   1150 loss train: 0.7991 time elapsed:  186.9
+Iteration:   1200 loss train: 0.7988 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7985 time elapsed:  203.2
+Iteration:   1300 loss train: 0.7987 time elapsed:  211.3
+Iteration:   1350 loss train: 0.7984 time elapsed:  219.4
+Iteration:   1400 loss train: 0.7981 time elapsed:  227.5
+Iteration:   1450 loss train: 0.7980 time elapsed:  235.7
+Iteration:   1500 loss train: 0.7976 time elapsed:  243.8
+Iteration:   1550 loss train: 0.7976 time elapsed:  251.9
+Iteration:   1600 loss train: 0.7974 time elapsed:  260.0
+Iteration:   1650 loss train: 0.7971 time elapsed:  268.2
+Iteration:   1700 loss train: 0.7968 time elapsed:  276.3
+Iteration:   1750 loss train: 0.7963 time elapsed:  284.4
+Iteration:   1800 loss train: 0.7959 time elapsed:  292.5
+
+Epoch: 3 loss train: 0.7956 time elapsed:  300.3
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-3.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[298521599  57095220 128886733]
+train accuracy results: mIoU: 0.4149 mPrecision: 0.5471 mRecall: 0.5905 mAcc: 0.7938 acc: 0.6906
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12918156  2115747  5446097]
+val loss: 0.7917 mIoU: 0.4229 mPrecision: 0.5593 mRecall: 0.5898 mAcc: 0.7996 acc: 0.6993
+IoU for the classes are: 
+ [0.6879 0.2506 0.3303]
+Precision for the classes are: 
+ [0.8599 0.3724 0.4455]
+Recall for the classes are: 
+ [0.7747 0.4337 0.5611]
+Accuracies for the classes are: 
+ [0.7539 0.8849 0.7599]
+
+
+Training epoch 4
+Iteration:      0 loss train: 0.7563 time elapsed:    0.1
+Iteration:     50 loss train: 0.7859 time elapsed:    8.2
+Iteration:    100 loss train: 0.7841 time elapsed:   16.3
+Iteration:    150 loss train: 0.7839 time elapsed:   24.5
+Iteration:    200 loss train: 0.7826 time elapsed:   32.6
+Iteration:    250 loss train: 0.7831 time elapsed:   40.7
+Iteration:    300 loss train: 0.7829 time elapsed:   48.8
+Iteration:    350 loss train: 0.7841 time elapsed:   57.0
+Iteration:    400 loss train: 0.7838 time elapsed:   65.1
+Iteration:    450 loss train: 0.7824 time elapsed:   73.2
+Iteration:    500 loss train: 0.7815 time elapsed:   81.3
+Iteration:    550 loss train: 0.7824 time elapsed:   89.4
+Iteration:    600 loss train: 0.7820 time elapsed:   97.6
+Iteration:    650 loss train: 0.7819 time elapsed:  105.7
+Iteration:    700 loss train: 0.7816 time elapsed:  113.8
+Iteration:    750 loss train: 0.7805 time elapsed:  121.9
+Iteration:    800 loss train: 0.7806 time elapsed:  130.1
+Iteration:    850 loss train: 0.7805 time elapsed:  138.2
+Iteration:    900 loss train: 0.7808 time elapsed:  146.3
+Iteration:    950 loss train: 0.7804 time elapsed:  154.4
+Iteration:   1000 loss train: 0.7802 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7799 time elapsed:  170.7
+Iteration:   1100 loss train: 0.7800 time elapsed:  178.8
+Iteration:   1150 loss train: 0.7798 time elapsed:  186.9
+Iteration:   1200 loss train: 0.7797 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7792 time elapsed:  203.2
+Iteration:   1300 loss train: 0.7793 time elapsed:  211.3
+Iteration:   1350 loss train: 0.7795 time elapsed:  219.4
+Iteration:   1400 loss train: 0.7795 time elapsed:  227.6
+Iteration:   1450 loss train: 0.7793 time elapsed:  235.7
+Iteration:   1500 loss train: 0.7793 time elapsed:  243.8
+Iteration:   1550 loss train: 0.7794 time elapsed:  251.9
+Iteration:   1600 loss train: 0.7789 time elapsed:  260.0
+Iteration:   1650 loss train: 0.7789 time elapsed:  268.2
+Iteration:   1700 loss train: 0.7788 time elapsed:  276.3
+Iteration:   1750 loss train: 0.7788 time elapsed:  284.4
+Iteration:   1800 loss train: 0.7787 time elapsed:  292.5
+
+Epoch: 4 loss train: 0.7784 time elapsed:  300.3
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-4.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[297716403  57669049 129118100]
+train accuracy results: mIoU: 0.4249 mPrecision: 0.5572 mRecall: 0.6044 mAcc: 0.7981 acc: 0.6972
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[11187213  3297029  5995758]
+val loss: 0.7872 mIoU: 0.4100 mPrecision: 0.5457 mRecall: 0.6214 mAcc: 0.7759 acc: 0.6638
+IoU for the classes are: 
+ [0.6432 0.2573 0.3294]
+Precision for the classes are: 
+ [0.8932 0.3174 0.4265]
+Recall for the classes are: 
+ [0.6968 0.576  0.5914]
+Accuracies for the classes are: 
+ [0.7294 0.8525 0.7458]
+
+
+Training epoch 5
+Iteration:      0 loss train: 0.7707 time elapsed:    0.1
+Iteration:     50 loss train: 0.7667 time elapsed:    8.2
+Iteration:    100 loss train: 0.7674 time elapsed:   16.4
+Iteration:    150 loss train: 0.7689 time elapsed:   24.5
+Iteration:    200 loss train: 0.7716 time elapsed:   32.6
+Iteration:    250 loss train: 0.7711 time elapsed:   40.7
+Iteration:    300 loss train: 0.7715 time elapsed:   48.9
+Iteration:    350 loss train: 0.7690 time elapsed:   57.0
+Iteration:    400 loss train: 0.7694 time elapsed:   65.1
+Iteration:    450 loss train: 0.7691 time elapsed:   73.2
+Iteration:    500 loss train: 0.7691 time elapsed:   81.3
+Iteration:    550 loss train: 0.7693 time elapsed:   89.5
+Iteration:    600 loss train: 0.7694 time elapsed:   97.6
+Iteration:    650 loss train: 0.7698 time elapsed:  105.7
+Iteration:    700 loss train: 0.7690 time elapsed:  113.8
+Iteration:    750 loss train: 0.7699 time elapsed:  121.9
+Iteration:    800 loss train: 0.7689 time elapsed:  130.1
+Iteration:    850 loss train: 0.7690 time elapsed:  138.2
+Iteration:    900 loss train: 0.7694 time elapsed:  146.3
+Iteration:    950 loss train: 0.7693 time elapsed:  154.4
+Iteration:   1000 loss train: 0.7690 time elapsed:  162.5
+Iteration:   1050 loss train: 0.7691 time elapsed:  170.7
+Iteration:   1100 loss train: 0.7686 time elapsed:  178.8
+Iteration:   1150 loss train: 0.7685 time elapsed:  186.9
+Iteration:   1200 loss train: 0.7678 time elapsed:  195.0
+Iteration:   1250 loss train: 0.7675 time elapsed:  203.2
+Iteration:   1300 loss train: 0.7672 time elapsed:  211.3
+Iteration:   1350 loss train: 0.7670 time elapsed:  219.4
+Iteration:   1400 loss train: 0.7673 time elapsed:  227.6
+Iteration:   1450 loss train: 0.7670 time elapsed:  235.7
+Iteration:   1500 loss train: 0.7669 time elapsed:  243.8
+Iteration:   1550 loss train: 0.7669 time elapsed:  251.9
+Iteration:   1600 loss train: 0.7667 time elapsed:  260.1
+Iteration:   1650 loss train: 0.7667 time elapsed:  268.2
+Iteration:   1700 loss train: 0.7667 time elapsed:  276.3
+Iteration:   1750 loss train: 0.7664 time elapsed:  284.4
+Iteration:   1800 loss train: 0.7659 time elapsed:  292.6
+
+Epoch: 5 loss train: 0.7655 time elapsed:  300.3
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-5.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[297134453  58881864 128487235]
+train accuracy results: mIoU: 0.4320 mPrecision: 0.5640 mRecall: 0.6149 mAcc: 0.8010 acc: 0.7015
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12519246  3248161  4712593]
+val loss: 0.7703 mIoU: 0.4285 mPrecision: 0.5596 mRecall: 0.6250 mAcc: 0.7968 acc: 0.6953
+IoU for the classes are: 
+ [0.6867 0.2744 0.3244]
+Precision for the classes are: 
+ [0.8734 0.3358 0.4697]
+Recall for the classes are: 
+ [0.7626 0.6003 0.5119]
+Accuracies for the classes are: 
+ [0.7564 0.8592 0.7749]
+
+
+Training epoch 6
+Iteration:      0 loss train: 0.7302 time elapsed:    0.1
+Iteration:     50 loss train: 0.7653 time elapsed:    8.2
+Iteration:    100 loss train: 0.7610 time elapsed:   16.4
+Iteration:    150 loss train: 0.7588 time elapsed:   24.5
+Iteration:    200 loss train: 0.7596 time elapsed:   32.6
+Iteration:    250 loss train: 0.7602 time elapsed:   40.7
+Iteration:    300 loss train: 0.7587 time elapsed:   48.9
+Iteration:    350 loss train: 0.7563 time elapsed:   57.0
+Iteration:    400 loss train: 0.7557 time elapsed:   65.1
+Iteration:    450 loss train: 0.7554 time elapsed:   73.2
+Iteration:    500 loss train: 0.7550 time elapsed:   81.4
+Iteration:    550 loss train: 0.7549 time elapsed:   89.5
+Iteration:    600 loss train: 0.7554 time elapsed:   97.6
+Iteration:    650 loss train: 0.7550 time elapsed:  105.7
+Iteration:    700 loss train: 0.7549 time elapsed:  113.9
+Iteration:    750 loss train: 0.7551 time elapsed:  122.0
+Iteration:    800 loss train: 0.7550 time elapsed:  130.1
+Iteration:    850 loss train: 0.7542 time elapsed:  138.2
+Iteration:    900 loss train: 0.7539 time elapsed:  146.4
+Iteration:    950 loss train: 0.7536 time elapsed:  154.5
+Iteration:   1000 loss train: 0.7536 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7535 time elapsed:  170.8
+Iteration:   1100 loss train: 0.7536 time elapsed:  178.9
+Iteration:   1150 loss train: 0.7535 time elapsed:  187.0
+Iteration:   1200 loss train: 0.7531 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7536 time elapsed:  203.3
+Iteration:   1300 loss train: 0.7530 time elapsed:  211.4
+Iteration:   1350 loss train: 0.7529 time elapsed:  219.5
+Iteration:   1400 loss train: 0.7527 time elapsed:  227.7
+Iteration:   1450 loss train: 0.7526 time elapsed:  235.8
+Iteration:   1500 loss train: 0.7525 time elapsed:  243.9
+Iteration:   1550 loss train: 0.7523 time elapsed:  252.0
+Iteration:   1600 loss train: 0.7520 time elapsed:  260.2
+Iteration:   1650 loss train: 0.7521 time elapsed:  268.3
+Iteration:   1700 loss train: 0.7519 time elapsed:  276.4
+Iteration:   1750 loss train: 0.7521 time elapsed:  284.5
+Iteration:   1800 loss train: 0.7519 time elapsed:  292.7
+
+Epoch: 6 loss train: 0.7518 time elapsed:  300.4
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-6.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[296864076  59291913 128347563]
+train accuracy results: mIoU: 0.4399 mPrecision: 0.5717 mRecall: 0.6256 mAcc: 0.8044 acc: 0.7066
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12464046  2318626  5697328]
+val loss: 0.7567 mIoU: 0.4397 mPrecision: 0.5749 mRecall: 0.6211 mAcc: 0.8023 acc: 0.7035
+IoU for the classes are: 
+ [0.687  0.2873 0.3448]
+Precision for the classes are: 
+ [0.8757 0.3981 0.4509]
+Recall for the classes are: 
+ [0.7612 0.508  0.5942]
+Accuracies for the classes are: 
+ [0.7572 0.8882 0.7616]
+
+
+Training epoch 7
+Iteration:      0 loss train: 0.8077 time elapsed:    0.1
+Iteration:     50 loss train: 0.7348 time elapsed:    8.2
+Iteration:    100 loss train: 0.7424 time elapsed:   16.3
+Iteration:    150 loss train: 0.7452 time elapsed:   24.5
+Iteration:    200 loss train: 0.7427 time elapsed:   32.6
+Iteration:    250 loss train: 0.7439 time elapsed:   40.7
+Iteration:    300 loss train: 0.7409 time elapsed:   48.8
+Iteration:    350 loss train: 0.7397 time elapsed:   57.0
+Iteration:    400 loss train: 0.7404 time elapsed:   65.1
+Iteration:    450 loss train: 0.7410 time elapsed:   73.2
+Iteration:    500 loss train: 0.7412 time elapsed:   81.3
+Iteration:    550 loss train: 0.7415 time elapsed:   89.5
+Iteration:    600 loss train: 0.7415 time elapsed:   97.6
+Iteration:    650 loss train: 0.7415 time elapsed:  105.7
+Iteration:    700 loss train: 0.7418 time elapsed:  113.8
+Iteration:    750 loss train: 0.7414 time elapsed:  121.9
+Iteration:    800 loss train: 0.7413 time elapsed:  130.1
+Iteration:    850 loss train: 0.7416 time elapsed:  138.2
+Iteration:    900 loss train: 0.7409 time elapsed:  146.3
+Iteration:    950 loss train: 0.7404 time elapsed:  154.4
+Iteration:   1000 loss train: 0.7405 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7404 time elapsed:  170.7
+Iteration:   1100 loss train: 0.7404 time elapsed:  178.8
+Iteration:   1150 loss train: 0.7408 time elapsed:  186.9
+Iteration:   1200 loss train: 0.7410 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7413 time elapsed:  203.2
+Iteration:   1300 loss train: 0.7407 time elapsed:  211.3
+Iteration:   1350 loss train: 0.7407 time elapsed:  219.4
+Iteration:   1400 loss train: 0.7407 time elapsed:  227.6
+Iteration:   1450 loss train: 0.7410 time elapsed:  235.7
+Iteration:   1500 loss train: 0.7413 time elapsed:  243.8
+Iteration:   1550 loss train: 0.7415 time elapsed:  251.9
+Iteration:   1600 loss train: 0.7413 time elapsed:  260.1
+Iteration:   1650 loss train: 0.7413 time elapsed:  268.2
+Iteration:   1700 loss train: 0.7413 time elapsed:  276.3
+Iteration:   1750 loss train: 0.7412 time elapsed:  284.4
+Iteration:   1800 loss train: 0.7413 time elapsed:  292.6
+
+Epoch: 7 loss train: 0.7412 time elapsed:  300.3
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-7.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[296324546  59706460 128472546]
+train accuracy results: mIoU: 0.4457 mPrecision: 0.5772 mRecall: 0.6335 mAcc: 0.8068 acc: 0.7102
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12612442  2439633  5427925]
+val loss: 0.7492 mIoU: 0.4455 mPrecision: 0.5787 mRecall: 0.6284 mAcc: 0.8063 acc: 0.7094
+IoU for the classes are: 
+ [0.694  0.2941 0.3484]
+Precision for the classes are: 
+ [0.8755 0.3965 0.4642]
+Recall for the classes are: 
+ [0.77   0.5324 0.5827]
+Accuracies for the classes are: 
+ [0.7623 0.8866 0.7699]
+
+
+Training epoch 8
+Iteration:      0 loss train: 0.7366 time elapsed:    0.1
+Iteration:     50 loss train: 0.7250 time elapsed:    8.2
+Iteration:    100 loss train: 0.7272 time elapsed:   16.4
+Iteration:    150 loss train: 0.7277 time elapsed:   24.5
+Iteration:    200 loss train: 0.7260 time elapsed:   32.6
+Iteration:    250 loss train: 0.7270 time elapsed:   40.7
+Iteration:    300 loss train: 0.7271 time elapsed:   48.8
+Iteration:    350 loss train: 0.7288 time elapsed:   57.0
+Iteration:    400 loss train: 0.7301 time elapsed:   65.1
+Iteration:    450 loss train: 0.7309 time elapsed:   73.2
+Iteration:    500 loss train: 0.7304 time elapsed:   81.3
+Iteration:    550 loss train: 0.7304 time elapsed:   89.5
+Iteration:    600 loss train: 0.7306 time elapsed:   97.6
+Iteration:    650 loss train: 0.7311 time elapsed:  105.7
+Iteration:    700 loss train: 0.7313 time elapsed:  113.8
+Iteration:    750 loss train: 0.7320 time elapsed:  122.0
+Iteration:    800 loss train: 0.7318 time elapsed:  130.1
+Iteration:    850 loss train: 0.7313 time elapsed:  138.2
+Iteration:    900 loss train: 0.7312 time elapsed:  146.3
+Iteration:    950 loss train: 0.7313 time elapsed:  154.4
+Iteration:   1000 loss train: 0.7316 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7313 time elapsed:  170.7
+Iteration:   1100 loss train: 0.7314 time elapsed:  178.8
+Iteration:   1150 loss train: 0.7313 time elapsed:  186.9
+Iteration:   1200 loss train: 0.7317 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7317 time elapsed:  203.2
+Iteration:   1300 loss train: 0.7314 time elapsed:  211.3
+Iteration:   1350 loss train: 0.7317 time elapsed:  219.4
+Iteration:   1400 loss train: 0.7314 time elapsed:  227.6
+Iteration:   1450 loss train: 0.7314 time elapsed:  235.7
+Iteration:   1500 loss train: 0.7310 time elapsed:  243.8
+Iteration:   1550 loss train: 0.7309 time elapsed:  251.9
+Iteration:   1600 loss train: 0.7305 time elapsed:  260.1
+Iteration:   1650 loss train: 0.7304 time elapsed:  268.2
+Iteration:   1700 loss train: 0.7307 time elapsed:  276.3
+Iteration:   1750 loss train: 0.7306 time elapsed:  284.5
+Iteration:   1800 loss train: 0.7303 time elapsed:  292.6
+
+Epoch: 8 loss train: 0.7302 time elapsed:  300.3
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-8.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[296134664  60004900 128363988]
+train accuracy results: mIoU: 0.4520 mPrecision: 0.5832 mRecall: 0.6419 mAcc: 0.8094 acc: 0.7141
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[11829073  2641219  6009708]
+val loss: 0.7423 mIoU: 0.4400 mPrecision: 0.5737 mRecall: 0.6375 mAcc: 0.7976 acc: 0.6963
+IoU for the classes are: 
+ [0.6758 0.2889 0.3553]
+Precision for the classes are: 
+ [0.8921 0.3783 0.4507]
+Recall for the classes are: 
+ [0.736  0.5499 0.6265]
+Accuracies for the classes are: 
+ [0.7528 0.8799 0.76  ]
+
+
+Training epoch 9
+Iteration:      0 loss train: 0.7113 time elapsed:    0.1
+Iteration:     50 loss train: 0.7282 time elapsed:    8.2
+Iteration:    100 loss train: 0.7286 time elapsed:   16.4
+Iteration:    150 loss train: 0.7231 time elapsed:   24.5
+Iteration:    200 loss train: 0.7218 time elapsed:   32.6
+Iteration:    250 loss train: 0.7222 time elapsed:   40.7
+Iteration:    300 loss train: 0.7223 time elapsed:   48.8
+Iteration:    350 loss train: 0.7225 time elapsed:   57.0
+Iteration:    400 loss train: 0.7225 time elapsed:   65.1
+Iteration:    450 loss train: 0.7224 time elapsed:   73.2
+Iteration:    500 loss train: 0.7225 time elapsed:   81.3
+Iteration:    550 loss train: 0.7220 time elapsed:   89.5
+Iteration:    600 loss train: 0.7221 time elapsed:   97.6
+Iteration:    650 loss train: 0.7219 time elapsed:  105.7
+Iteration:    700 loss train: 0.7219 time elapsed:  113.8
+Iteration:    750 loss train: 0.7214 time elapsed:  122.0
+Iteration:    800 loss train: 0.7211 time elapsed:  130.1
+Iteration:    850 loss train: 0.7205 time elapsed:  138.2
+Iteration:    900 loss train: 0.7201 time elapsed:  146.3
+Iteration:    950 loss train: 0.7208 time elapsed:  154.5
+Iteration:   1000 loss train: 0.7210 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7213 time elapsed:  170.7
+Iteration:   1100 loss train: 0.7213 time elapsed:  178.9
+Iteration:   1150 loss train: 0.7219 time elapsed:  187.0
+Iteration:   1200 loss train: 0.7220 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7218 time elapsed:  203.2
+Iteration:   1300 loss train: 0.7219 time elapsed:  211.4
+Iteration:   1350 loss train: 0.7218 time elapsed:  219.5
+Iteration:   1400 loss train: 0.7215 time elapsed:  227.6
+Iteration:   1450 loss train: 0.7216 time elapsed:  235.7
+Iteration:   1500 loss train: 0.7215 time elapsed:  243.9
+Iteration:   1550 loss train: 0.7211 time elapsed:  252.0
+Iteration:   1600 loss train: 0.7208 time elapsed:  260.1
+Iteration:   1650 loss train: 0.7207 time elapsed:  268.2
+Iteration:   1700 loss train: 0.7204 time elapsed:  276.4
+Iteration:   1750 loss train: 0.7205 time elapsed:  284.5
+Iteration:   1800 loss train: 0.7200 time elapsed:  292.6
+
+Epoch: 9 loss train: 0.7205 time elapsed:  300.4
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-9.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[296006163  60256449 128240940]
+train accuracy results: mIoU: 0.4574 mPrecision: 0.5882 mRecall: 0.6489 mAcc: 0.8118 acc: 0.7176
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[13260021  2256504  4963475]
+val loss: 0.7366 mIoU: 0.4597 mPrecision: 0.5948 mRecall: 0.6316 mAcc: 0.8184 acc: 0.7276
+IoU for the classes are: 
+ [0.7146 0.3083 0.3563]
+Precision for the classes are: 
+ [0.8674 0.4254 0.4915]
+Recall for the classes are: 
+ [0.8021 0.5284 0.5642]
+Accuracies for the classes are: 
+ [0.7756 0.8949 0.7848]
+
+
+Training epoch 10
+Iteration:      0 loss train: 0.7184 time elapsed:    0.1
+Iteration:     50 loss train: 0.7179 time elapsed:    8.2
+Iteration:    100 loss train: 0.7162 time elapsed:   16.3
+Iteration:    150 loss train: 0.7167 time elapsed:   24.5
+Iteration:    200 loss train: 0.7152 time elapsed:   32.6
+Iteration:    250 loss train: 0.7144 time elapsed:   40.7
+Iteration:    300 loss train: 0.7159 time elapsed:   48.8
+Iteration:    350 loss train: 0.7159 time elapsed:   57.0
+Iteration:    400 loss train: 0.7145 time elapsed:   65.1
+Iteration:    450 loss train: 0.7141 time elapsed:   73.2
+Iteration:    500 loss train: 0.7146 time elapsed:   81.4
+Iteration:    550 loss train: 0.7136 time elapsed:   89.5
+Iteration:    600 loss train: 0.7129 time elapsed:   97.6
+Iteration:    650 loss train: 0.7135 time elapsed:  105.7
+Iteration:    700 loss train: 0.7137 time elapsed:  113.9
+Iteration:    750 loss train: 0.7134 time elapsed:  122.0
+Iteration:    800 loss train: 0.7125 time elapsed:  130.1
+Iteration:    850 loss train: 0.7125 time elapsed:  138.2
+Iteration:    900 loss train: 0.7127 time elapsed:  146.3
+Iteration:    950 loss train: 0.7125 time elapsed:  154.5
+Iteration:   1000 loss train: 0.7123 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7125 time elapsed:  170.7
+Iteration:   1100 loss train: 0.7122 time elapsed:  178.9
+Iteration:   1150 loss train: 0.7123 time elapsed:  187.0
+Iteration:   1200 loss train: 0.7123 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7125 time elapsed:  203.3
+Iteration:   1300 loss train: 0.7122 time elapsed:  211.4
+Iteration:   1350 loss train: 0.7120 time elapsed:  219.5
+Iteration:   1400 loss train: 0.7116 time elapsed:  227.6
+Iteration:   1450 loss train: 0.7112 time elapsed:  235.8
+Iteration:   1500 loss train: 0.7114 time elapsed:  243.9
+Iteration:   1550 loss train: 0.7111 time elapsed:  252.0
+Iteration:   1600 loss train: 0.7111 time elapsed:  260.1
+Iteration:   1650 loss train: 0.7109 time elapsed:  268.3
+Iteration:   1700 loss train: 0.7108 time elapsed:  276.4
+Iteration:   1750 loss train: 0.7108 time elapsed:  284.5
+Iteration:   1800 loss train: 0.7108 time elapsed:  292.6
+
+Epoch: 10 loss train: 0.7104 time elapsed:  300.4
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-10.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[295562528  60496969 128444055]
+train accuracy results: mIoU: 0.4629 mPrecision: 0.5933 mRecall: 0.6561 mAcc: 0.8139 acc: 0.7209
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12786093  1746370  5947537]
+val loss: 0.7369 mIoU: 0.4575 mPrecision: 0.6038 mRecall: 0.6244 mAcc: 0.8153 acc: 0.7230
+IoU for the classes are: 
+ [0.7052 0.2977 0.3696]
+Precision for the classes are: 
+ [0.8773 0.468  0.466 ]
+Recall for the classes are: 
+ [0.7823 0.4499 0.641 ]
+Accuracies for the classes are: 
+ [0.771  0.9058 0.7691]
+
+
+Training epoch 11
+Iteration:      0 loss train: 0.7290 time elapsed:    0.1
+Iteration:     50 loss train: 0.7147 time elapsed:    8.2
+Iteration:    100 loss train: 0.7110 time elapsed:   16.4
+Iteration:    150 loss train: 0.7077 time elapsed:   24.5
+Iteration:    200 loss train: 0.7038 time elapsed:   32.6
+Iteration:    250 loss train: 0.7037 time elapsed:   40.7
+Iteration:    300 loss train: 0.7013 time elapsed:   48.9
+Iteration:    350 loss train: 0.7027 time elapsed:   57.0
+Iteration:    400 loss train: 0.7018 time elapsed:   65.1
+Iteration:    450 loss train: 0.7014 time elapsed:   73.2
+Iteration:    500 loss train: 0.7016 time elapsed:   81.4
+Iteration:    550 loss train: 0.7010 time elapsed:   89.5
+Iteration:    600 loss train: 0.7014 time elapsed:   97.6
+Iteration:    650 loss train: 0.7015 time elapsed:  105.8
+Iteration:    700 loss train: 0.7014 time elapsed:  113.9
+Iteration:    750 loss train: 0.7019 time elapsed:  122.0
+Iteration:    800 loss train: 0.7022 time elapsed:  130.1
+Iteration:    850 loss train: 0.7021 time elapsed:  138.2
+Iteration:    900 loss train: 0.7021 time elapsed:  146.4
+Iteration:    950 loss train: 0.7021 time elapsed:  154.5
+Iteration:   1000 loss train: 0.7021 time elapsed:  162.6
+Iteration:   1050 loss train: 0.7017 time elapsed:  170.8
+Iteration:   1100 loss train: 0.7016 time elapsed:  178.9
+Iteration:   1150 loss train: 0.7019 time elapsed:  187.0
+Iteration:   1200 loss train: 0.7019 time elapsed:  195.1
+Iteration:   1250 loss train: 0.7017 time elapsed:  203.3
+Iteration:   1300 loss train: 0.7019 time elapsed:  211.4
+Iteration:   1350 loss train: 0.7019 time elapsed:  219.5
+Iteration:   1400 loss train: 0.7019 time elapsed:  227.6
+Iteration:   1450 loss train: 0.7019 time elapsed:  235.8
+Iteration:   1500 loss train: 0.7022 time elapsed:  243.9
+Iteration:   1550 loss train: 0.7025 time elapsed:  252.0
+Iteration:   1600 loss train: 0.7024 time elapsed:  260.1
+Iteration:   1650 loss train: 0.7022 time elapsed:  268.3
+Iteration:   1700 loss train: 0.7023 time elapsed:  276.4
+Iteration:   1750 loss train: 0.7022 time elapsed:  284.5
+Iteration:   1800 loss train: 0.7023 time elapsed:  292.7
+
+Epoch: 11 loss train: 0.7024 time elapsed:  300.4
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-11.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[295156347  60875764 128471441]
+train accuracy results: mIoU: 0.4673 mPrecision: 0.5972 mRecall: 0.6621 mAcc: 0.8157 acc: 0.7235
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[13186007  2082074  5211919]
+val loss: 0.7253 mIoU: 0.4660 mPrecision: 0.6036 mRecall: 0.6357 mAcc: 0.8207 acc: 0.7311
+IoU for the classes are: 
+ [0.7164 0.3176 0.364 ]
+Precision for the classes are: 
+ [0.8713 0.4514 0.4882]
+Recall for the classes are: 
+ [0.8012 0.5172 0.5885]
+Accuracies for the classes are: 
+ [0.778  0.9014 0.7829]
+
+
+Training epoch 12
+Iteration:      0 loss train: 0.8399 time elapsed:    0.1
+Iteration:     50 loss train: 0.7114 time elapsed:    8.2
+Iteration:    100 loss train: 0.7104 time elapsed:   16.4
+Iteration:    150 loss train: 0.7058 time elapsed:   24.5
+Iteration:    200 loss train: 0.7039 time elapsed:   32.6
+Iteration:    250 loss train: 0.7004 time elapsed:   40.7
+Iteration:    300 loss train: 0.6995 time elapsed:   48.8
+Iteration:    350 loss train: 0.6994 time elapsed:   57.0
+Iteration:    400 loss train: 0.6965 time elapsed:   65.1
+Iteration:    450 loss train: 0.6962 time elapsed:   73.2
+Iteration:    500 loss train: 0.6952 time elapsed:   81.3
+Iteration:    550 loss train: 0.6947 time elapsed:   89.5
+Iteration:    600 loss train: 0.6942 time elapsed:   97.6
+Iteration:    650 loss train: 0.6944 time elapsed:  105.7
+Iteration:    700 loss train: 0.6949 time elapsed:  113.9
+Iteration:    750 loss train: 0.6951 time elapsed:  122.0
+Iteration:    800 loss train: 0.6955 time elapsed:  130.1
+Iteration:    850 loss train: 0.6956 time elapsed:  138.2
+Iteration:    900 loss train: 0.6954 time elapsed:  146.3
+Iteration:    950 loss train: 0.6950 time elapsed:  154.5
+Iteration:   1000 loss train: 0.6953 time elapsed:  162.6
+Iteration:   1050 loss train: 0.6948 time elapsed:  170.7
+Iteration:   1100 loss train: 0.6950 time elapsed:  178.9
+Iteration:   1150 loss train: 0.6948 time elapsed:  187.0
+Iteration:   1200 loss train: 0.6942 time elapsed:  195.1
+Iteration:   1250 loss train: 0.6937 time elapsed:  203.3
+Iteration:   1300 loss train: 0.6938 time elapsed:  211.4
+Iteration:   1350 loss train: 0.6939 time elapsed:  219.5
+Iteration:   1400 loss train: 0.6941 time elapsed:  227.6
+Iteration:   1450 loss train: 0.6946 time elapsed:  235.8
+Iteration:   1500 loss train: 0.6940 time elapsed:  243.9
+Iteration:   1550 loss train: 0.6940 time elapsed:  252.0
+Iteration:   1600 loss train: 0.6938 time elapsed:  260.2
+Iteration:   1650 loss train: 0.6941 time elapsed:  268.3
+Iteration:   1700 loss train: 0.6938 time elapsed:  276.4
+Iteration:   1750 loss train: 0.6935 time elapsed:  284.5
+Iteration:   1800 loss train: 0.6935 time elapsed:  292.7
+
+Epoch: 12 loss train: 0.6936 time elapsed:  300.4
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-12.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[295370307  60906563 128226682]
+train accuracy results: mIoU: 0.4724 mPrecision: 0.6019 mRecall: 0.6682 mAcc: 0.8179 acc: 0.7268
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12014025  2337131  6128844]
+val loss: 0.7162 mIoU: 0.4591 mPrecision: 0.5950 mRecall: 0.6520 mAcc: 0.8073 acc: 0.7110
+IoU for the classes are: 
+ [0.6866 0.3204 0.3701]
+Precision for the classes are: 
+ [0.893  0.4313 0.4607]
+Recall for the classes are: 
+ [0.7482 0.5548 0.653 ]
+Accuracies for the classes are: 
+ [0.7609 0.8956 0.7654]
+
+
+Training epoch 13
+Iteration:      0 loss train: 0.6662 time elapsed:    0.1
+Iteration:     50 loss train: 0.6865 time elapsed:    8.2
+Iteration:    100 loss train: 0.6848 time elapsed:   16.3
+Iteration:    150 loss train: 0.6897 time elapsed:   24.5
+Iteration:    200 loss train: 0.6895 time elapsed:   32.6
+Iteration:    250 loss train: 0.6887 time elapsed:   40.7
+Iteration:    300 loss train: 0.6893 time elapsed:   48.8
+Iteration:    350 loss train: 0.6885 time elapsed:   57.0
+Iteration:    400 loss train: 0.6886 time elapsed:   65.1
+Iteration:    450 loss train: 0.6885 time elapsed:   73.2
+Iteration:    500 loss train: 0.6885 time elapsed:   81.3
+Iteration:    550 loss train: 0.6895 time elapsed:   89.5
+Iteration:    600 loss train: 0.6888 time elapsed:   97.6
+Iteration:    650 loss train: 0.6887 time elapsed:  105.7
+Iteration:    700 loss train: 0.6881 time elapsed:  113.8
+Iteration:    750 loss train: 0.6875 time elapsed:  122.0
+Iteration:    800 loss train: 0.6869 time elapsed:  130.1
+Iteration:    850 loss train: 0.6870 time elapsed:  138.2
+Iteration:    900 loss train: 0.6873 time elapsed:  146.3
+Iteration:    950 loss train: 0.6871 time elapsed:  154.4
+Iteration:   1000 loss train: 0.6867 time elapsed:  162.6
+Iteration:   1050 loss train: 0.6865 time elapsed:  170.7
+Iteration:   1100 loss train: 0.6861 time elapsed:  178.8
+Iteration:   1150 loss train: 0.6860 time elapsed:  187.0
+Iteration:   1200 loss train: 0.6860 time elapsed:  195.1
+Iteration:   1250 loss train: 0.6860 time elapsed:  203.2
+Iteration:   1300 loss train: 0.6858 time elapsed:  211.3
+Iteration:   1350 loss train: 0.6859 time elapsed:  219.5
+Iteration:   1400 loss train: 0.6859 time elapsed:  227.6
+Iteration:   1450 loss train: 0.6855 time elapsed:  235.7
+Iteration:   1500 loss train: 0.6855 time elapsed:  243.8
+Iteration:   1550 loss train: 0.6852 time elapsed:  252.0
+Iteration:   1600 loss train: 0.6852 time elapsed:  260.1
+Iteration:   1650 loss train: 0.6857 time elapsed:  268.2
+Iteration:   1700 loss train: 0.6855 time elapsed:  276.4
+Iteration:   1750 loss train: 0.6856 time elapsed:  284.5
+Iteration:   1800 loss train: 0.6858 time elapsed:  292.6
+
+Epoch: 13 loss train: 0.6856 time elapsed:  300.4
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-13.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[295132466  61063295 128307791]
+train accuracy results: mIoU: 0.4765 mPrecision: 0.6056 mRecall: 0.6734 mAcc: 0.8195 acc: 0.7293
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12447864  2103968  5928168]
+val loss: 0.7148 mIoU: 0.4644 mPrecision: 0.6023 mRecall: 0.6452 mAcc: 0.8145 acc: 0.7218
+IoU for the classes are: 
+ [0.702  0.3174 0.3737]
+Precision for the classes are: 
+ [0.8876 0.449  0.4705]
+Recall for the classes are: 
+ [0.7705 0.5199 0.645 ]
+Accuracies for the classes are: 
+ [0.771  0.9008 0.7718]
+
+
+Training epoch 14
+Iteration:      0 loss train: 0.7247 time elapsed:    0.1
+Iteration:     50 loss train: 0.6813 time elapsed:    8.2
+Iteration:    100 loss train: 0.6791 time elapsed:   16.3
+Iteration:    150 loss train: 0.6819 time elapsed:   24.5
+Iteration:    200 loss train: 0.6803 time elapsed:   32.6
+Iteration:    250 loss train: 0.6819 time elapsed:   40.7
+Iteration:    300 loss train: 0.6828 time elapsed:   48.8
+Iteration:    350 loss train: 0.6828 time elapsed:   57.0
+Iteration:    400 loss train: 0.6808 time elapsed:   65.1
+Iteration:    450 loss train: 0.6809 time elapsed:   73.2
+Iteration:    500 loss train: 0.6807 time elapsed:   81.4
+Iteration:    550 loss train: 0.6801 time elapsed:   89.5
+Iteration:    600 loss train: 0.6795 time elapsed:   97.6
+Iteration:    650 loss train: 0.6797 time elapsed:  105.7
+Iteration:    700 loss train: 0.6800 time elapsed:  113.9
+Iteration:    750 loss train: 0.6790 time elapsed:  122.0
+Iteration:    800 loss train: 0.6793 time elapsed:  130.1
+Iteration:    850 loss train: 0.6798 time elapsed:  138.3
+Iteration:    900 loss train: 0.6801 time elapsed:  146.4
+Iteration:    950 loss train: 0.6796 time elapsed:  154.5
+Iteration:   1000 loss train: 0.6790 time elapsed:  162.6
+Iteration:   1050 loss train: 0.6788 time elapsed:  170.7
+Iteration:   1100 loss train: 0.6786 time elapsed:  178.9
+Iteration:   1150 loss train: 0.6793 time elapsed:  187.0
+Iteration:   1200 loss train: 0.6799 time elapsed:  195.1
+Iteration:   1250 loss train: 0.6802 time elapsed:  203.3
+Iteration:   1300 loss train: 0.6801 time elapsed:  211.4
+Iteration:   1350 loss train: 0.6801 time elapsed:  219.5
+Iteration:   1400 loss train: 0.6798 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6795 time elapsed:  235.8
+Iteration:   1500 loss train: 0.6796 time elapsed:  243.9
+Iteration:   1550 loss train: 0.6796 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6793 time elapsed:  260.2
+Iteration:   1650 loss train: 0.6792 time elapsed:  268.3
+Iteration:   1700 loss train: 0.6790 time elapsed:  276.5
+Iteration:   1750 loss train: 0.6788 time elapsed:  284.6
+Iteration:   1800 loss train: 0.6784 time elapsed:  292.7
+
+Epoch: 14 loss train: 0.6781 time elapsed:  300.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-14.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[294984518  61065002 128454032]
+train accuracy results: mIoU: 0.4809 mPrecision: 0.6096 mRecall: 0.6788 mAcc: 0.8213 acc: 0.7319
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12654084  3463061  4362855]
+val loss: 0.7208 mIoU: 0.4574 mPrecision: 0.5882 mRecall: 0.6652 mAcc: 0.8122 acc: 0.7182
+IoU for the classes are: 
+ [0.7091 0.3141 0.3491]
+Precision for the classes are: 
+ [0.885  0.3645 0.5152]
+Recall for the classes are: 
+ [0.781  0.6947 0.5199]
+Accuracies for the classes are: 
+ [0.7756 0.8654 0.7954]
+
+
+Training epoch 15
+Iteration:      0 loss train: 0.6905 time elapsed:    0.1
+Iteration:     50 loss train: 0.6672 time elapsed:    8.2
+Iteration:    100 loss train: 0.6671 time elapsed:   16.4
+Iteration:    150 loss train: 0.6683 time elapsed:   24.5
+Iteration:    200 loss train: 0.6698 time elapsed:   32.6
+Iteration:    250 loss train: 0.6694 time elapsed:   40.7
+Iteration:    300 loss train: 0.6701 time elapsed:   48.9
+Iteration:    350 loss train: 0.6705 time elapsed:   57.0
+Iteration:    400 loss train: 0.6717 time elapsed:   65.1
+Iteration:    450 loss train: 0.6712 time elapsed:   73.2
+Iteration:    500 loss train: 0.6720 time elapsed:   81.4
+Iteration:    550 loss train: 0.6718 time elapsed:   89.5
+Iteration:    600 loss train: 0.6722 time elapsed:   97.6
+Iteration:    650 loss train: 0.6722 time elapsed:  105.8
+Iteration:    700 loss train: 0.6713 time elapsed:  113.9
+Iteration:    750 loss train: 0.6715 time elapsed:  122.0
+Iteration:    800 loss train: 0.6712 time elapsed:  130.1
+Iteration:    850 loss train: 0.6714 time elapsed:  138.3
+Iteration:    900 loss train: 0.6714 time elapsed:  146.4
+Iteration:    950 loss train: 0.6712 time elapsed:  154.5
+Iteration:   1000 loss train: 0.6707 time elapsed:  162.6
+Iteration:   1050 loss train: 0.6709 time elapsed:  170.8
+Iteration:   1100 loss train: 0.6704 time elapsed:  178.9
+Iteration:   1150 loss train: 0.6707 time elapsed:  187.0
+Iteration:   1200 loss train: 0.6710 time elapsed:  195.1
+Iteration:   1250 loss train: 0.6713 time elapsed:  203.3
+Iteration:   1300 loss train: 0.6709 time elapsed:  211.4
+Iteration:   1350 loss train: 0.6709 time elapsed:  219.5
+Iteration:   1400 loss train: 0.6713 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6712 time elapsed:  235.8
+Iteration:   1500 loss train: 0.6712 time elapsed:  243.9
+Iteration:   1550 loss train: 0.6711 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6712 time elapsed:  260.2
+Iteration:   1650 loss train: 0.6711 time elapsed:  268.3
+Iteration:   1700 loss train: 0.6711 time elapsed:  276.4
+Iteration:   1750 loss train: 0.6710 time elapsed:  284.6
+Iteration:   1800 loss train: 0.6712 time elapsed:  292.7
+
+Epoch: 15 loss train: 0.6712 time elapsed:  300.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-15.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[294824349  61362463 128316740]
+train accuracy results: mIoU: 0.4845 mPrecision: 0.6128 mRecall: 0.6836 mAcc: 0.8227 acc: 0.7341
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12591764  2487277  5400959]
+val loss: 0.7042 mIoU: 0.4714 mPrecision: 0.6028 mRecall: 0.6607 mAcc: 0.8176 acc: 0.7264
+IoU for the classes are: 
+ [0.7075 0.3339 0.3728]
+Precision for the classes are: 
+ [0.8862 0.4332 0.4889]
+Recall for the classes are: 
+ [0.7782 0.5931 0.6107]
+Accuracies for the classes are: 
+ [0.7747 0.8951 0.783 ]
+
+
+Training epoch 16
+Iteration:      0 loss train: 0.6674 time elapsed:    0.1
+Iteration:     50 loss train: 0.6649 time elapsed:    8.2
+Iteration:    100 loss train: 0.6726 time elapsed:   16.4
+Iteration:    150 loss train: 0.6696 time elapsed:   24.5
+Iteration:    200 loss train: 0.6657 time elapsed:   32.6
+Iteration:    250 loss train: 0.6651 time elapsed:   40.7
+Iteration:    300 loss train: 0.6641 time elapsed:   48.9
+Iteration:    350 loss train: 0.6655 time elapsed:   57.0
+Iteration:    400 loss train: 0.6648 time elapsed:   65.1
+Iteration:    450 loss train: 0.6648 time elapsed:   73.2
+Iteration:    500 loss train: 0.6651 time elapsed:   81.4
+Iteration:    550 loss train: 0.6649 time elapsed:   89.5
+Iteration:    600 loss train: 0.6658 time elapsed:   97.6
+Iteration:    650 loss train: 0.6655 time elapsed:  105.8
+Iteration:    700 loss train: 0.6658 time elapsed:  113.9
+Iteration:    750 loss train: 0.6659 time elapsed:  122.0
+Iteration:    800 loss train: 0.6659 time elapsed:  130.1
+Iteration:    850 loss train: 0.6654 time elapsed:  138.3
+Iteration:    900 loss train: 0.6653 time elapsed:  146.4
+Iteration:    950 loss train: 0.6648 time elapsed:  154.5
+Iteration:   1000 loss train: 0.6653 time elapsed:  162.7
+Iteration:   1050 loss train: 0.6656 time elapsed:  170.8
+Iteration:   1100 loss train: 0.6649 time elapsed:  178.9
+Iteration:   1150 loss train: 0.6644 time elapsed:  187.0
+Iteration:   1200 loss train: 0.6646 time elapsed:  195.2
+Iteration:   1250 loss train: 0.6648 time elapsed:  203.3
+Iteration:   1300 loss train: 0.6648 time elapsed:  211.4
+Iteration:   1350 loss train: 0.6648 time elapsed:  219.6
+Iteration:   1400 loss train: 0.6646 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6644 time elapsed:  235.8
+Iteration:   1500 loss train: 0.6644 time elapsed:  244.0
+Iteration:   1550 loss train: 0.6648 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6649 time elapsed:  260.2
+Iteration:   1650 loss train: 0.6648 time elapsed:  268.4
+Iteration:   1700 loss train: 0.6648 time elapsed:  276.5
+Iteration:   1750 loss train: 0.6644 time elapsed:  284.6
+Iteration:   1800 loss train: 0.6644 time elapsed:  292.8
+
+Epoch: 16 loss train: 0.6644 time elapsed:  300.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-16.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[294554879  61357536 128591137]
+train accuracy results: mIoU: 0.4882 mPrecision: 0.6160 mRecall: 0.6881 mAcc: 0.8241 acc: 0.7362
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12445899  2796549  5237552]
+val loss: 0.7038 mIoU: 0.4691 mPrecision: 0.5980 mRecall: 0.6673 mAcc: 0.8156 acc: 0.7235
+IoU for the classes are: 
+ [0.7059 0.3302 0.3711]
+Precision for the classes are: 
+ [0.8905 0.4095 0.4941]
+Recall for the classes are: 
+ [0.773  0.6303 0.5985]
+Accuracies for the classes are: 
+ [0.7745 0.8866 0.7859]
+
+
+Training epoch 17
+Iteration:      0 loss train: 0.6321 time elapsed:    0.1
+Iteration:     50 loss train: 0.6491 time elapsed:    8.2
+Iteration:    100 loss train: 0.6496 time elapsed:   16.4
+Iteration:    150 loss train: 0.6564 time elapsed:   24.5
+Iteration:    200 loss train: 0.6565 time elapsed:   32.6
+Iteration:    250 loss train: 0.6567 time elapsed:   40.7
+Iteration:    300 loss train: 0.6577 time elapsed:   48.9
+Iteration:    350 loss train: 0.6584 time elapsed:   57.0
+Iteration:    400 loss train: 0.6587 time elapsed:   65.1
+Iteration:    450 loss train: 0.6582 time elapsed:   73.2
+Iteration:    500 loss train: 0.6570 time elapsed:   81.4
+Iteration:    550 loss train: 0.6566 time elapsed:   89.5
+Iteration:    600 loss train: 0.6558 time elapsed:   97.6
+Iteration:    650 loss train: 0.6557 time elapsed:  105.8
+Iteration:    700 loss train: 0.6563 time elapsed:  113.9
+Iteration:    750 loss train: 0.6564 time elapsed:  122.0
+Iteration:    800 loss train: 0.6572 time elapsed:  130.2
+Iteration:    850 loss train: 0.6574 time elapsed:  138.3
+Iteration:    900 loss train: 0.6574 time elapsed:  146.4
+Iteration:    950 loss train: 0.6575 time elapsed:  154.5
+Iteration:   1000 loss train: 0.6576 time elapsed:  162.7
+Iteration:   1050 loss train: 0.6575 time elapsed:  170.8
+Iteration:   1100 loss train: 0.6575 time elapsed:  178.9
+Iteration:   1150 loss train: 0.6573 time elapsed:  187.0
+Iteration:   1200 loss train: 0.6575 time elapsed:  195.2
+Iteration:   1250 loss train: 0.6572 time elapsed:  203.3
+Iteration:   1300 loss train: 0.6573 time elapsed:  211.4
+Iteration:   1350 loss train: 0.6580 time elapsed:  219.6
+Iteration:   1400 loss train: 0.6579 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6582 time elapsed:  235.8
+Iteration:   1500 loss train: 0.6583 time elapsed:  243.9
+Iteration:   1550 loss train: 0.6581 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6575 time elapsed:  260.2
+Iteration:   1650 loss train: 0.6578 time elapsed:  268.3
+Iteration:   1700 loss train: 0.6575 time elapsed:  276.5
+Iteration:   1750 loss train: 0.6574 time elapsed:  284.6
+Iteration:   1800 loss train: 0.6573 time elapsed:  292.7
+
+Epoch: 17 loss train: 0.6570 time elapsed:  300.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-17.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[294404470  61268118 128830964]
+train accuracy results: mIoU: 0.4923 mPrecision: 0.6197 mRecall: 0.6929 mAcc: 0.8258 acc: 0.7386
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12765418  3013680  4700902]
+val loss: 0.7046 mIoU: 0.4710 mPrecision: 0.5997 mRecall: 0.6702 mAcc: 0.8189 acc: 0.7284
+IoU for the classes are: 
+ [0.7145 0.333  0.3655]
+Precision for the classes are: 
+ [0.8848 0.4005 0.5139]
+Recall for the classes are: 
+ [0.7877 0.6643 0.5587]
+Accuracies for the classes are: 
+ [0.7796 0.882  0.7952]
+
+
+Training epoch 18
+Iteration:      0 loss train: 0.6940 time elapsed:    0.1
+Iteration:     50 loss train: 0.6403 time elapsed:    8.2
+Iteration:    100 loss train: 0.6398 time elapsed:   16.4
+Iteration:    150 loss train: 0.6433 time elapsed:   24.5
+Iteration:    200 loss train: 0.6454 time elapsed:   32.6
+Iteration:    250 loss train: 0.6480 time elapsed:   40.7
+Iteration:    300 loss train: 0.6478 time elapsed:   48.9
+Iteration:    350 loss train: 0.6487 time elapsed:   57.0
+Iteration:    400 loss train: 0.6480 time elapsed:   65.1
+Iteration:    450 loss train: 0.6497 time elapsed:   73.2
+Iteration:    500 loss train: 0.6500 time elapsed:   81.4
+Iteration:    550 loss train: 0.6496 time elapsed:   89.5
+Iteration:    600 loss train: 0.6489 time elapsed:   97.6
+Iteration:    650 loss train: 0.6494 time elapsed:  105.8
+Iteration:    700 loss train: 0.6488 time elapsed:  113.9
+Iteration:    750 loss train: 0.6494 time elapsed:  122.0
+Iteration:    800 loss train: 0.6502 time elapsed:  130.2
+Iteration:    850 loss train: 0.6504 time elapsed:  138.3
+Iteration:    900 loss train: 0.6504 time elapsed:  146.4
+Iteration:    950 loss train: 0.6502 time elapsed:  154.6
+Iteration:   1000 loss train: 0.6498 time elapsed:  162.7
+Iteration:   1050 loss train: 0.6503 time elapsed:  170.8
+Iteration:   1100 loss train: 0.6501 time elapsed:  179.0
+Iteration:   1150 loss train: 0.6506 time elapsed:  187.1
+Iteration:   1200 loss train: 0.6501 time elapsed:  195.2
+Iteration:   1250 loss train: 0.6503 time elapsed:  203.4
+Iteration:   1300 loss train: 0.6504 time elapsed:  211.5
+Iteration:   1350 loss train: 0.6499 time elapsed:  219.6
+Iteration:   1400 loss train: 0.6501 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6499 time elapsed:  235.9
+Iteration:   1500 loss train: 0.6503 time elapsed:  244.0
+Iteration:   1550 loss train: 0.6502 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6502 time elapsed:  260.3
+Iteration:   1650 loss train: 0.6502 time elapsed:  268.4
+Iteration:   1700 loss train: 0.6506 time elapsed:  276.5
+Iteration:   1750 loss train: 0.6506 time elapsed:  284.6
+Iteration:   1800 loss train: 0.6504 time elapsed:  292.8
+
+Epoch: 18 loss train: 0.6507 time elapsed:  300.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-18.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[294301718  61559825 128642009]
+train accuracy results: mIoU: 0.4960 mPrecision: 0.6229 mRecall: 0.6977 mAcc: 0.8272 acc: 0.7407
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12302440  2024895  6152665]
+val loss: 0.7061 mIoU: 0.4730 mPrecision: 0.6134 mRecall: 0.6556 mAcc: 0.8166 acc: 0.7249
+IoU for the classes are: 
+ [0.7017 0.3354 0.382 ]
+Precision for the classes are: 
+ [0.893  0.4765 0.4707]
+Recall for the classes are: 
+ [0.7661 0.5311 0.6697]
+Accuracies for the classes are: 
+ [0.772  0.9066 0.7712]
+
+
+Training epoch 19
+Iteration:      0 loss train: 0.6239 time elapsed:    0.1
+Iteration:     50 loss train: 0.6372 time elapsed:    8.2
+Iteration:    100 loss train: 0.6436 time elapsed:   16.3
+Iteration:    150 loss train: 0.6446 time elapsed:   24.5
+Iteration:    200 loss train: 0.6427 time elapsed:   32.6
+Iteration:    250 loss train: 0.6431 time elapsed:   40.7
+Iteration:    300 loss train: 0.6411 time elapsed:   48.9
+Iteration:    350 loss train: 0.6422 time elapsed:   57.0
+Iteration:    400 loss train: 0.6418 time elapsed:   65.1
+Iteration:    450 loss train: 0.6430 time elapsed:   73.2
+Iteration:    500 loss train: 0.6430 time elapsed:   81.4
+Iteration:    550 loss train: 0.6432 time elapsed:   89.5
+Iteration:    600 loss train: 0.6424 time elapsed:   97.6
+Iteration:    650 loss train: 0.6422 time elapsed:  105.8
+Iteration:    700 loss train: 0.6428 time elapsed:  113.9
+Iteration:    750 loss train: 0.6426 time elapsed:  122.0
+Iteration:    800 loss train: 0.6429 time elapsed:  130.2
+Iteration:    850 loss train: 0.6427 time elapsed:  138.3
+Iteration:    900 loss train: 0.6438 time elapsed:  146.4
+Iteration:    950 loss train: 0.6439 time elapsed:  154.6
+Iteration:   1000 loss train: 0.6442 time elapsed:  162.7
+Iteration:   1050 loss train: 0.6441 time elapsed:  170.8
+Iteration:   1100 loss train: 0.6443 time elapsed:  178.9
+Iteration:   1150 loss train: 0.6446 time elapsed:  187.1
+Iteration:   1200 loss train: 0.6449 time elapsed:  195.2
+Iteration:   1250 loss train: 0.6447 time elapsed:  203.3
+Iteration:   1300 loss train: 0.6448 time elapsed:  211.4
+Iteration:   1350 loss train: 0.6447 time elapsed:  219.6
+Iteration:   1400 loss train: 0.6446 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6442 time elapsed:  235.8
+Iteration:   1500 loss train: 0.6444 time elapsed:  244.0
+Iteration:   1550 loss train: 0.6444 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6448 time elapsed:  260.2
+Iteration:   1650 loss train: 0.6446 time elapsed:  268.4
+Iteration:   1700 loss train: 0.6445 time elapsed:  276.5
+Iteration:   1750 loss train: 0.6445 time elapsed:  284.6
+Iteration:   1800 loss train: 0.6439 time elapsed:  292.7
+
+Epoch: 19 loss train: 0.6440 time elapsed:  300.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-19.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[294089178  61446593 128967781]
+train accuracy results: mIoU: 0.4999 mPrecision: 0.6263 mRecall: 0.7022 mAcc: 0.8286 acc: 0.7429
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[11335455  2199284  6945261]
+val loss: 0.7055 mIoU: 0.4591 mPrecision: 0.6019 mRecall: 0.6601 mAcc: 0.8021 acc: 0.7031
+IoU for the classes are: 
+ [0.6714 0.3272 0.3788]
+Precision for the classes are: 
+ [0.9098 0.4502 0.4457]
+Recall for the classes are: 
+ [0.7192 0.545  0.716 ]
+Accuracies for the classes are: 
+ [0.7535 0.9006 0.7521]
+
+
+Training epoch 20
+Iteration:      0 loss train: 0.6492 time elapsed:    0.1
+Iteration:     50 loss train: 0.6508 time elapsed:    8.2
+Iteration:    100 loss train: 0.6456 time elapsed:   16.4
+Iteration:    150 loss train: 0.6396 time elapsed:   24.5
+Iteration:    200 loss train: 0.6433 time elapsed:   32.7
+Iteration:    250 loss train: 0.6417 time elapsed:   40.8
+Iteration:    300 loss train: 0.6408 time elapsed:   48.9
+Iteration:    350 loss train: 0.6397 time elapsed:   57.1
+Iteration:    400 loss train: 0.6397 time elapsed:   65.2
+Iteration:    450 loss train: 0.6387 time elapsed:   73.4
+Iteration:    500 loss train: 0.6379 time elapsed:   81.5
+Iteration:    550 loss train: 0.6371 time elapsed:   89.6
+Iteration:    600 loss train: 0.6366 time elapsed:   97.8
+Iteration:    650 loss train: 0.6366 time elapsed:  105.9
+Iteration:    700 loss train: 0.6366 time elapsed:  114.1
+Iteration:    750 loss train: 0.6375 time elapsed:  122.2
+Iteration:    800 loss train: 0.6371 time elapsed:  130.4
+Iteration:    850 loss train: 0.6367 time elapsed:  138.5
+Iteration:    900 loss train: 0.6367 time elapsed:  146.6
+Iteration:    950 loss train: 0.6363 time elapsed:  154.8
+Iteration:   1000 loss train: 0.6360 time elapsed:  162.9
+Iteration:   1050 loss train: 0.6361 time elapsed:  171.0
+Iteration:   1100 loss train: 0.6362 time elapsed:  179.2
+Iteration:   1150 loss train: 0.6363 time elapsed:  187.3
+Iteration:   1200 loss train: 0.6364 time elapsed:  195.4
+Iteration:   1250 loss train: 0.6364 time elapsed:  203.6
+Iteration:   1300 loss train: 0.6365 time elapsed:  211.7
+Iteration:   1350 loss train: 0.6367 time elapsed:  219.9
+Iteration:   1400 loss train: 0.6368 time elapsed:  228.0
+Iteration:   1450 loss train: 0.6368 time elapsed:  236.2
+Iteration:   1500 loss train: 0.6367 time elapsed:  244.3
+Iteration:   1550 loss train: 0.6367 time elapsed:  252.4
+Iteration:   1600 loss train: 0.6366 time elapsed:  260.6
+Iteration:   1650 loss train: 0.6366 time elapsed:  268.7
+Iteration:   1700 loss train: 0.6368 time elapsed:  276.9
+Iteration:   1750 loss train: 0.6368 time elapsed:  285.0
+Iteration:   1800 loss train: 0.6366 time elapsed:  293.2
+
+Epoch: 20 loss train: 0.6368 time elapsed:  300.9
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-20.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293785004  61685619 129032929]
+train accuracy results: mIoU: 0.5035 mPrecision: 0.6294 mRecall: 0.7070 mAcc: 0.8299 acc: 0.7448
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12601236  2306712  5572052]
+val loss: 0.6977 mIoU: 0.4801 mPrecision: 0.6132 mRecall: 0.6657 mAcc: 0.8221 acc: 0.7331
+IoU for the classes are: 
+ [0.7131 0.3431 0.3842]
+Precision for the classes are: 
+ [0.8899 0.4567 0.493 ]
+Recall for the classes are: 
+ [0.7821 0.5798 0.6352]
+Accuracies for the classes are: 
+ [0.7797 0.9015 0.785 ]
+
+
+Training epoch 21
+Iteration:      0 loss train: 0.5936 time elapsed:    0.1
+Iteration:     50 loss train: 0.6295 time elapsed:    8.2
+Iteration:    100 loss train: 0.6317 time elapsed:   16.4
+Iteration:    150 loss train: 0.6315 time elapsed:   24.5
+Iteration:    200 loss train: 0.6287 time elapsed:   32.7
+Iteration:    250 loss train: 0.6285 time elapsed:   40.8
+Iteration:    300 loss train: 0.6294 time elapsed:   49.0
+Iteration:    350 loss train: 0.6297 time elapsed:   57.1
+Iteration:    400 loss train: 0.6304 time elapsed:   65.2
+Iteration:    450 loss train: 0.6307 time elapsed:   73.4
+Iteration:    500 loss train: 0.6305 time elapsed:   81.5
+Iteration:    550 loss train: 0.6302 time elapsed:   89.7
+Iteration:    600 loss train: 0.6294 time elapsed:   97.8
+Iteration:    650 loss train: 0.6287 time elapsed:  106.0
+Iteration:    700 loss train: 0.6289 time elapsed:  114.1
+Iteration:    750 loss train: 0.6287 time elapsed:  122.3
+Iteration:    800 loss train: 0.6284 time elapsed:  130.4
+Iteration:    850 loss train: 0.6286 time elapsed:  138.6
+Iteration:    900 loss train: 0.6286 time elapsed:  146.7
+Iteration:    950 loss train: 0.6288 time elapsed:  154.8
+Iteration:   1000 loss train: 0.6288 time elapsed:  163.0
+Iteration:   1050 loss train: 0.6289 time elapsed:  171.1
+Iteration:   1100 loss train: 0.6292 time elapsed:  179.2
+Iteration:   1150 loss train: 0.6289 time elapsed:  187.4
+Iteration:   1200 loss train: 0.6291 time elapsed:  195.5
+Iteration:   1250 loss train: 0.6293 time elapsed:  203.6
+Iteration:   1300 loss train: 0.6293 time elapsed:  211.8
+Iteration:   1350 loss train: 0.6296 time elapsed:  219.9
+Iteration:   1400 loss train: 0.6302 time elapsed:  228.0
+Iteration:   1450 loss train: 0.6309 time elapsed:  236.2
+Iteration:   1500 loss train: 0.6310 time elapsed:  244.3
+Iteration:   1550 loss train: 0.6313 time elapsed:  252.4
+Iteration:   1600 loss train: 0.6312 time elapsed:  260.6
+Iteration:   1650 loss train: 0.6312 time elapsed:  268.7
+Iteration:   1700 loss train: 0.6314 time elapsed:  276.8
+Iteration:   1750 loss train: 0.6315 time elapsed:  285.0
+Iteration:   1800 loss train: 0.6315 time elapsed:  293.1
+
+Epoch: 21 loss train: 0.6315 time elapsed:  300.9
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-21.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293699170  61591610 129212772]
+train accuracy results: mIoU: 0.5067 mPrecision: 0.6322 mRecall: 0.7106 mAcc: 0.8312 acc: 0.7468
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[11994954  1752965  6732081]
+val loss: 0.7136 mIoU: 0.4685 mPrecision: 0.6190 mRecall: 0.6490 mAcc: 0.8134 acc: 0.7201
+IoU for the classes are: 
+ [0.6943 0.3253 0.386 ]
+Precision for the classes are: 
+ [0.8997 0.4998 0.4574]
+Recall for the classes are: 
+ [0.7526 0.4823 0.7122]
+Accuracies for the classes are: 
+ [0.768  0.9113 0.7609]
+
+
+Training epoch 22
+Iteration:      0 loss train: 0.6228 time elapsed:    0.1
+Iteration:     50 loss train: 0.6367 time elapsed:    8.2
+Iteration:    100 loss train: 0.6303 time elapsed:   16.4
+Iteration:    150 loss train: 0.6286 time elapsed:   24.5
+Iteration:    200 loss train: 0.6270 time elapsed:   32.6
+Iteration:    250 loss train: 0.6251 time elapsed:   40.8
+Iteration:    300 loss train: 0.6260 time elapsed:   48.9
+Iteration:    350 loss train: 0.6255 time elapsed:   57.0
+Iteration:    400 loss train: 0.6255 time elapsed:   65.2
+Iteration:    450 loss train: 0.6253 time elapsed:   73.3
+Iteration:    500 loss train: 0.6254 time elapsed:   81.4
+Iteration:    550 loss train: 0.6257 time elapsed:   89.6
+Iteration:    600 loss train: 0.6254 time elapsed:   97.7
+Iteration:    650 loss train: 0.6252 time elapsed:  105.8
+Iteration:    700 loss train: 0.6248 time elapsed:  114.0
+Iteration:    750 loss train: 0.6247 time elapsed:  122.1
+Iteration:    800 loss train: 0.6251 time elapsed:  130.2
+Iteration:    850 loss train: 0.6247 time elapsed:  138.4
+Iteration:    900 loss train: 0.6249 time elapsed:  146.5
+Iteration:    950 loss train: 0.6246 time elapsed:  154.6
+Iteration:   1000 loss train: 0.6247 time elapsed:  162.8
+Iteration:   1050 loss train: 0.6248 time elapsed:  170.9
+Iteration:   1100 loss train: 0.6250 time elapsed:  179.0
+Iteration:   1150 loss train: 0.6249 time elapsed:  187.1
+Iteration:   1200 loss train: 0.6252 time elapsed:  195.3
+Iteration:   1250 loss train: 0.6256 time elapsed:  203.4
+Iteration:   1300 loss train: 0.6255 time elapsed:  211.5
+Iteration:   1350 loss train: 0.6254 time elapsed:  219.7
+Iteration:   1400 loss train: 0.6251 time elapsed:  227.8
+Iteration:   1450 loss train: 0.6249 time elapsed:  235.9
+Iteration:   1500 loss train: 0.6250 time elapsed:  244.0
+Iteration:   1550 loss train: 0.6255 time elapsed:  252.2
+Iteration:   1600 loss train: 0.6256 time elapsed:  260.3
+Iteration:   1650 loss train: 0.6255 time elapsed:  268.5
+Iteration:   1700 loss train: 0.6256 time elapsed:  276.6
+Iteration:   1750 loss train: 0.6258 time elapsed:  284.7
+Iteration:   1800 loss train: 0.6256 time elapsed:  292.9
+
+Epoch: 22 loss train: 0.6259 time elapsed:  300.6
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-22.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293659470  61594862 129249220]
+train accuracy results: mIoU: 0.5099 mPrecision: 0.6350 mRecall: 0.7144 mAcc: 0.8323 acc: 0.7485
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[11982790  2780601  5716609]
+val loss: 0.7002 mIoU: 0.4714 mPrecision: 0.6010 mRecall: 0.6777 mAcc: 0.8124 acc: 0.7187
+IoU for the classes are: 
+ [0.6952 0.3406 0.3783]
+Precision for the classes are: 
+ [0.9008 0.4201 0.4821]
+Recall for the classes are: 
+ [0.7528 0.6429 0.6373]
+Accuracies for the classes are: 
+ [0.7689 0.8896 0.7789]
+
+
+Training epoch 23
+Iteration:      0 loss train: 0.5904 time elapsed:    0.1
+Iteration:     50 loss train: 0.6195 time elapsed:    8.2
+Iteration:    100 loss train: 0.6176 time elapsed:   16.4
+Iteration:    150 loss train: 0.6153 time elapsed:   24.5
+Iteration:    200 loss train: 0.6143 time elapsed:   32.7
+Iteration:    250 loss train: 0.6162 time elapsed:   40.8
+Iteration:    300 loss train: 0.6155 time elapsed:   48.9
+Iteration:    350 loss train: 0.6154 time elapsed:   57.1
+Iteration:    400 loss train: 0.6161 time elapsed:   65.2
+Iteration:    450 loss train: 0.6172 time elapsed:   73.4
+Iteration:    500 loss train: 0.6179 time elapsed:   81.5
+Iteration:    550 loss train: 0.6176 time elapsed:   89.6
+Iteration:    600 loss train: 0.6169 time elapsed:   97.8
+Iteration:    650 loss train: 0.6176 time elapsed:  105.9
+Iteration:    700 loss train: 0.6188 time elapsed:  114.0
+Iteration:    750 loss train: 0.6188 time elapsed:  122.2
+Iteration:    800 loss train: 0.6188 time elapsed:  130.3
+Iteration:    850 loss train: 0.6183 time elapsed:  138.5
+Iteration:    900 loss train: 0.6183 time elapsed:  146.6
+Iteration:    950 loss train: 0.6181 time elapsed:  154.8
+Iteration:   1000 loss train: 0.6183 time elapsed:  162.9
+Iteration:   1050 loss train: 0.6181 time elapsed:  171.0
+Iteration:   1100 loss train: 0.6183 time elapsed:  179.2
+Iteration:   1150 loss train: 0.6186 time elapsed:  187.3
+Iteration:   1200 loss train: 0.6187 time elapsed:  195.4
+Iteration:   1250 loss train: 0.6187 time elapsed:  203.6
+Iteration:   1300 loss train: 0.6189 time elapsed:  211.7
+Iteration:   1350 loss train: 0.6186 time elapsed:  219.9
+Iteration:   1400 loss train: 0.6187 time elapsed:  228.0
+Iteration:   1450 loss train: 0.6185 time elapsed:  236.2
+Iteration:   1500 loss train: 0.6185 time elapsed:  244.3
+Iteration:   1550 loss train: 0.6184 time elapsed:  252.5
+Iteration:   1600 loss train: 0.6182 time elapsed:  260.6
+Iteration:   1650 loss train: 0.6179 time elapsed:  268.7
+Iteration:   1700 loss train: 0.6185 time elapsed:  276.9
+Iteration:   1750 loss train: 0.6186 time elapsed:  285.0
+Iteration:   1800 loss train: 0.6190 time elapsed:  293.1
+
+Epoch: 23 loss train: 0.6190 time elapsed:  300.9
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-23.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293442727  61864366 129196459]
+train accuracy results: mIoU: 0.5134 mPrecision: 0.6378 mRecall: 0.7188 mAcc: 0.8338 acc: 0.7506
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12285079  2132271  6062650]
+val loss: 0.6976 mIoU: 0.4765 mPrecision: 0.6140 mRecall: 0.6622 mAcc: 0.8183 acc: 0.7274
+IoU for the classes are: 
+ [0.7049 0.3395 0.3852]
+Precision for the classes are: 
+ [0.8961 0.4694 0.4764]
+Recall for the classes are: 
+ [0.7677 0.5509 0.668 ]
+Accuracies for the classes are: 
+ [0.775  0.9049 0.7749]
+
+
+Training epoch 24
+Iteration:      0 loss train: 0.6245 time elapsed:    0.1
+Iteration:     50 loss train: 0.6035 time elapsed:    8.2
+Iteration:    100 loss train: 0.6021 time elapsed:   16.4
+Iteration:    150 loss train: 0.6070 time elapsed:   24.5
+Iteration:    200 loss train: 0.6093 time elapsed:   32.6
+Iteration:    250 loss train: 0.6105 time elapsed:   40.8
+Iteration:    300 loss train: 0.6106 time elapsed:   48.9
+Iteration:    350 loss train: 0.6109 time elapsed:   57.0
+Iteration:    400 loss train: 0.6094 time elapsed:   65.1
+Iteration:    450 loss train: 0.6097 time elapsed:   73.3
+Iteration:    500 loss train: 0.6100 time elapsed:   81.4
+Iteration:    550 loss train: 0.6103 time elapsed:   89.5
+Iteration:    600 loss train: 0.6111 time elapsed:   97.7
+Iteration:    650 loss train: 0.6108 time elapsed:  105.8
+Iteration:    700 loss train: 0.6114 time elapsed:  113.9
+Iteration:    750 loss train: 0.6110 time elapsed:  122.1
+Iteration:    800 loss train: 0.6113 time elapsed:  130.2
+Iteration:    850 loss train: 0.6111 time elapsed:  138.3
+Iteration:    900 loss train: 0.6109 time elapsed:  146.5
+Iteration:    950 loss train: 0.6111 time elapsed:  154.6
+Iteration:   1000 loss train: 0.6110 time elapsed:  162.7
+Iteration:   1050 loss train: 0.6119 time elapsed:  170.8
+Iteration:   1100 loss train: 0.6114 time elapsed:  179.0
+Iteration:   1150 loss train: 0.6117 time elapsed:  187.1
+Iteration:   1200 loss train: 0.6114 time elapsed:  195.2
+Iteration:   1250 loss train: 0.6114 time elapsed:  203.4
+Iteration:   1300 loss train: 0.6116 time elapsed:  211.5
+Iteration:   1350 loss train: 0.6116 time elapsed:  219.6
+Iteration:   1400 loss train: 0.6118 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6120 time elapsed:  235.9
+Iteration:   1500 loss train: 0.6124 time elapsed:  244.0
+Iteration:   1550 loss train: 0.6126 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6129 time elapsed:  260.3
+Iteration:   1650 loss train: 0.6130 time elapsed:  268.4
+Iteration:   1700 loss train: 0.6131 time elapsed:  276.5
+Iteration:   1750 loss train: 0.6135 time elapsed:  284.7
+Iteration:   1800 loss train: 0.6135 time elapsed:  292.8
+
+Epoch: 24 loss train: 0.6136 time elapsed:  300.6
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-24.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293245910  61579484 129678158]
+train accuracy results: mIoU: 0.5167 mPrecision: 0.6407 mRecall: 0.7223 mAcc: 0.8348 acc: 0.7522
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[13095667  2495626  4888707]
+val loss: 0.7001 mIoU: 0.4829 mPrecision: 0.6138 mRecall: 0.6662 mAcc: 0.8269 acc: 0.7404
+IoU for the classes are: 
+ [0.725  0.3467 0.3771]
+Precision for the classes are: 
+ [0.8805 0.4449 0.516 ]
+Recall for the classes are: 
+ [0.8041 0.6111 0.5834]
+Accuracies for the classes are: 
+ [0.7864 0.8979 0.7965]
+
+
+Training epoch 25
+Iteration:      0 loss train: 0.5674 time elapsed:    0.1
+Iteration:     50 loss train: 0.6045 time elapsed:    8.2
+Iteration:    100 loss train: 0.6052 time elapsed:   16.4
+Iteration:    150 loss train: 0.6056 time elapsed:   24.5
+Iteration:    200 loss train: 0.6052 time elapsed:   32.6
+Iteration:    250 loss train: 0.6054 time elapsed:   40.7
+Iteration:    300 loss train: 0.6056 time elapsed:   48.9
+Iteration:    350 loss train: 0.6055 time elapsed:   57.0
+Iteration:    400 loss train: 0.6051 time elapsed:   65.1
+Iteration:    450 loss train: 0.6050 time elapsed:   73.2
+Iteration:    500 loss train: 0.6043 time elapsed:   81.4
+Iteration:    550 loss train: 0.6059 time elapsed:   89.5
+Iteration:    600 loss train: 0.6060 time elapsed:   97.6
+Iteration:    650 loss train: 0.6052 time elapsed:  105.8
+Iteration:    700 loss train: 0.6053 time elapsed:  113.9
+Iteration:    750 loss train: 0.6059 time elapsed:  122.0
+Iteration:    800 loss train: 0.6055 time elapsed:  130.2
+Iteration:    850 loss train: 0.6057 time elapsed:  138.3
+Iteration:    900 loss train: 0.6061 time elapsed:  146.4
+Iteration:    950 loss train: 0.6061 time elapsed:  154.5
+Iteration:   1000 loss train: 0.6062 time elapsed:  162.7
+Iteration:   1050 loss train: 0.6065 time elapsed:  170.8
+Iteration:   1100 loss train: 0.6062 time elapsed:  178.9
+Iteration:   1150 loss train: 0.6060 time elapsed:  187.0
+Iteration:   1200 loss train: 0.6062 time elapsed:  195.2
+Iteration:   1250 loss train: 0.6062 time elapsed:  203.3
+Iteration:   1300 loss train: 0.6061 time elapsed:  211.4
+Iteration:   1350 loss train: 0.6061 time elapsed:  219.6
+Iteration:   1400 loss train: 0.6060 time elapsed:  227.7
+Iteration:   1450 loss train: 0.6061 time elapsed:  235.8
+Iteration:   1500 loss train: 0.6066 time elapsed:  243.9
+Iteration:   1550 loss train: 0.6065 time elapsed:  252.1
+Iteration:   1600 loss train: 0.6064 time elapsed:  260.2
+Iteration:   1650 loss train: 0.6065 time elapsed:  268.3
+Iteration:   1700 loss train: 0.6065 time elapsed:  276.5
+Iteration:   1750 loss train: 0.6065 time elapsed:  284.6
+Iteration:   1800 loss train: 0.6068 time elapsed:  292.7
+
+Epoch: 25 loss train: 0.6068 time elapsed:  300.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-25.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293462081  61576296 129465175]
+train accuracy results: mIoU: 0.5207 mPrecision: 0.6441 mRecall: 0.7267 mAcc: 0.8363 acc: 0.7545
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12426666  2153977  5899357]
+val loss: 0.7072 mIoU: 0.4776 mPrecision: 0.6140 mRecall: 0.6617 mAcc: 0.8200 acc: 0.7299
+IoU for the classes are: 
+ [0.7082 0.3384 0.3862]
+Precision for the classes are: 
+ [0.893  0.4661 0.4828]
+Recall for the classes are: 
+ [0.7739 0.5526 0.6587]
+Accuracies for the classes are: 
+ [0.7768 0.9042 0.779 ]
+
+
+Training epoch 26
+Iteration:      0 loss train: 0.6164 time elapsed:    0.1
+Iteration:     50 loss train: 0.5979 time elapsed:    8.2
+Iteration:    100 loss train: 0.5995 time elapsed:   16.4
+Iteration:    150 loss train: 0.6035 time elapsed:   24.5
+Iteration:    200 loss train: 0.6039 time elapsed:   32.6
+Iteration:    250 loss train: 0.6042 time elapsed:   40.8
+Iteration:    300 loss train: 0.6033 time elapsed:   48.9
+Iteration:    350 loss train: 0.6020 time elapsed:   57.0
+Iteration:    400 loss train: 0.6016 time elapsed:   65.1
+Iteration:    450 loss train: 0.6016 time elapsed:   73.3
+Iteration:    500 loss train: 0.6008 time elapsed:   81.4
+Iteration:    550 loss train: 0.6020 time elapsed:   89.6
+Iteration:    600 loss train: 0.6015 time elapsed:   97.7
+Iteration:    650 loss train: 0.6013 time elapsed:  105.8
+Iteration:    700 loss train: 0.6012 time elapsed:  114.0
+Iteration:    750 loss train: 0.6014 time elapsed:  122.1
+Iteration:    800 loss train: 0.6009 time elapsed:  130.2
+Iteration:    850 loss train: 0.6008 time elapsed:  138.4
+Iteration:    900 loss train: 0.6008 time elapsed:  146.5
+Iteration:    950 loss train: 0.6007 time elapsed:  154.6
+Iteration:   1000 loss train: 0.6008 time elapsed:  162.7
+Iteration:   1050 loss train: 0.6009 time elapsed:  170.9
+Iteration:   1100 loss train: 0.6011 time elapsed:  179.0
+Iteration:   1150 loss train: 0.6013 time elapsed:  187.2
+Iteration:   1200 loss train: 0.6017 time elapsed:  195.3
+Iteration:   1250 loss train: 0.6017 time elapsed:  203.5
+Iteration:   1300 loss train: 0.6018 time elapsed:  211.6
+Iteration:   1350 loss train: 0.6018 time elapsed:  219.8
+Iteration:   1400 loss train: 0.6019 time elapsed:  227.9
+Iteration:   1450 loss train: 0.6022 time elapsed:  236.0
+Iteration:   1500 loss train: 0.6023 time elapsed:  244.2
+Iteration:   1550 loss train: 0.6027 time elapsed:  252.3
+Iteration:   1600 loss train: 0.6026 time elapsed:  260.5
+Iteration:   1650 loss train: 0.6029 time elapsed:  268.6
+Iteration:   1700 loss train: 0.6029 time elapsed:  276.7
+Iteration:   1750 loss train: 0.6028 time elapsed:  284.9
+Iteration:   1800 loss train: 0.6029 time elapsed:  293.0
+
+Epoch: 26 loss train: 0.6030 time elapsed:  300.8
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-26.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293266925  61544198 129692429]
+train accuracy results: mIoU: 0.5229 mPrecision: 0.6460 mRecall: 0.7292 mAcc: 0.8372 acc: 0.7559
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[11697931  2584076  6197993]
+val loss: 0.6998 mIoU: 0.4681 mPrecision: 0.6010 mRecall: 0.6731 mAcc: 0.8094 acc: 0.7142
+IoU for the classes are: 
+ [0.6879 0.333  0.3833]
+Precision for the classes are: 
+ [0.9071 0.4255 0.4704]
+Recall for the classes are: 
+ [0.74   0.6051 0.6743]
+Accuracies for the classes are: 
+ [0.7649 0.8925 0.7709]
+
+
+Training epoch 27
+Iteration:      0 loss train: 0.6332 time elapsed:    0.1
+Iteration:     50 loss train: 0.6007 time elapsed:    8.2
+Iteration:    100 loss train: 0.5963 time elapsed:   16.4
+Iteration:    150 loss train: 0.5891 time elapsed:   24.5
+Iteration:    200 loss train: 0.5902 time elapsed:   32.6
+Iteration:    250 loss train: 0.5914 time elapsed:   40.8
+Iteration:    300 loss train: 0.5918 time elapsed:   48.9
+Iteration:    350 loss train: 0.5927 time elapsed:   57.0
+Iteration:    400 loss train: 0.5925 time elapsed:   65.2
+Iteration:    450 loss train: 0.5916 time elapsed:   73.3
+Iteration:    500 loss train: 0.5925 time elapsed:   81.5
+Iteration:    550 loss train: 0.5925 time elapsed:   89.6
+Iteration:    600 loss train: 0.5927 time elapsed:   97.7
+Iteration:    650 loss train: 0.5930 time elapsed:  105.9
+Iteration:    700 loss train: 0.5938 time elapsed:  114.0
+Iteration:    750 loss train: 0.5944 time elapsed:  122.1
+Iteration:    800 loss train: 0.5948 time elapsed:  130.3
+Iteration:    850 loss train: 0.5950 time elapsed:  138.4
+Iteration:    900 loss train: 0.5952 time elapsed:  146.6
+Iteration:    950 loss train: 0.5955 time elapsed:  154.7
+Iteration:   1000 loss train: 0.5963 time elapsed:  162.9
+Iteration:   1050 loss train: 0.5962 time elapsed:  171.0
+Iteration:   1100 loss train: 0.5964 time elapsed:  179.1
+Iteration:   1150 loss train: 0.5961 time elapsed:  187.3
+Iteration:   1200 loss train: 0.5961 time elapsed:  195.4
+Iteration:   1250 loss train: 0.5957 time elapsed:  203.5
+Iteration:   1300 loss train: 0.5958 time elapsed:  211.7
+Iteration:   1350 loss train: 0.5958 time elapsed:  219.8
+Iteration:   1400 loss train: 0.5956 time elapsed:  228.0
+Iteration:   1450 loss train: 0.5961 time elapsed:  236.1
+Iteration:   1500 loss train: 0.5964 time elapsed:  244.2
+Iteration:   1550 loss train: 0.5965 time elapsed:  252.4
+Iteration:   1600 loss train: 0.5968 time elapsed:  260.5
+Iteration:   1650 loss train: 0.5968 time elapsed:  268.6
+Iteration:   1700 loss train: 0.5970 time elapsed:  276.8
+Iteration:   1750 loss train: 0.5969 time elapsed:  284.9
+Iteration:   1800 loss train: 0.5969 time elapsed:  293.0
+
+Epoch: 27 loss train: 0.5970 time elapsed:  300.8
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-27.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293209336  61707927 129586289]
+train accuracy results: mIoU: 0.5260 mPrecision: 0.6485 mRecall: 0.7330 mAcc: 0.8383 acc: 0.7574
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[13045014  2610376  4824610]
+val loss: 0.7069 mIoU: 0.4819 mPrecision: 0.6117 mRecall: 0.6682 mAcc: 0.8267 acc: 0.7400
+IoU for the classes are: 
+ [0.7258 0.342  0.378 ]
+Precision for the classes are: 
+ [0.8829 0.4322 0.5202]
+Recall for the classes are: 
+ [0.8032 0.621  0.5804]
+Accuracies for the classes are: 
+ [0.7876 0.894  0.7984]
+
+
+Training epoch 28
+Iteration:      0 loss train: 0.5654 time elapsed:    0.1
+Iteration:     50 loss train: 0.5779 time elapsed:    8.2
+Iteration:    100 loss train: 0.5857 time elapsed:   16.4
+Iteration:    150 loss train: 0.5862 time elapsed:   24.5
+Iteration:    200 loss train: 0.5886 time elapsed:   32.6
+Iteration:    250 loss train: 0.5869 time elapsed:   40.8
+Iteration:    300 loss train: 0.5873 time elapsed:   48.9
+Iteration:    350 loss train: 0.5870 time elapsed:   57.1
+Iteration:    400 loss train: 0.5868 time elapsed:   65.2
+Iteration:    450 loss train: 0.5864 time elapsed:   73.3
+Iteration:    500 loss train: 0.5874 time elapsed:   81.5
+Iteration:    550 loss train: 0.5875 time elapsed:   89.6
+Iteration:    600 loss train: 0.5877 time elapsed:   97.8
+Iteration:    650 loss train: 0.5883 time elapsed:  105.9
+Iteration:    700 loss train: 0.5889 time elapsed:  114.1
+Iteration:    750 loss train: 0.5887 time elapsed:  122.2
+Iteration:    800 loss train: 0.5896 time elapsed:  130.3
+Iteration:    850 loss train: 0.5902 time elapsed:  138.6
+Iteration:    900 loss train: 0.5901 time elapsed:  146.8
+Iteration:    950 loss train: 0.5903 time elapsed:  154.9
+Iteration:   1000 loss train: 0.5903 time elapsed:  163.1
+Iteration:   1050 loss train: 0.5900 time elapsed:  171.4
+Iteration:   1100 loss train: 0.5903 time elapsed:  179.6
+Iteration:   1150 loss train: 0.5906 time elapsed:  187.8
+Iteration:   1200 loss train: 0.5905 time elapsed:  195.9
+Iteration:   1250 loss train: 0.5905 time elapsed:  204.1
+Iteration:   1300 loss train: 0.5907 time elapsed:  212.3
+Iteration:   1350 loss train: 0.5908 time elapsed:  220.5
+Iteration:   1400 loss train: 0.5912 time elapsed:  228.8
+Iteration:   1450 loss train: 0.5910 time elapsed:  237.0
+Iteration:   1500 loss train: 0.5909 time elapsed:  245.1
+Iteration:   1550 loss train: 0.5909 time elapsed:  253.3
+Iteration:   1600 loss train: 0.5905 time elapsed:  261.4
+Iteration:   1650 loss train: 0.5905 time elapsed:  269.5
+Iteration:   1700 loss train: 0.5905 time elapsed:  277.7
+Iteration:   1750 loss train: 0.5906 time elapsed:  285.8
+Iteration:   1800 loss train: 0.5909 time elapsed:  293.9
+
+Epoch: 28 loss train: 0.5909 time elapsed:  301.7
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-28.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293176014  61605606 129721932]
+train accuracy results: mIoU: 0.5296 mPrecision: 0.6515 mRecall: 0.7368 mAcc: 0.8397 acc: 0.7596
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12804731  2436149  5239120]
+val loss: 0.7049 mIoU: 0.4837 mPrecision: 0.6146 mRecall: 0.6700 mAcc: 0.8250 acc: 0.7374
+IoU for the classes are: 
+ [0.719  0.349  0.3831]
+Precision for the classes are: 
+ [0.8867 0.4517 0.5056]
+Recall for the classes are: 
+ [0.7918 0.6057 0.6126]
+Accuracies for the classes are: 
+ [0.7834 0.8998 0.7917]
+
+
+Training epoch 29
+Iteration:      0 loss train: 0.5633 time elapsed:    0.1
+Iteration:     50 loss train: 0.5874 time elapsed:    8.2
+Iteration:    100 loss train: 0.5834 time elapsed:   16.4
+Iteration:    150 loss train: 0.5811 time elapsed:   24.5
+Iteration:    200 loss train: 0.5802 time elapsed:   32.6
+Iteration:    250 loss train: 0.5812 time elapsed:   40.8
+Iteration:    300 loss train: 0.5803 time elapsed:   48.9
+Iteration:    350 loss train: 0.5801 time elapsed:   57.0
+Iteration:    400 loss train: 0.5814 time elapsed:   65.2
+Iteration:    450 loss train: 0.5819 time elapsed:   73.3
+Iteration:    500 loss train: 0.5823 time elapsed:   81.5
+Iteration:    550 loss train: 0.5837 time elapsed:   89.6
+Iteration:    600 loss train: 0.5840 time elapsed:   97.7
+Iteration:    650 loss train: 0.5837 time elapsed:  105.9
+Iteration:    700 loss train: 0.5839 time elapsed:  114.0
+Iteration:    750 loss train: 0.5836 time elapsed:  122.2
+Iteration:    800 loss train: 0.5838 time elapsed:  130.3
+Iteration:    850 loss train: 0.5838 time elapsed:  138.4
+Iteration:    900 loss train: 0.5837 time elapsed:  146.6
+Iteration:    950 loss train: 0.5838 time elapsed:  154.7
+Iteration:   1000 loss train: 0.5844 time elapsed:  162.8
+Iteration:   1050 loss train: 0.5844 time elapsed:  171.0
+Iteration:   1100 loss train: 0.5844 time elapsed:  179.1
+Iteration:   1150 loss train: 0.5841 time elapsed:  187.2
+Iteration:   1200 loss train: 0.5840 time elapsed:  195.4
+Iteration:   1250 loss train: 0.5843 time elapsed:  203.5
+Iteration:   1300 loss train: 0.5841 time elapsed:  213.3
+Iteration:   1350 loss train: 0.5843 time elapsed:  229.9
+Iteration:   1400 loss train: 0.5843 time elapsed:  246.4
+Iteration:   1450 loss train: 0.5844 time elapsed:  262.9
+Iteration:   1500 loss train: 0.5844 time elapsed:  279.5
+Iteration:   1550 loss train: 0.5843 time elapsed:  296.0
+Iteration:   1600 loss train: 0.5849 time elapsed:  312.5
+Iteration:   1650 loss train: 0.5849 time elapsed:  329.0
+Iteration:   1700 loss train: 0.5850 time elapsed:  345.6
+Iteration:   1750 loss train: 0.5851 time elapsed:  362.1
+Iteration:   1800 loss train: 0.5853 time elapsed:  378.7
+
+Epoch: 29 loss train: 0.5854 time elapsed:  394.5
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-29.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293190942  61576589 129736021]
+train accuracy results: mIoU: 0.5330 mPrecision: 0.6544 mRecall: 0.7405 mAcc: 0.8410 acc: 0.7615
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12858685  2556552  5064763]
+val loss: 0.7041 mIoU: 0.4833 mPrecision: 0.6130 mRecall: 0.6714 mAcc: 0.8256 acc: 0.7384
+IoU for the classes are: 
+ [0.7218 0.3459 0.3822]
+Precision for the classes are: 
+ [0.8867 0.4396 0.5126]
+Recall for the classes are: 
+ [0.7951 0.6186 0.6004]
+Accuracies for the classes are: 
+ [0.7854 0.8962 0.7951]
+
+
+Training epoch 30
+Iteration:      0 loss train: 0.5506 time elapsed:    0.2
+Iteration:     50 loss train: 0.5808 time elapsed:   16.7
+Iteration:    100 loss train: 0.5781 time elapsed:   33.2
+Iteration:    150 loss train: 0.5759 time elapsed:   49.7
+Iteration:    200 loss train: 0.5757 time elapsed:   66.2
+Iteration:    250 loss train: 0.5765 time elapsed:   82.8
+Iteration:    300 loss train: 0.5770 time elapsed:   99.2
+Iteration:    350 loss train: 0.5761 time elapsed:  115.7
+Iteration:    400 loss train: 0.5763 time elapsed:  132.3
+Iteration:    450 loss train: 0.5768 time elapsed:  148.8
+Iteration:    500 loss train: 0.5770 time elapsed:  165.4
+Iteration:    550 loss train: 0.5771 time elapsed:  181.9
+Iteration:    600 loss train: 0.5776 time elapsed:  198.5
+Iteration:    650 loss train: 0.5780 time elapsed:  215.1
+Iteration:    700 loss train: 0.5780 time elapsed:  231.6
+Iteration:    750 loss train: 0.5779 time elapsed:  248.1
+Iteration:    800 loss train: 0.5782 time elapsed:  264.7
+Iteration:    850 loss train: 0.5784 time elapsed:  281.2
+Iteration:    900 loss train: 0.5783 time elapsed:  297.8
+Iteration:    950 loss train: 0.5788 time elapsed:  314.4
+Iteration:   1000 loss train: 0.5789 time elapsed:  330.9
+Iteration:   1050 loss train: 0.5793 time elapsed:  347.5
+Iteration:   1100 loss train: 0.5796 time elapsed:  364.0
+Iteration:   1150 loss train: 0.5794 time elapsed:  380.6
+Iteration:   1200 loss train: 0.5797 time elapsed:  397.1
+Iteration:   1250 loss train: 0.5802 time elapsed:  413.6
+Iteration:   1300 loss train: 0.5804 time elapsed:  427.5
+Iteration:   1350 loss train: 0.5803 time elapsed:  444.0
+Iteration:   1400 loss train: 0.5802 time elapsed:  460.6
+Iteration:   1450 loss train: 0.5804 time elapsed:  477.1
+Iteration:   1500 loss train: 0.5802 time elapsed:  493.6
+Iteration:   1550 loss train: 0.5804 time elapsed:  510.2
+Iteration:   1600 loss train: 0.5807 time elapsed:  526.7
+Iteration:   1650 loss train: 0.5806 time elapsed:  543.2
+Iteration:   1700 loss train: 0.5804 time elapsed:  559.7
+Iteration:   1750 loss train: 0.5805 time elapsed:  576.2
+Iteration:   1800 loss train: 0.5803 time elapsed:  592.7
+
+Epoch: 30 loss train: 0.5806 time elapsed:  608.6
+Saving model /home/fast_seg/FastSeg/model_checkpoints/1544069694.0315592/checkpoint-30.pt
+Training ground truth # examples
+[341814938  42547168 100141446]
+Training prediction # examples
+[293223798  61690379 129589375]
+train accuracy results: mIoU: 0.5356 mPrecision: 0.6565 mRecall: 0.7434 mAcc: 0.8421 acc: 0.7631
+Calculating validation loss:
+Ground truth # examples
+[14339187  1816864  4323949]
+Prediction # examples
+[12850588  2462153  5167259]
+val loss: 0.7044 mIoU: 0.4833 mPrecision: 0.6139 mRecall: 0.6689 mAcc: 0.8259 acc: 0.7388
+IoU for the classes are: 
+ [0.7219 0.3431 0.385 ]
+Precision for the classes are: 
+ [0.887  0.444  0.5106]
+Recall for the classes are: 
+ [0.7949 0.6016 0.6101]
+Accuracies for the classes are: 
+ [0.7855 0.8978 0.7942]
+
+
+Training epoch 31
+Iteration:      0 loss train: 0.5712 time elapsed:    0.2
+Iteration:     50 loss train: 0.5761 time elapsed:   16.7
+Iteration:    100 loss train: 0.5701 time elapsed:   33.3
+Iteration:    150 loss train: 0.5726 time elapsed:   49.8
+Iteration:    200 loss train: 0.5736 time elapsed:   66.3
+Iteration:    250 loss train: 0.5744 time elapsed:   82.8
+Iteration:    300 loss train: 0.5755 time elapsed:   99.4
+Iteration:    350 loss train: 0.5768 time elapsed:  115.9
+Iteration:    400 loss train: 0.5765 time elapsed:  132.4
+Iteration:    450 loss train: 0.5761 time elapsed:  148.9
+Iteration:    500 loss train: 0.5745 time elapsed:  165.5
+Iteration:    550 loss train: 0.5752 time elapsed:  182.0
+Iteration:    600 loss train: 0.5754 time elapsed:  198.5
+Iteration:    650 loss train: 0.5756 time elapsed:  215.1
+Iteration:    700 loss train: 0.5748 time elapsed:  231.6
+Iteration:    750 loss train: 0.5751 time elapsed:  248.1
+Iteration:    800 loss train: 0.5753 time elapsed:  264.6
+Iteration:    850 loss train: 0.5752 time elapsed:  281.1
+Iteration:    900 loss train: 0.5744 time elapsed:  297.7
+Iteration:    950 loss train: 0.5752 time elapsed:  314.2
+Iteration:   1000 loss train: 0.5751 time elapsed:  330.7
+Iteration:   1050 loss train: 0.5753 time elapsed:  347.3
+Iteration:   1100 loss train: 0.5747 time elapsed:  363.8
+Iteration:   1150 loss train: 0.5751 time elapsed:  380.3
+Iteration:   1200 loss train: 0.5749 time elapsed:  396.9
+Iteration:   1250 loss train: 0.5748 time elapsed:  413.4
+Iteration:   1300 loss train: 0.5752 time elapsed:  427.3
+Iteration:   1350 loss train: 0.5751 time elapsed:  443.8
+Iteration:   1400 loss train: 0.5750 time elapsed:  460.3
+Iteration:   1450 loss train: 0.5750 time elapsed:  476.9
