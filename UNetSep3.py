@@ -166,24 +166,36 @@ class UNetSep3(nn.Module):
     def analyze(self, x, inp):
         nparams = sum(p.numel() for p in x.parameters() if p.requires_grad)
         ncomputations = 0
+        outp = [i for i in inp]
         if x._get_name() == "Sequential":
             for y in x:
-                self.analyze(y, inp)
+                outp = self.analyze(y, outp)
+            return outp
         elif x._get_name() == "Conv2d":
-            print("Conv2d {}x{}x{} -> {}x{} -> {}x{}x{}".format(
-                   inp.shape[2], inp.shape[3], x.in_channels, x.kernel_size[0], x.kernel_size[1], 
-                   inp.shape[2], inp.shape[3], x.out_channels))
             if x.groups > 1:
-                ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*inp.shape[2]*inp.shape[3]
+                ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*inp[2]*inp[3]
             else:
-                ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*x.out_channels*inp.shape[2]*inp.shape[3]
-
-            print("stride: {} groups: {} weight shape: {} params(thousands): {} computations(millions): {}".format(
-                  x.stride, x.groups, x.weight.shape, nparams/1000, ncomputations/1e6))
+                ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*x.out_channels*inp[2]*inp[3]
+            print("Conv2d {}x{}x{} -> {}x{} -> {}x{}x{}   params (thousands): {} computations (millions): {}".format(
+                   inp[2], inp[3], x.in_channels, x.kernel_size[0], x.kernel_size[1], 
+                   inp[2], inp[3], x.out_channels,
+                   nparams/1000, ncomputations/1e6))
+        elif x._get_name() == "ConvTranspose2d":
+            ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*x.out_channels*inp[2]*inp[3]
+            print("ConvTranpose2d {}x{}x{} -> {}x{} -> {}x{}x{},  params (thousands): {} computations (millions): {}".format(
+                  inp[2], inp[3], x.in_channels, x.kernel_size[0], x.kernel_size[1],
+                  inp[2]*2, inp[3]*2, x.out_channels,
+                  nparams/1000, ncomputations/1e6))
+        elif x._get_name() == "MaxPool2d":
+            outp[2] = int(outp[2]/2)
+            outp[3] = int(outp[3]/2)      
+            print("MaxPool2d {}x{}x{} -> {}x{}x{}".format(
+                  inp[2], inp[3], inp[1], outp[2], outp[3], outp[1]))
         else:
             print(x._get_name())
         self.total_computations += ncomputations
         self.total_params += nparams
+        return outp
    
     def forward(self, x):
 
@@ -198,24 +210,26 @@ class UNetSep3(nn.Module):
         a.append(x)
         for i in range(len(self.encode_layers)):
             if self.first_forward_pass:
-                self.analyze(self.encode_layers[i], a[i])
+                print("------------ Encode layer {} ---------------".format(i+1))
+                self.analyze(self.encode_layers[i], a[i].shape)
             a.append(self.encode_layers[i](a[i]))
 
         # Decode
         d = a[-1]
         for i in range(len(self.deconv_layers), 0, -1):
             if self.first_forward_pass:
-                self.analyze(self.deconv_layers[i-1], d)
+                print("------------ Decode layer {} ---------------".format(i))
+                self.analyze(self.deconv_layers[i-1], d.shape)
             conc = torch.cat((a[i], self.deconv_layers[i-1](d)), 1)
       
             if self.first_forward_pass:
-                self.analyze(self.decode_layers[i-1], conc)
+                self.analyze(self.decode_layers[i-1], conc.shape)
             d = self.decode_layers[i-1](conc)
 
         # Convolves to (N,num_classes,H,W)
         if self.first_forward_pass:
-            self.analyze(self.module_list.conv_out, d)
-            self.analyze(self.module_list.relu, d)
+            self.analyze(self.module_list.conv_out, d.shape)
+            self.analyze(self.module_list.relu, d.shape)
         scores = self.module_list.relu(self.module_list.conv_out(d))
 
         if self.first_forward_pass:
