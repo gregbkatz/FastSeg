@@ -109,7 +109,7 @@ class UNetSep3(nn.Module):
 
         # Add dropout between a and b if requested 
         if do_dropout:
-            encode = nn.Sequential(conva, self.module_list.dropout, convb)
+            encode = nn.Sequential(conva, self.module_list.dropout2, convb)
         else:
             encode = nn.Sequential(conva, convb)
     
@@ -133,11 +133,15 @@ class UNetSep3(nn.Module):
         self.bias = True
         self.conv_type = conv_type
         self.expansion_factor = 4
+        self.total_computations = 0
+        self.total_params = 0
+        self.first_forward_pass = 1
 
         self.module_list = nn.ModuleList()
         self.module_list.add_module('relu', nn.ReLU(inplace=True))
         self.module_list.add_module('pool', nn.MaxPool2d(2, stride=2))
         self.module_list.add_module('dropout', nn.Dropout(p=dropout))
+        self.module_list.add_module('dropout2', nn.Dropout2d(p=dropout*1.5))
 
         self.encode_layers = nn.ModuleList()
         self.decode_layers = nn.ModuleList()
@@ -159,23 +163,64 @@ class UNetSep3(nn.Module):
         nn.init.kaiming_normal_(conv_out.weight, nonlinearity='relu')
         self.module_list.add_module('conv_out', conv_out)
 
+    def analyze(self, x, inp):
+        nparams = sum(p.numel() for p in x.parameters() if p.requires_grad)
+        ncomputations = 0
+        if x._get_name() == "Sequential":
+            for y in x:
+                self.analyze(y, inp)
+        elif x._get_name() == "Conv2d":
+            print("Conv2d {}x{}x{} -> {}x{} -> {}x{}x{}".format(
+                   inp.shape[2], inp.shape[3], x.in_channels, x.kernel_size[0], x.kernel_size[1], 
+                   inp.shape[2], inp.shape[3], x.out_channels))
+            if x.groups > 1:
+                ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*inp.shape[2]*inp.shape[3]
+            else:
+                ncomputations = x.kernel_size[0]*x.kernel_size[1]*x.in_channels*x.out_channels*inp.shape[2]*inp.shape[3]
+
+            print("stride: {} groups: {} weight shape: {} params(thousands): {} computations(millions): {}".format(
+                  x.stride, x.groups, x.weight.shape, nparams/1000, ncomputations/1e6))
+        else:
+            print(x._get_name())
+        self.total_computations += ncomputations
+        self.total_params += nparams
+   
     def forward(self, x):
 
+        # initial dropou
+        if self.first_forward_pass:
+            self.analyze(self.module_list.dropout, x)
+        x = self.module_list.dropout(x)
+        
         # Encode 
         # Cache activations to pass into decoder
         a = []
         a.append(x)
         for i in range(len(self.encode_layers)):
+            if self.first_forward_pass:
+                self.analyze(self.encode_layers[i], a[i])
             a.append(self.encode_layers[i](a[i]))
 
         # Decode
         d = a[-1]
         for i in range(len(self.deconv_layers), 0, -1):
+            if self.first_forward_pass:
+                self.analyze(self.deconv_layers[i-1], d)
             conc = torch.cat((a[i], self.deconv_layers[i-1](d)), 1)
+      
+            if self.first_forward_pass:
+                self.analyze(self.decode_layers[i-1], conc)
             d = self.decode_layers[i-1](conc)
 
         # Convolves to (N,num_classes,H,W)
+        if self.first_forward_pass:
+            self.analyze(self.module_list.conv_out, d)
+            self.analyze(self.module_list.relu, d)
         scores = self.module_list.relu(self.module_list.conv_out(d))
 
+        if self.first_forward_pass:
+            print("total computations (millions): {} total params (thousands): {}".format(
+                  self.total_computations/1e6, self.total_params/1000))
+            self.first_forward_pass = 0
         return scores
 

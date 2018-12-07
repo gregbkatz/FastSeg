@@ -270,7 +270,7 @@ def main(args):
         model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=args.f, dropout=dp, nlayers=args.nl, conv_type=args.convtype)
     model.to(device)
 
-    print("Model parameters: ", count_parameters(model))
+    print("Model parameters (thousands): ", count_parameters(model)/1000)
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate, weight_decay=wd)
     train_model(model, optimizer, train_loader, class_weights, val_loader, save_path, epochs=args.e, do_save=args.s)
