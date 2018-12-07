@@ -224,11 +224,15 @@ def train_model(model, optimizer, train_loader, loss_weights, val_loader, base_s
 
 def main(args):
     model_id = str(time.time())
-    save_path = '/home/fast_seg/FastSeg/model_checkpoints/' + model_id
-    os.mkdir(save_path)
-    print("Saving all output including console print outs to ", save_path)
+    if args.s:
+        save_path = '/home/fast_seg/FastSeg/model_checkpoints/' + model_id
+        os.mkdir(save_path)
+    else:
+        save_path = './'
+    print("Saving all output to ", save_path)
 
     if args.stdout:
+        print("Routing stdout to " + save_path +"/console.txt")
         sys.stdout = open(save_path + "/console.txt", "w")
     print(args)
 
@@ -263,7 +267,7 @@ def main(args):
     elif args.m == 2:
         model = UNetSep2.UNetSep2(in_channel=3, num_classes=num_classes, start_filters=args.f, num_batchnorm_layers=bn, dropout=dp)
     elif args.m == 3:
-        model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=args.f, dropout=dp, nlayers=args.nl, do_sep=args.sep)
+        model = UNetSep3.UNetSep3(in_channel=3, num_classes=num_classes, start_filters=args.f, dropout=dp, nlayers=args.nl, conv_type=args.convtype)
     model.to(device)
 
     print("Model parameters: ", count_parameters(model))
@@ -291,8 +295,8 @@ if __name__ == '__main__':
                     help='0 = do not save, 1 = do save model checkpoints')
     parser.add_argument('--nl', type=int, default=5,
                     help='# of layers of UNet for sep3 model')
-    parser.add_argument('--sep', type=int, default=1,
-                    help='boolean to use separable convolutions')
+    parser.add_argument('--convtype', type=str, default="reg",
+                    help='convolution type can be reg, sep, or bottleneck')
     parser.add_argument('--stdout', type=int, default=0,
                     help='boolean to rerout stdout to file')
 
