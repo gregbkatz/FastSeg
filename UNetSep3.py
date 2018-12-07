@@ -26,6 +26,26 @@ def init_weights(m):
     nn.init.kaiming_normal_(m, nonlinearity='relu')
 
 class UNetSep3(nn.Module):
+    def bottleneck_conv(self, in_f, out_f):
+        # point-wise convolution
+        t = self.expansion_factor
+        if in_f == 3: 
+            return self.sep_conv(in_f, int(out_f/t))
+
+        depth = nn.Conv2d(int(in_f/t), in_f, kernel_size=1, stride=1, padding=0, bias=self.bias)
+        # depth-wise convolution
+        width = nn.Conv2d(in_f, in_f, kernel_size=3, stride=1, padding=1, bias=self.bias, groups=in_f)
+        # linear bottleneck
+        bottleneck = nn.Conv2d(in_f, int(out_f/t), kernel_size=1, stride=1, padding=0, bias=self.bias)
+       
+        nn.init.kaiming_normal_(depth.weight, nonlinearity='relu')
+        nn.init.kaiming_normal_(width.weight, nonlinearity='relu')
+        nn.init.kaiming_normal_(bottleneck.weight, nonlinearity='relu')
+ 
+        return nn.Sequential(depth, self.module_list.relu, 
+                             width, self.module_list.relu, 
+                             bottleneck)
+
 
     # Returns both regular and separable version of convolution
     # Creates Sequential modules that include relu    
@@ -33,21 +53,40 @@ class UNetSep3(nn.Module):
     # reg = relu(Conv2d(x))
     # sep = relu(Conv2d(relue(Conv2d(x))))
     def sep_conv(self, in_f, out_f):
-        reg = nn.Conv2d(in_f, out_f, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        # depth-wise convolution
         width = nn.Conv2d(in_f, in_f, kernel_size=3, stride=1, padding=1, bias=self.bias, groups=in_f)
+        # point-wise convolution
         depth = nn.Conv2d(in_f, out_f, kernel_size=1, stride=1, padding=0, bias=self.bias)
-       
-        nn.init.kaiming_normal_(reg.weight, nonlinearity='relu')
         nn.init.kaiming_normal_(width.weight, nonlinearity='relu')
         nn.init.kaiming_normal_(depth.weight, nonlinearity='relu')
- 
-        reg = nn.Sequential(reg, self.module_list.relu) 
-        sep = nn.Sequential(width, self.module_list.relu, depth, self.module_list.relu)
+        return  nn.Sequential(width, self.module_list.relu, depth, self.module_list.relu)
 
-        return reg, sep
+
+    # Returns both regular and separable version of convolution
+    # Creates Sequential modules that include relu    
+    # Includes kaiming initialization
+    # reg = relu(Conv2d(x))
+    # sep = relu(Conv2d(relue(Conv2d(x))))
+    def reg_conv(self, in_f, out_f):
+        reg = nn.Conv2d(in_f, out_f, kernel_size=3, stride=1, padding=1, bias=self.bias)
+        nn.init.kaiming_normal_(reg.weight, nonlinearity='relu')
+        return nn.Sequential(reg, self.module_list.relu) 
+
+    def conv(self, in_f, out_f):
+        if self.conv_type == "reg":
+            return self.reg_conv(in_f, out_f)
+        elif self.conv_type == "sep":
+            return self.sep_conv(in_f, out_f)
+        elif self.conv_type == "bottleneck":
+            return self.bottleneck_conv(in_f, out_f)
+
 
     # Returns a deconv module with initialization
     def deconv(self, in_f, out_f):
+        if self.conv_type == "bottleneck":
+            t = self.expansion_factor
+            in_f = int(in_f/t)
+            out_f = int(out_f/t)
         deconv = nn.ConvTranspose2d(in_f, out_f, 2, stride=2, padding=0, bias=self.bias)
 
         nn.init.kaiming_normal_(deconv.weight, nonlinearity='relu')
@@ -58,20 +97,15 @@ class UNetSep3(nn.Module):
     def add_layer(self, i, in_channel, start_filters, do_dropout):
         # a and b are for encoding
         if i == 0:
-            reg_a, sep_a = self.sep_conv(in_channel, start_filters)
+            conva = self.conv(in_channel, start_filters)
         else: 
-            reg_a, sep_a = self.sep_conv(2**(i-1)*start_filters, 2**i*start_filters) 
+            conva = self.conv(2**(i-1)*start_filters, 2**i*start_filters) 
 
-        reg_b, sep_b = self.sep_conv(2**i*start_filters, 2**i*start_filters) 
+        convb = self.conv(2**i*start_filters, 2**i*start_filters) 
 
         # c and de are for decoding
-        reg_c, sep_c = self.sep_conv(2**(i+1)*start_filters, 2**i*start_filters) 
-        reg_d, sep_d = self.sep_conv(2**i*start_filters, 2**i*start_filters) 
-   
-        if self.do_sep:
-            conva, convb, convc, convd = sep_a, sep_b, sep_c, sep_d
-        else:
-            conva, convb, convc, convd = reg_a, reg_b, reg_c, reg_d
+        convc = self.conv(2**(i+1)*start_filters, 2**i*start_filters) 
+        convd = self.conv(2**i*start_filters, 2**i*start_filters) 
 
         # Add dropout between a and b if requested 
         if do_dropout:
@@ -93,11 +127,12 @@ class UNetSep3(nn.Module):
 
         return encode, deconv, decode
 
-    def __init__(self, in_channel, num_classes=3, start_filters=64, dropout=0.1, nlayers=5, do_sep=1):
+    def __init__(self, in_channel, num_classes=3, start_filters=64, dropout=0.1, nlayers=5, conv_type="reg"):
 
         super().__init__()
         self.bias = True
-        self.do_sep = do_sep
+        self.conv_type = conv_type
+        self.expansion_factor = 4
 
         self.module_list = nn.ModuleList()
         self.module_list.add_module('relu', nn.ReLU(inplace=True))
@@ -118,6 +153,8 @@ class UNetSep3(nn.Module):
 
 
         # Add one more convlution for final output        
+        if self.conv_type == "bottleneck":
+            start_filters = int(start_filters/self.expansion_factor)
         conv_out = nn.Conv2d(start_filters, num_classes, kernel_size=1, stride=1, padding=0)
         nn.init.kaiming_normal_(conv_out.weight, nonlinearity='relu')
         self.module_list.add_module('conv_out', conv_out)
